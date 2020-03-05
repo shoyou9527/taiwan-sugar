@@ -7,7 +7,6 @@
             </div>
             <div class="navbar-collapse weui-fr collapse show" id="example-navbar-collapse" style="">
                 <div class="weui-fr  weui-white coleft toplink">
-                {{-- <div class="weui-fr  weui-white coleft"> --}}
                     <div class="conterleft">
                         <a href="{!! url('dashboard') !!}"><i><img src="/images/ic_01.png"></i><span>個人資料</span></a>
                     </div>
