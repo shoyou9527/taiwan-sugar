@@ -48,7 +48,7 @@ class LoginController extends Controller
     //新樣板
     public function showLoginForm2()
     {
-        return view('new.auth.login');
+        return view('auth.login');
     }
 
     /**

@@ -1,47 +1,21 @@
-			<footer class="m-grid__item	m-footer ">
-				<div class="m-container m-container--fluid m-container--full-height m-page__container">
-					<div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
-						<div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
-							<span class="m-footer__copyright">
-								<a href="{!! url('') !!}"><img src="/img/logo2.png" width="29%"></a>
-							</span>
-							<ul class="m-footer__nav m-nav m-nav--inline">
-                                <li class="m-nav__item"><a href="#" class="m-nav__link"> <span class="m-nav__link-text"> <i class="fa fa-globe"></i> 台灣</span>
-									</a></li>
-                            </ul>
-                        </div>
-						<div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
-							<ul class="m-footer__nav m-nav m-nav--inline m--pull-right">
-								<li class="m-nav__item">
-									<a href="{!! url('notification') !!}" class="m-nav__link" target="_blank" charset="">
-										<span class="m-nav__link-text">
-                                            站長開講
-										</span>
-									</a>
-								</li>
-								<li class="m-nav__item">
-									<a href="{!! url('feature') !!}" class="m-nav__link" target="_blank" >
-										<span class="m-nav__link-text">
-                                            網站使用
-										</span>
-									</a>
-								</li>
-								<li class="m-nav__item">
-									<a href="{!! url('terms') !!}" class="m-nav__link" target="_blank" >
-										<span class="m-nav__link-text">
-                                            使用條款
-										</span>
-									</a>
-								</li>
-								<li class="m-nav__item">
-									<a href="{!! url('contact') !!}" class="m-nav__link" target="_blank" >
-										<span class="m-nav__link-text">
-                                            聯絡我們
-										</span>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</footer>
+<div class="footer weui-t_c weui-white" >
+	<h3 class="weui-pt30"><img src='/images/homeicon.png' class="weui-pt30"></h3>
+	<p class="weui-f18 weui-c_9">TAIWAN/台灣</p>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<a href="{!! url('terms') !!}" class="weui-white">使用條款/隱私政策</a>
+			</div>
+			<div class="col-md-3">
+				<a href="{!! url('feature') !!}" class="weui-white">網站使用</a>
+			</div>
+			<div class="col-md-3">
+				<a href="{!! url('notification') !!}" class="weui-white">站長開講</a>
+			</div>
+			<div class="col-md-3">
+				<a href="{!! url('contact') !!}" class="weui-white">聯絡我們</a>
+			</div>
+		</div>
+	</div>
+	<p class="weui-c_9">2007 - 2018 官方網站 在一個或多個國家註冊</p>
+</div>

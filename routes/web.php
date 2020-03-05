@@ -250,7 +250,7 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         Route::post('password', 'PasswordController@update');
     });
 
-    Route::get('/user/view/{uid?}', 'PagesController@viewuser');
+    Route::get('/user/view/{uid?}', 'PagesController@viewuser2');
     //Route::get('/user/view2/{uid?}', 'PagesController@viewuser2'); //new route
 
 
@@ -388,8 +388,8 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         //Route::get('/dashboard/fav', 'PagesController@fav');
         Route::get('/dashboard/upgradesuccess', 'PagesController@upgradesuccess');
         //Route::get('/dashboard/search', 'PagesController@search');
-        Route::get('/dashboard/search', 'PagesController@search2');//new route
-        Route::get('/dashboard/search2', 'PagesController@search');
+        Route::get('/dashboard/search', 'PagesController@search');//new route
+        Route::get('/dashboard/search2', 'PagesController@search2');
         Route::get('/dashboard/chat/{randomNo?}', 'MessageController@chatview')->name('chatView');
         Route::post('/dashboard/chat/showMoreMessages/{randomNo?}', 'MessageController@chatviewMore')->name('showMoreMessages');
         Route::post('/dashboard/chat/showAllMessages/{randomNo?}', 'MessageController@chatviewAll')->name('showAllMessages');

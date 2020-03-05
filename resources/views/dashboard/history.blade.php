@@ -1,44 +1,61 @@
-@extends('layouts.master')
+@extends('layouts.main2d')
 
 @section('app-content')
+<style>
+    .new_line{ border-bottom:#eeeeee 1px solid !important; margin-bottom:34px !important;}
+</style>
 
-<?php $icc = 1; ?>
+<div class="col-md-9 zlrightbg">
+    <div class="p100 weui-f18">
+        <div class="l_zlxc" style="margin-top:-14px; margin-bottom:8px;">
+            <div class="lytitle"><i></i>足跡</div>
+        </div>
+        @php 
+            $visitors = \App\Models\Visited::findBySelf2($user->id) 
+        @endphp
+        @foreach ($visitors as $visitor)
+            @php 
+                $histUser = \App\Models\User::findById($visitor->member_id) 
+            @endphp
+            @if(isset($histUser))
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-4 weui-pb20 lytitle_aa new_line">
+                    <a href="/user/view/{{$histUser->id}}" style="text-align: center; vertical-align: middle!important;" class="weui-db">
+                        <img src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" onerror="this.src='/images/male-avatar.png'" height="220" class="m_img">
+                        <p class="weui-pt15 hiy_id"><span class="polfont">@if ($histUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif</span><span>{{ $histUser->name }}</span></p>
+                        <p class="weui-c_9">{{ $visitor->created_at }}</p>
+                    </a>
+                </div>
+            @endif
+        @endforeach
+        <nav aria-label="Page navigation" class="se_page0" style="text-align: center;">
+            {!! $visitors->render() !!}
+        </nav>
+    </div>
+</div>
 
-<div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                    足跡
-                                </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="m-portlet__body">
-                        <div class="m-widget3">
-                            <?php $visitors = \App\Models\Visited::findBySelf($user->id) ?>
-                            @foreach ($visitors as $visitor)
-                                <?php $histUser = \App\Models\User::findById($visitor->member_id) ?>
-                                @if(isset($histUser))
-                                    <div class="m-widget3__item" @if ($icc == 1) <?php echo 'style="border-bottom: none !important; background-color: rgba(244, 164, 164, 0.7); box-shadow: 0 1px 15px 1px rgba(244, 164, 164, 0.7); padding: 16px 32px; 0px 32px"'; $icc = 0?>@else <?php $icc = 1; echo'style="border-bottom: none !important; padding: 14px 28px 0px 28px;"'; ?> @endif>
-                                        <div class="m-widget3__header">
-                                            <div class="m-widget3__user-img">
-                                                <a href="/user/view/{{$histUser->id}}"><img class="m-widget3__img" src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" onerror="this.src='/img/male-avatar.png'" alt=""></a>
-                                            </div>
-                                            <div class="m-widget3__info">
-                                                <span class="m-widget3__username">
-                                                {{ $histUser->name }} @if ($histUser->isVip()) (VIP) @endif
-                                                </span><br>
-                                                <span class="m-widget3__time">
-                                                {{ $visitor->created_at }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget3__body">
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
+@stop
 
+@section ('javascript')
+<script>
+$(document).ready(function() {
+    $('#msg').on('keyup', function() {
+        if ($('#msg').val().length > 0) {
+            $('#msgsnd').prop('disabled', false);
+        } else {
+            $('#msgsnd').prop('disabled', true);
+        }
+    });
+
+    $("#showhide").click(function() {
+        if ($("user-list").isHidden()) {
+            $("user-list").show();
+        } else {
+            $("user-list").hide();
+        }
+    });
+    setTimeout(function() {
+        window.location.reload();
+    }, 80000);
+});
+</script>
 @stop

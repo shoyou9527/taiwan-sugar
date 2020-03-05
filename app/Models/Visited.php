@@ -64,6 +64,12 @@ class Visited extends Model
     {
         return Visited::unique(Visited::where('visited_id', $uid)->distinct()->orderBy('created_at', 'desc')->get(), "member_id", "created_at");
     }
+    
+    //TS足跡分頁
+    public static function findBySelf2($uid)
+    {
+        return Visited::where('visited_id', $uid)->groupBy('member_id')->orderBy('created_at', 'desc')->paginate(12);
+    }
 
     public static function visit($member_id, $visited_id)
     {

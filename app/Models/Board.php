@@ -31,6 +31,10 @@ class Board extends Model
         return Board::all();
     }
 
+    public static function all_desc() {
+        return Board::orderBy('created_at', 'desc')->get();
+    }
+
     public static function findBoardById($uid) {
         return Board::where('member_id', $uid)->orderBy('created_at', 'desc')->first();
     }

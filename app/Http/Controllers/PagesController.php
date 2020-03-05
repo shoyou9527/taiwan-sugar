@@ -81,6 +81,7 @@ class PagesController extends Controller
     }
 
     public function profileUpdate(Request $request, ProfileUpdateRequest $profileUpdateRequest)
+    // public function profileUpdate(Request $request)
     {
         //Custom validation.
         Validator::extend('not_contains', function($attribute, $value, $parameters)
@@ -415,7 +416,7 @@ class PagesController extends Controller
             ->join('user_meta', 'users.id', '=', 'user_meta.user_id')
             ->whereNotNull('user_meta.pic')
             ->where('engroup', 2)->inRandomorder()->take(3)->get();
-        return view('new.welcome')
+        return view('welcome')
             ->with('user', $user)
             ->with('cur', $user)
             ->with('imgUserM', $imgUserM)
@@ -432,21 +433,21 @@ class PagesController extends Controller
     public function notification(Request $request)
     {
         $user = $request->user();
-        return view('new/notification')->with('user', $user);
+        return view('/notification')->with('user', $user);
     }
 
     //網站使用
     public function feature(Request $request)
     {
         $user = $request->user();
-        return view('new/feature')->with('user', $user);
+        return view('/feature')->with('user', $user);
     }
 
     //使用條款
     public function terms(Request $request)
     {
         $user = $request->user();
-        return view('new/terms')->with('user', $user);
+        return view('/terms')->with('user', $user);
     }
 
     public function message(Request $request)
@@ -458,7 +459,7 @@ class PagesController extends Controller
     public function contact(Request $request)
     {
         $user = $request->user();
-        return view('new/contact')->with('user', $user);
+        return view('/contact')->with('user', $user);
     }
 
     public function about(Request $request)
@@ -535,7 +536,7 @@ class PagesController extends Controller
         else {
             $tabName = 'm_user_profile_tab_1';
         }
-
+        $member_pics = MemberPic::select('*')->where('member_id',$user->id)->get()->take(6);
         $birthday = date('Y-m-d', strtotime($user->meta_()->birthdate));
         $birthday = explode('-', $birthday);
         $year = $birthday[0];
@@ -556,15 +557,17 @@ class PagesController extends Controller
                     ->with('month', $month)
                     ->with('day', $day)
                     ->with('message', $message)
+                    ->with('member_pics', $member_pics)
                     ->with('cancel_notice', $cancel_notice);
             }
-            return view('new.dashboard')
+            return view('dashboard')
                 ->with('user', $user)
                 ->with('tabName', $tabName)
                 ->with('cur', $user)
                 ->with('year', $year)
                 ->with('month', $month)
                 ->with('day', $day)
+                ->with('member_pics', $member_pics)
                 ->with('cancel_notice', $cancel_notice);
         }
     }
@@ -627,7 +630,7 @@ class PagesController extends Controller
                     ->with('cancel_notice', $cancel_notice);
             }
             if($user->engroup==1){
-                return view('new.dashboard_img')
+                return view('dashboard_img')
                     ->with('user', $user)
                     ->with('tabName', $tabName)
                     ->with('cur', $user)
@@ -636,7 +639,7 @@ class PagesController extends Controller
                     ->with('day', $day)
                     ->with('member_pics', $member_pics);
             }else{
-                return view('new.dashboard_img')
+                return view('dashboard_img')
                     ->with('user', $user)
                     ->with('tabName', $tabName)
                     ->with('cur', $user)
@@ -1024,7 +1027,7 @@ class PagesController extends Controller
                 }
                 $blockadepopup = AdminCommonText::getCommonText(5);//id5封鎖說明popup
                 $isVip = $user->isVip() ? '1':'0';
-                return view('new.dashboard.viewuser', $data)
+                return view('dashboard.viewuser', $data)
                     ->with('user', $user)
                     ->with('blockadepopup', $blockadepopup)
                     ->with('to', $this->service->find($uid))
@@ -1164,11 +1167,19 @@ class PagesController extends Controller
         $payload = $request->all();
         $bid = $payload['to'];
         $aid = auth()->id();
-        if ($aid !== $bid)
-        {
-            Blocked::block($aid, $bid);
+        if ($aid !== $bid){
+            $isBlocked = Blocked::isBlocked($aid, $bid);
+            if(!$isBlocked) {
+                Blocked::block($aid, $bid);
+                //有收藏名單則刪除
+                $isFav = MemberFav::where('member_id', $aid)->where('member_fav_id',$bid)->count();
+                if($isFav>0){
+                    MemberFav::remove($aid, $bid);
+                }
+                return back()->with('message', '封鎖成功');
+            }
         }
-        return back()->with('message', '封鎖成功');
+        return back()->withErrors(['封鎖失敗']);
     }
 
     public function postBlockAJAX(Request $request)
@@ -1230,9 +1241,17 @@ class PagesController extends Controller
         $aid = auth()->id();
         if ($aid !== $uid)
         {
-            MemberFav::fav($aid, $uid);
+            $isFav = MemberFav::where('member_id', $aid)->where('member_fav_id',$uid)->count();
+            $isBlocked = Blocked::isBlocked($aid, $uid);
+            if($isFav==0 && !$isBlocked) {
+                MemberFav::fav($aid, $uid);
+                return back()->with('message', '收藏成功');
+            }else if($isBlocked){
+                return back()->withErrors(['已被封鎖無法收藏']);
+            }else if($isFav>0){
+                return back()->with('message', '已收藏過');
+            }
         }
-        return back()->with('message', '收藏成功');
     }
 
     public function postfavAJAX(Request $request)
@@ -1285,12 +1304,11 @@ class PagesController extends Controller
     public function fav(Request $request)
     {
         $user = $request->user();
-        //$visitors = \App\Models\MemberFav::findBySelf($user->id);
-        //dd($visitors);
-        //$favUser = \App\Models\User::findById($visitor->member_fav_id);
+        $visitors = \App\Models\MemberFav::findBySelf2($user->id);
         if ($user) {
-            return view('new.dashboard.fav')
-            ->with('user', $user);
+            return view('dashboard.fav')
+            ->with('user', $user)
+            ->with('visitors', $visitors);
         }
     }
 
@@ -1366,6 +1384,7 @@ class PagesController extends Controller
     {
         $user = $request->user();
         $m_time = '';
+        $messages = Message::allToFromSender($user->id, $cid);
         if (isset($user)) {
             $isVip = $user->isVip();
             if (isset($cid)) {
@@ -1377,16 +1396,18 @@ class PagesController extends Controller
                         $m_time = $m_time->created_at;
                     }
                 }
-                return view('dashboard.chat')
+                return view('dashboard.chatWithUser')
                     ->with('user', $user)
                     ->with('to', $this->service->find($cid))
                     ->with('m_time', $m_time)
+                    ->with('messages', $messages)
                     ->with('isVip', $isVip);
             }
             else {
-                return view('dashboard.chat')
+                return view('dashboard.chatWithUser')
                     ->with('user', $user)
                     ->with('m_time', $m_time)
+                    ->with('messages', $messages)
                     ->with('isVip', $isVip);
             }
         }
@@ -1480,14 +1501,14 @@ class PagesController extends Controller
         if ($user)
         {
             // blocked by user->id
-            $blocks = \App\Models\Blocked::where('member_id', $user->id)->paginate(15);
+            $blocks = \App\Models\Blocked::where('member_id', $user->id)->paginate(12);
 
             $usersInfo = array();
             foreach($blocks as $blockUser){
                 $id = $blockUser->blocked_id;
                 $usersInfo[$id] = User::findById($id);
             }
-            return view('new.dashboard.block')
+            return view('dashboard.block')
             ->with('blocks', $blocks)
             ->with('users', $usersInfo)
             ->with('user', $user);

@@ -36,6 +36,6 @@ class ForgotPasswordController extends Controller
      * @return \Illuminate\Foun
      */
     public function showLinkRequestForm(){
-        return view('new.auth.passwords.email');
+        return view('auth.passwords.reset');
     }
 }

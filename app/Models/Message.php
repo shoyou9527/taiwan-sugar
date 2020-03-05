@@ -39,7 +39,6 @@ class Message extends Model
     // handle delete Message
     public static function deleteBetween($uid, $sid) {
         $message = Message::where([['to_id', $uid], ['from_id', $sid]])->orWhere([['to_id', $sid], ['from_id', $uid]])->orderBy('created_at', 'desc')->first();
-
         if(!isset($message)){
             return false;
         }
@@ -342,7 +341,7 @@ class Message extends Model
             $saveMessages = Message::chatArray($uid, $messages, 0);
         }
 
-        //echo json_encode($saveMessages);
+        // echo json_encode($saveMessages);
 
         return $saveMessages;
         //return Message::sortMessages($saveMessages);
@@ -451,7 +450,7 @@ class Message extends Model
             $saveMessages = Message::chatArrayAJAX($uid, $messages, 0);
         }
 
-        //echo json_encode($saveMessages);
+        echo json_encode($saveMessages);
         if(count($saveMessages) == 0){
             return array_values(['No data']);
         }

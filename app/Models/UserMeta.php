@@ -187,22 +187,42 @@ class UserMeta extends Model
             //if (isset($blockdomain) && strlen($blockdomain) != 0) $query->where('blockdomain', '<>', $blockdomain);
             //if (isset($blockdomainType) && strlen($blockdomainType) != 0) $query->where('blockdomainType', '<>', $blockdomainType);
         }
+
         // dd($cup);
-        if (isset($cup)&&$cup!=''){
-            if(count($cup) > 0){
-                $query = $query->whereIn('cup', $cup);
-            }
-        }
+        // if (isset($cup)&&$cup!=''){
+        //     if(count($cup) > 0){
+        //         $query = $query->whereIn('cup', $cup);
+        //     }
+        // }
         if (isset($marriage) && strlen($marriage) != 0) $query = $query->where('marriage', $marriage);
         if (isset($budget) && strlen($budget) != 0) $query = $query->where('budget', $budget);
         if (isset($income) && strlen($income) != 0) $query = $query->where('income', $income);
         if (isset($smoking) && strlen($smoking) != 0) $query = $query->where('smoking', $smoking);
         if (isset($drinking) && strlen($drinking) != 0) $query = $query->where('drinking', $drinking);
-        if (isset($body)&&$body!=''){
-            if(count($body) > 0){
-                $query = $query->whereIn('body', $body);
+        // if (isset($body)&&$body!=''){
+        //     if(count($body) > 0){
+        //         $query = $query->whereIn('body', $body);
+        //     }
+        // }
+
+        //TS age cpu body
+        if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup);
+        if (isset($body) && strlen($body) != 0) $query = $query->where('body', $body);
+
+        if (!empty($agefrom) && empty($ageto)){
+            $age = explode(",",$agefrom);
+            $agefrom = $age[0];
+            $ageto = isset($age[1])?$age[1]:80;
+            $agefrom = $agefrom < 18 ? 18 : $agefrom;
+            try{
+                $query = $query->whereBetween('birthdate', [Carbon::now()->subYears($ageto), Carbon::now()->subYears($agefrom)]);
+            }
+            catch(\Exception $e){
+                Log::info('Searching function exception occurred, user id: ' . $userid . ', $agefrom: ' . $agefrom . ', $ageto: ' . $ageto);
+                Log::info('Useragent: ' . $_SERVER['HTTP_USER_AGENT']);
             }
         }
+
         if (isset($photo) && strlen($photo) != 0) $query = $query->whereNotNull('pic')->where('pic', '<>', 'NULL');
         if (isset($agefrom) && isset($ageto) && strlen($agefrom) != 0 && strlen($ageto) != 0) {
             $agefrom = $agefrom < 18 ? 18 : $agefrom;
@@ -222,6 +242,7 @@ class UserMeta extends Model
             Log::info('Searching function exception occurred, user id: ' . $userid);
             Log::info('Useragent: ' . $_SERVER['HTTP_USER_AGENT']);
         }
+
 
         $bannedUsers = banned_users::select('member_id')->get();
         $blockedUsers = blocked::select('blocked_id')->where('member_id',$userid)->get();

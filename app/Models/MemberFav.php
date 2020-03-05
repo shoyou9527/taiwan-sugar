@@ -35,6 +35,12 @@ class MemberFav extends Model
     {
         return Visited::unique(MemberFav::where([['member_id', $uid],['member_fav_id', '!=', $uid]])->distinct()->orderBy('created_at', 'desc')->get(), "member_fav_id");
     }
+    
+    //TS收藏分頁
+    public static function findBySelf2($uid)
+    {
+        return MemberFav::where([['member_id', $uid],['member_fav_id', '!=', $uid]])->groupBy('member_fav_id')->orderBy('created_at', 'desc')->paginate(12);
+    }
 
     public static function showFav($uid)
     {

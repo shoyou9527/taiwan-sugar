@@ -45,7 +45,7 @@ class RegisterController extends Controller
     //新樣板
     public function showRegistrationForm2()
     {
-        return view('new.auth.register');
+        return view('auth.register');
     }
 
     //新樣板

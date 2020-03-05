@@ -1,29 +1,9 @@
 @extends('layouts.main2d')
 
 @section('app-content')
-
-    @php
-      if (!isset($user)) {
-          $umeta = null;
-      } else {
-          $umeta = $user->meta_();
-          $umeta_block = [];
-          // dd($umeta);
-          if(isset($umeta->city)){
-              $umeta->city = explode(",",$umeta->city);
-              $umeta->area = explode(",",$umeta->area);
-          }
-
-          if(isset($umeta->blockcity)){
-            $umeta->blockcity = explode(",",$umeta->blockcity);
-            $umeta->blockarea = explode(",",$umeta->blockarea);
-        }
-      }
-    @endphp
-
     <div class="col-sm-12 col-xs-12 col-md-9 zlrightbg">
         <div class="zlkuang">
-            <div class="lytitle"><i></i>個人資料</div>
+            <div class="lytitle"><i></i>升級VIP</div>
             <div class="zlxc">
                 <div class="zlxctitle">上傳相片</div>
                 <div class="group grline">
@@ -83,158 +63,10 @@
                         </div>
                     @endif
                 </div>
-                <div class="zlxctitle grtu">基本資料</div>
-                <form method="POST" action="/dashboard">
-                    {!! csrf_field() !!}
-                    <input type="hidden" name="userId" value="{{ $user->id }}">
-                    <div class="grzltable ziliwidth">
-                        <div class="grbt"><i class="icon iconfont icon-tanhao"></i>必填欄位</div>
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>暱稱</span>
-                            <font>
-                                <input name="name" class="form_co" type="text" value="{{$user->name}}">
-                            </font>
-                        </div>
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>預算</span>
-                            <font>
-                                <select name="budget" class="form_co">
-                                    <option value="0">請選擇</option>
-                                    <option value="基礎" {{ ($umeta->budget == '基礎')?"selected":""  }}>基礎</option>
-                                    <option value="進階" @if($umeta->budget == '進階') selected @endif>進階</option>
-                                    <option value="高級" @if($umeta->budget == '高級') selected @endif>高級</option>
-                                    <option value="最高" @if($umeta->budget == '最高') selected @endif>最高</option>
-                                    <option value="可商議" @if($umeta->budget == '可商議') selected @endif>可商議</option>
-                                </select>
-                            </font>
-                        </div>
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>身高</span>
-                            <font>
-                                <input class="form_co" name="height" type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" id="input-height" value="{{$umeta->height}}">
-                            </font>
-                        </div>
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>地區</span>
-                            <font>
-                                <div class="twzipcode" id="twzipcode">
-                                    @if(isset($umeta->city))
-                                        @if(is_array($umeta->city))
-                                            @foreach($umeta->city as $key => $cityval)
-                                                <div class="twzip" data-role="county" data-name="@if($key != 0 )city{{$key}}@else{{'city'}}@endif" data-value="{{$umeta->city[$key]}}"></div>
-                                                <div class="twzip fromtop a1" data-role="district" data-name="@if($key != 0 )area{{$key}}@else{{'area'}}@endif" data-value="{{$umeta->area[$key]}}"></div>
-                                            @endforeach
-                                        @else
-                                            <div class="twzip" data-role="county" data-name="city" data-value="{{$umeta->city}}"></div>
-                                            <div class="twzip fromtop a1" data-role="district" data-name="area" data-value="{{$umeta->area}}"></div>
-                                        @endif
-                                    @else
-                                        <div class="twzip" data-role="county" data-name="city" data-value=""></div>
-                                        <div class="twzip fromtop a1" data-role="district" data-name="area" data-value=""></div>
-                                    @endif
-                                    <div class="twzip fromright">
-                                        <input type="hidden" name="isHideArea" value="0">
-                                        <input type="checkbox" name="isHideArea" @if($umeta->isHideArea == true) checked @endif value="1">
-                                        隱藏鄉鎮區 </div>
-                            </font>
-                        </div>
-                    </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>生日</span>
-                        <font>
-                            <input type="text" class="form-control" id="m_datepicker_1" data-date-format="yyyy-mm-dd" name="birthdate" readonly placeholder="請選擇" value="{{ $umeta->birthdate }}">
-                        </font>
-                    </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>體型</span>
-                        <font>
-                            <select name="body" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="瘦" @if($umeta->body == '瘦') selected @endif >瘦</option>
-                                <option value="標準" @if($umeta->body == '標準') selected @endif >標準</option>
-                                <option value="微胖" @if($umeta->body == '微胖') selected @endif>微胖</option>
-                                <option value="胖" @if($umeta->body == '胖') selected @endif>胖</option>
-                            </select>
-                        </font>
-                    </div>
-                    @if($user->engroup==2)
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>CUP</span>
-                            <font>
-                                <input name="title" type="text" class="form_co" maxlength="20" value="{{ $umeta->cup }}">
-                                <div class="twzip fromright">
-                                    <input type="hidden" name="isHideArea" value="0">
-                                    <input type="checkbox" name="isHideArea" @if($umeta->isHideCup == true) checked @endif value="1">
-                                    隱藏
-                                </div>
-                            </font>
-                        </div>
-                        <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>現況</span>
-                            <font>
-                                <select name="education" class="form_co">
-                                    <option value="0">請選擇</option>
-                                    <option value="老师" @if($umeta->situation == '老师') selected @endif>老师</option>
-                                    <option value="高中" @if($umeta->situation == '高中') selected @endif>高中</option>
-                                    <option value="打工" @if($umeta->situation == '打工') selected @endif>打工</option>
-                                    <option value="研究所" @if($umeta->situation == '研究所') selected @endif>研究所</option>
-                                </select>
-                            </font>
-                        </div>
-                    @endif
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>婚姻</span>
-                        <font>
-                            <select name="marriage" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="已婚">已婚</option>
-                                <option value="分居">分居</option>
-                                <option value="單身" selected>單身</option>
-                                <option value="有女友">有女友</option>
-                            </select>
-                        </font>
-                    </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>抽菸</span>
-                        <font>
-                            <select name="smoking" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="不抽" selected>不抽</option>
-                                <option value="偶爾抽">偶爾抽</option>
-                                <option value="常抽">常抽</option>
-                            </select>
-                        </font>
-                    </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>喝酒</span>
-                        <font>
-                            <select name="drinking" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="不喝" selected>不喝</option>
-                                <option value="偶爾喝">偶爾喝</option>
-                                <option value="常喝">常喝</option>
-                            </select>
-                        </font>
-                    </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>教育</span>
-                        <font>
-                            <select name="education" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="國中" @if($umeta->education == '國中') selected @endif>國中</option>
-                                <option value="高中" @if($umeta->education == '高中') selected @endif>高中</option>
-                                <option value="大學" @if($umeta->education == '大學') selected @endif>大學</option>
-                                <option value="研究所" @if($umeta->education == '研究所') selected @endif>研究所</option>
-                            </select>
-                        </font>
-                    </div>
-                </div>
-                <div class="zlxctitle grtu01">個人說明</div>
-                <div class="grzltable01" style="margin-top:5px">
-                    <div class="grrow_1">
-                        <h2>關於我</h2>
-                        <textarea name="about" rows="4" class="form_co" maxlength="300">{{ $umeta->about }}</textarea>
-                    </div>
-                    <div class="grrow_1">
-                        <h2>期待約會模式</h2>
-                        <textarea name="style" rows="3" maxlength="300" class="form_co">{{ $umeta->style }}</textarea>
-                    </div>
-                </div>
-                <div class="growtext">當您的個人資料正在審核中，或審核未通過時，其他會員無法瀏覽您的資料</div>
-                <input type="submit" value="儲存變更" class="cxbutton">
-            </form>
+            </div>
         </div>
     </div>
 @stop
-
 
 @section ('javascript')
     <script src="/js/cropper.min.js"></script>
@@ -282,8 +114,6 @@
     </script>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-
-
 
         //Check File API support
         function uploadFiles() {

@@ -1,51 +1,50 @@
-@extends('layouts.master')
+@extends('layouts.main2d')
 
 @section('app-content')
-
-<?php $icc = 1; ?>
-
-<div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                    收藏會員
-                                </h3>
+    <div class="col-md-9 zlrightbg">
+        <div class="" style="background-color:white;">
+            <div class="p100 weui-f18">
+                <div class="lytitle ffs"><i></i>收藏會員
+                    <a href="javascript:" class="yichu_t">移除收藏</a>
+                </div>
+                <div class="row weui-t_c weui_mt19">
+                    @foreach ($visitors as $visitor)
+                        @php $favUser = \App\Models\User::findById($visitor->member_fav_id) @endphp
+                        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20">
+                            <div class="yicw">
+                                <img src="{{ $favUser->meta_()->pic }}" onerror="this.src=@if($favUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="hypic">
+                                <div class="yichu" style="display:none;cursor: pointer;" data-uid="{{$user->id}}" data-to="{{$favUser->id}}">移除</div>
+                                <a href="/dashboard/viewuser/{{$favUser->id}}" class="weui-db">
+                                    <p class="weui-pt15" style="white-space:nowrap;">{{$favUser->name}} @if($favUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </p>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="m-portlet__body">
-                        <div class="m-widget3">
-                            <?php $visitors = \App\Models\MemberFav::findBySelf($user->id) ?>
-                            @foreach ($visitors as $visitor)
-                                <?php $favUser = \App\Models\User::findById($visitor->member_fav_id) ?>
-                            <div class="m-widget3__item" @if ($icc == 1) <?php echo 'style="border-bottom: none !important; background-color: rgba(244, 164, 164, 0.7); box-shadow: 0 1px 15px 1px rgba(244, 164, 164, 0.7); padding: 16px 32px; 0px 32px"'; $icc = 0?>@else <?php $icc = 1; echo'style="border-bottom: none !important; padding: 14px 28px 0px 28px;"'; ?> @endif>
-                                <div class="m-widget3__header">
-                                    <div class="m-widget3__user-img">
-                                        <a href="/user/view/{{$favUser->id}}"><img class="m-widget3__img" src="@if($favUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{ $favUser->meta_()->pic }} @endif" onerror="this.src='/img/male-avatar.png'" alt=""></a>
-                                    </div>
-                                    <div class="m-widget3__info">
-                                        <span class="m-widget3__username">
-                                        {{ $favUser->name }} @if ($favUser->isVip()) (VIP) @endif
-                                        </span><br>
-                                        <span class="m-widget3__time">
-                                        {{ $visitor->created_at }}
-                                        </span>
-                                        <form action="{{ route('fav/remove') }}" method="POST">
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" >
-                                            <input type="hidden" name="userId" value="{{$user->id}}">
-                                            <input type="hidden" name="favUserId" value="{{$favUser->id}}">
-                                            <button type="submit" class="btn btn-danger">
-                                                移除
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="m-widget3__body">
-                                </div>
-                            </div>
+                    @endforeach
+                    <nav aria-label="Page navigation" class="se_page0">
+                        {!! $visitors->render() !!}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
 
-                            @endforeach
-                        </div>
-                    </div>
-
+@section('javascript')
+    <script>
+        $(".yichu_t").click(function() {
+            $(".yichu").toggle();
+        });
+        
+        $(".yichu").click(function() {
+            var uid=$(this).data('uid');
+            var to=$(this).data('to');
+            $.post('{{ route('fav/remove') }}', {
+                userId: uid,
+                favUserId: to,
+                _token: '{{ csrf_token() }}'
+            }, function (data) {
+                window.location.reload();
+            });
+        });
+    </script>
 @stop

@@ -1,126 +1,72 @@
-@extends('layouts.master')
+@extends('layouts.main2d')
 
 @section('app-content')
+    @php
+        $canPostSeconds = \App\Models\Board::getPostSeconds($user->id);
+        $posts = \App\Models\Board::all_desc();
+        $canPost = true;
+    @endphp
 
-<?php
-    $canPostSeconds = \App\Models\Board::getPostSeconds($user->id);
-?>
-
-<div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                    留言板
-                                </h3>
-                            </div>
+    <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
+        <div class="l_zlxc">
+            <div class="lytitle"><i></i>留言板</div>
+            <form name="postBoard" onsubmit="return validateEmpty()" method="POST" action="/dashboard/board">
+                {!! csrf_field() !!}
+                <input type="hidden" name="userId" value="9926">
+                <textarea class="lyform_co" rows="3" id="msg" name="msg" maxlength="80"></textarea>
+                <div class="m-form__actions">
+                    <button id="vipw" type="submit" class="lybutton">留言</button>
+                    &ensp;&ensp;
+                    <button type="reset" class="lybutton01">取消</button>
+                </div>
+            </form>
+        </div>
+        <div class="liuyannr">
+            @foreach ($posts as $post)
+                @php
+                    $postUser = \App\Models\User::findById($post->member_id);
+                    $canPost = \App\Models\Board::canPost($user->id);
+                @endphp
+                <li>
+                    <div class="l_zright a1">
+                        <div class="ly_next">
+                            <div class="l_zleft"><a href="/user/view/{{$postUser->id}}"> <img src="@if($postUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{ $postUser->meta_()->pic }} @endif" class="lyphoto" onerror="this.src='/images/male-avatar.png'"> </a> </div>
+                            <h2>{{ $postUser->name }}</h2>
+                            <h3>{{ $post->created_at }}</h3>
                         </div>
                     </div>
-                    <div class="m-portlet__body">
-                        <?php
-                            $icc = 1;
-                            $posts = \App\Models\Board::all_();
-                            $canPost = true;
-                        ?>
-
-                        @if(!isset($posts))
-                        @else
-                            <div class="m-widget3">
-                                @foreach ($posts as $post)
-                                    <?php $postUser = \App\Models\User::findById($post->member_id); ?>
-                                    <?php $canPost = \App\Models\Board::canPost($user->id); ?>
-                                    <div class="m-widget3__item" @if ($icc == 1) <?php echo 'style="border-bottom: none !important; background-color: rgba(244, 164, 164, 0.7); box-shadow: 0 1px 15px 1px rgba(244, 164, 164, 0.7); padding: 16px 32px; 0px 32px"'; $icc = 0?>@else <?php $icc = 1; echo'style="border-bottom: none !important; padding: 14px 28px 0px 28px;"'; ?> @endif>
-                                        <div class="m-widget3__header">
-                                            <div class="m-widget3__user-img">
-                                                <a href="/user/view/{{$postUser->id}}"><img class="m-widget3__img" src="@if($postUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{ $postUser->meta_()->pic }} @endif" onerror="this.src='/img/male-avatar.png'" alt=""></a>
-                                            </div>
-                                            <div class="m-widget3__info">
-                                            <a href="{{ route('chatWithUser', $postUser->id) }}">
-                                                <span class="m-widget3__username">
-                                                {{ $postUser->name }}
-                                                </span><br>
-                                                <span class="m-widget3__time">
-                                                {{ $post->created_at }}
-                                                </span>
-                                            </a>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget3__body">
-                                            <p class="m-widget3__text">
-                                                {{ $post->post }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="m-portlet__foot m-portlet__foot--fit">
-                                <form class="m-form m-form--fit m-form--label-align-right" name="postBoard" onsubmit="return validateEmpty()" method="POST" action="/dashboard/board">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}" >
-                                    <input type="hidden" name="userId" value="{{$user->id}}">
-                                        <div class="m-portlet__body">
-                                            <div class="form-group m-form__group row">
-                                                <div class="col-9">
-                                                    @if(!$canPost)
-                                                    <textarea class="form-control m-input" rows="3" id="msg" name="msg" disabled> {{ $canPostSeconds }} 秒後即可再次留言</textarea>
-                                                    @else
-                                                    <textarea class="form-control m-input" onpaste="waitTime()" rows="3" id="msg" name="msg" maxlength="80"></textarea>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="m-form__actions">
-                                                <div class="row">
-                                                    <div class="col-10">
-                                                        <button id="vipw" type="submit" class="btn btn-danger m-btn m-btn--air m-btn--custom" @if(!$canPost) disabled @endif>留言</button>&nbsp;&nbsp;
-                                                        <button type="reset" class="btn btn-outline-danger m-btn m-btn--air m-btn--custom" @if(!$canPost) disabled @endif>取消</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </form>
-                            </div>
-                        @endif
+                    <div class="l_zleft_a2">
+                        <h4>{{ $post->post }}</h4>
                     </div>
-
+                    <div class="m-widget3__delete lyphoto"> </div>
+                </li>
+            @endforeach
+        </div>
+    </div>
 @stop
 
-@section('javascript')
-<script>
-function waitTime()
-{
-    console.log('wait');
-}
-</script>
-<script>
-		$(document).ready(function(){
-		    @if (!$user->isVip())
-			$("#vipw").click(function(event)
-			{
-			    var r = confirm("此功能需VIP權限開通，是否前往儲值?");
-			    if (!r)
-			    {
-			        event.preventDefault();
-			        //window.history.back();
-			    }
-			});
-			@endif
-		});
+@section ('javascript')
+    <script>
+    $(document).ready(function() {
 
-        function validateEmpty() {
-            var content = document.forms["postBoard"]["msg"].value;
+        $('#msg').on('keyup', function() {
+            if ($('#msg').val().length > 0) {
+                $('#msgsnd').prop('disabled', false);
+            } else {
+                $('#msgsnd').prop('disabled', true);
+            }
+        });
+        $("#showhide").click(function() {
+            if ($("user-list").isHidden()) {
+                $("user-list").show();
+            } else {
+                $("user-list").hide();
+            }
+        });
 
-            @if ($user->isVip())
-                if(trimfield(content) == null || trimfield(content) == "")
-                {
-                    alert("請輸入內容");
-                    return false;
-                }
-            @endif
-        }
-
-        function trimfield(str)
-        {
-            return str.replace(/^\s+|\s+$/g,'');
-        }
-	</script>
-
+        setTimeout(function() {
+            window.location.reload();
+        }, 80000);
+    });
+    </script>
 @stop

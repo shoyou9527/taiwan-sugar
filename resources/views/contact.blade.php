@@ -1,26 +1,33 @@
-@extends('layouts.website')
+@extends('layouts.main_footer')
 
 @section('app-content')
-
-<div class="m-portlet__head">
-<div class="m-portlet__head-caption">
-    <div class="m-portlet__head-title">
-        <h3 class="m-portlet__head-text">
-        聯絡我們 <small></small>
-        </h3>
+    <div class="m-content">
+        <div class="wrap lxheight" style="">
+            <div class="container lh24">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
+                        <div class="matop30">
+                            <div class=" weui-bgf weui-box_s weui-p20">
+                                <h3 class="weui-f18 title weui-pl10">聯絡我們 </h3>
+                                <ul class="weui-lh30 weui-mt20 zhand lix">
+                                    <li>
+                                        <p>站長line：</p><span>@gxd6999c(包含@哦)</span>
+                                    </li>
+                                    <li>
+                                        <p>站長email：</p><span>admin@taiwan-sugar.net</span>
+                                    </li>
+                                    <li>
+                                        <p>網站問題回報：</p><span>@gxd6999c</span>
+                                    </li>
+                                    <li>
+                                        <p>網站問題回報：</p><span>admin@taiwan-sugar.net</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-<div class="m-portlet__body">
-    @if(Auth::check() && isset($user))
-        <li><h4>站長line：@giv4956r (包含@哦)</h4></li>
-        <li><h4>站長email：admin@sugar-garden.org<h4></li>
-        <li><h4>網站問題回報：@giv4956r<h4></li>
-        <li><h4>網站問題回報：admin@sugar-garden.org<h4></li>
-    @else
-        {{-- no login --}}
-        <p>請註冊會員，或者參考<a href="http://blog-tw.net/Sugar/">站長的碎碎念</a></p>
-    @endif
-</div>
-
 @stop
