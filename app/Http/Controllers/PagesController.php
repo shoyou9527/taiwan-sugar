@@ -964,7 +964,7 @@ class PagesController extends Controller
                 return view('errors.nodata');
             }
             if ($user->id != $uid) {
-                Visited::visit($user->id, $uid);
+                Visited::visit2($user->id, $uid);
             }
 
                 /*七天前*/
@@ -1446,8 +1446,30 @@ class PagesController extends Controller
     public function search(Request $request)
     {
         $user = $request->user();
+        $umeta = $user->meta_();
+        if(isset($umeta->city)){
+            $umeta->city = explode(",",$umeta->city);
+            $umeta->area = explode(",",$umeta->area);
+        }
+        $district = (isset($_GET['district']) && ($_GET['district'] != '0'))? $_GET['district'] : '';
+        $county = (isset($_GET['county']) && ($_GET['county'] != '0'))? $_GET['county'] : '';
+        $cup = isset($_GET['cup'])? $_GET['cup'] : '';
+        $marriage = isset($_GET['marriage'])? $_GET['marriage'] : '';
+        $budget = isset($_GET['budget'])? $_GET['budget'] : '';
+        $income = isset($_GET['income'])? $_GET['income'] : '';
+        $smoking = isset($_GET['smoking'])? $_GET['smoking'] : '';
+        $drinking = isset($_GET['drinking'])? $_GET['drinking'] : '';
+        $photo = isset($_GET['photo'])? $_GET['photo'] : '';
+        $ageto = isset($_GET['ageto'])? $_GET['ageto'] : '';
+        $agefrom = isset($_GET['agefrom'])? $_GET['agefrom'] : '';
+        $seqtime = isset($_GET['seqtime'])? $_GET['seqtime'] : '';
+        $body = isset($_GET['body'])? $_GET['body'] : '';
+        $isvip = isset($_GET['isvip'])? $_GET['isvip'] : '';
+        $vis = UserMeta::search($county, $district, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $user->engroup, $umeta->city, $umeta->area, $umeta->blockdomain, $umeta->blockdomainType, $seqtime, $body, $user->id, $isvip);
 
-        return view('dashboard.search')->with('user', $user);
+        return view('dashboard.search')
+                ->with('vis', $vis)
+                ->with('user', $user);
     }
     public function search2(Request $request)
     {

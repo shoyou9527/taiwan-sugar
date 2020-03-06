@@ -148,7 +148,7 @@ class UserMeta extends Model
         return User::where('id', $this->user_id)->first();
     }
 
-    public static function search($city, $area, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $engroup, $blockcity, $blockarea, $blockdomain, $blockdomainType, $seqtime, $body, $userid)
+    public static function search($city, $area, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $engroup, $blockcity, $blockarea, $blockdomain, $blockdomainType, $seqtime, $body, $userid,$isvip)
     {
         if ($engroup == 1)
         {
@@ -158,6 +158,10 @@ class UserMeta extends Model
         else if ($engroup == 2) { $engroup = 1; }
 
         $query = UserMeta::where('users.engroup', $engroup)->join('users', 'user_id', '=', 'users.id');
+
+        if($isvip==1){
+            $query = $query->join('member_vip', 'member_vip.member_id', '=', 'user_meta.user_id')->where('member_vip.active','1');
+        }
 
          if (isset($city) && strlen($city) != 0) $query = $query->where('city','like', '%'.$city.'%');
          if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%');
@@ -211,14 +215,14 @@ class UserMeta extends Model
 
         if (!empty($agefrom) && empty($ageto)){
             $age = explode(",",$agefrom);
-            $agefrom = $age[0];
-            $ageto = isset($age[1])?$age[1]:80;
-            $agefrom = $agefrom < 18 ? 18 : $agefrom;
+            $agemin = $age[0];
+            $agemax = isset($age[1])?$age[1]:80;
+            $agemin = $agemin < 18 ? 18 : $agemin;
             try{
-                $query = $query->whereBetween('birthdate', [Carbon::now()->subYears($ageto), Carbon::now()->subYears($agefrom)]);
+                $query = $query->whereBetween('birthdate', [Carbon::now()->subYears($agemax), Carbon::now()->subYears($agemin)]);
             }
             catch(\Exception $e){
-                Log::info('Searching function exception occurred, user id: ' . $userid . ', $agefrom: ' . $agefrom . ', $ageto: ' . $ageto);
+                Log::info('Searching function exception occurred, user id: ' . $userid . ', $agefrom: ' . $agemin . ', $ageto: ' . $agemax);
                 Log::info('Useragent: ' . $_SERVER['HTTP_USER_AGENT']);
             }
         }
@@ -266,10 +270,18 @@ class UserMeta extends Model
             }
         }
 
+        $query = $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
 
-        if(isset($seqtime) && $seqtime == 2)
-            return $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.created_at', 'desc')->paginate(12);
-        else
-            return $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
+        //追加额外参数，例如搜索条件
+        return $query->appends(array(
+            'county'=> $city,
+            'district'=> $area,
+            'agefrom'=> $agefrom,
+            'budget'=> $budget,
+            'body'=> $body,
+            'isvip'=> $isvip,
+            'cup'=> $cup
+        ));
+
     }
 }

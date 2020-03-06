@@ -46,7 +46,7 @@
                         </dl>
                         <dl>
                             <dt>被瀏覽次數</dt>
-                            <dd class="weui-c_9">{{$visit_other_count}}</dd>
+                            <dd class="weui-c_9">{{$be_visit_other_count}}</dd>
                         </dl>
                         <dl>
                             <dt>過去7天被瀏覽次數</dt>
@@ -73,7 +73,28 @@
                         <div class="pic picleft"><img src="{{$to->meta_()->pic}}" onerror="this.src=@if ($to->meta_()->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                         </div>
                     </div>
-                    <div class="weui-f24 picleft_font" style="color:#3c2726;"><b class="weui-f36 weui-v_t">{{$to->name}}</b> <span class="weui-pl30 add weui-v_m">新北市,土城區</span></div>
+                    <div class="weui-f24 picleft_font" style="color:#3c2726;"><b class="weui-f36 weui-v_t">{{$to->name}}</b>
+                        @if($to->meta_()->isHideArea == '0')
+                            @php
+                            if (!isset($to)) {
+                                $umeta = null;
+                            } else {
+                                $umeta = $to->meta_();
+                                if(isset($umeta->city)){
+                                    $umeta->city = explode(",",$umeta->city);
+                                    $umeta->area = explode(",",$umeta->area);
+                                }
+                            }
+                            @endphp
+                            @if(isset($umeta->city))
+                                @if(is_array($umeta->city))
+                                    @foreach($umeta->city as $key => $cityval)
+                                        <span class="weui-pl30 add weui-v_m">{{$umeta->city[$key]}},{{$umeta->area[$key]}}</span>
+                                    @endforeach
+                                @endif
+                            @endif
+                        @endif
+                    </div>
                     <p class="weui-f20" style="color:#786465;"></p>
                     <div class=" weui-t_r tb clearfix">
                         <div class="huiyuan picwidth">
@@ -131,7 +152,7 @@
                     </div>
                     <div class="row weui-mt15">
                         @foreach($member_pic as $row)
-                            <a href="{{$row->pic}}" target="_blank"><img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px"></a>
+                            <a href="{{$row->pic}}" target="_blank"><img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" onerror="this.src=@if ($to->meta_()->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></a>
                         @endforeach
                     </div>
                     <div class="clearfix weui-mt30 otn_tit ">
@@ -155,11 +176,16 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" style="padding:30px 0px 0 0">
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20 weui-mr10">
-                                <img src="/images/04.png">
+                                @if($to->meta_()->smoking=='不抽')
+                                    <img src="/images/04.png">
+                                @endif
                                 <p class="weui-pt10">{{$to->meta_()->smoking}}</p>
                             </span>
+                            
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20">
-                                <img src="/images/03.png">
+                                @if($to->meta_()->drinking=='不喝')
+                                    <img src="/images/03.png">
+                                @endif
                                 <p class="weui-pt10">{{$to->meta_()->drinking}}</p>
                             </span>
                         </div>

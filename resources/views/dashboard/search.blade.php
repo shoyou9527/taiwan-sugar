@@ -1,8 +1,62 @@
 @extends('layouts.main2d')
 
 @section('app-content')
+    <style>
+        .usera_radio {
+            float:left;
+            position: relative;
+            width: 48%;
+            height: 40px;
+            z-index: 1;
+        }
+        .usera_radio label {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%; /*選擇框的寬度*/
+            height: 40px;
+            z-index: 3;
+            opacity: 0;
+            margin: auto;
+            display: inline-block;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .usera_radio input {
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
+            height: 40px;
+            width: 100%;
+            line-height: 40px;
+            margin: 0;
+        }
+        .usera_radio span.btn {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            z-index: 2;
+            margin: auto;
+            display: inline-block;
+            line-height: 30px;
+            text-align: center;
+            color: #d0bd9f;
+            border-radius: 5px;
+            background-color: #ffff;
+        }
+        .usera_radio span.active {
+            background-color: #d0bd9f;
+            color: #fff;
+        }
+    </style>
+
     <link rel="stylesheet" href="/css/jquery.range.css" />
     <style>
+        /*強制顯示右上角導航列*/
         .toplink{ display: block}
     </style>
     <div class="m-content zlleftbg">
@@ -14,7 +68,7 @@
                         <input type="hidden" name="_token" value="{{csrf_token()}}" >
                         <div class="vipfont">
                             <font>地區</font>
-                            <span><input type="checkbox" name="pic" value="hasPic" class="search_inp">照片</span>
+                            <span><input type="checkbox" name="pic" value="hasPic" class="search_inp" @if(!empty($_GET["pic"]) && $_GET["pic"] == "hasPic" ) checked @endif>照片</span>
                         </div>
                         <div class="se_search" id="twzipcode">
                             <div class="twzip" data-role="county" data-name="county">
@@ -25,8 +79,20 @@
                         @if ($user->isVip())
                             <div class="se_title">檢視</div>
                             <div class="se_but a1">
-                                <a href="/dashboard/search?isvip=0" class="se_button">全部會員</a>
-                                <a href="/dashboard/search?isvip=1" class="se_button01">VIP會員</a>
+                                <div class="usera_radio">
+                                    <label for="usera_radio">                        
+                                        <input type="radio" name="isvip" value="0" checked="true">全部會員
+                                    </label>
+                                    <span class="btn @if(!isset($_GET['isvip']) OR ($_GET['isvip'] != '1')) active @endif">全部會員</span>
+                                </div>
+                                <div class="usera_radio" style="margin-left: 4%;">
+                                    <label for="usera_radio">
+                                        <input type="radio" name="isvip" value="1">VIP會員
+                                    </label>
+                                    <span class="btn @if(isset($_GET['isvip']) && ($_GET['isvip'] == '1')) active @endif">VIP會員</span>
+                                </div>          
+                                {{-- <a href="/dashboard/search?isvip=0" class="se_button">全部會員</a> --}}
+                                {{-- <a href="/dashboard/search?isvip=1" class="se_button01">VIP會員</a> --}}
                             </div>
                             <div class="se_title a1">年齡</div>
                             <div class="se_wu">
@@ -86,43 +152,6 @@
                     </form>
                 </div>
             </div>
-            @php
-                $district = "";
-                $county = "";
-                $cup = "";
-                $marriage = "";
-                $budget = "";
-                $income = "";
-                $smoking = "";
-                $drinking = "";
-                $photo = "";
-                $ageto = "";
-                $agefrom = "";
-                $seqtime = "";
-                $body = "";
-                $umeta = $user->meta_();
-                if(isset($umeta->city)){
-                    $umeta->city = explode(",",$umeta->city);
-                    $umeta->area = explode(",",$umeta->area);
-                }
-                if (isset($_GET['_token'])){
-                    if (isset($_GET['district']) && $_GET['district'] != 0) $district = $_GET['district'];
-                    if (isset($_GET['county']) && $_GET['county'] != 0) $county = $_GET['county'];
-                    if (isset($_GET['cup'])) $cup = $_GET['cup'];
-                    if (isset($_GET['marriage'])) $marriage = $_GET['marriage'];
-                    if (isset($_GET['budget'])) $budget = $_GET['budget'];
-                    if (isset($_GET['income'])) $income = $_GET['income'];
-                    if (isset($_GET['smoking'])) $smoking = $_GET['smoking'];
-                    if (isset($_GET['drinking'])) $drinking = $_GET['drinking'];
-                    if (isset($_GET['pic'])) $photo = $_GET['pic'];
-                    if (isset($_GET['ageto'])) $ageto = $_GET['ageto'];
-                    if (isset($_GET['agefrom'])) $agefrom = $_GET['agefrom'];
-                    if (isset($_GET['seqtime'])) $seqtime = $_GET['seqtime'];
-                    if (isset($_GET['seqtime'])) $seqtime = $_GET['seqtime'];
-                    if (isset($_GET['body'])) $body = $_GET['body'];
-                }
-                $vis = \App\Models\UserMeta::search($county, $district, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $user->engroup, $umeta->city, $umeta->area, $umeta->blockdomain, $umeta->blockdomainType, $seqtime, $body, $user->id);
-            @endphp
             <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
                 <div class="serightpe">
                     <ul class="new_search">
@@ -148,6 +177,7 @@
                                         @endif
                                     </h2>
                                     <h3>
+                                    @if($umeta->isHideArea == '0')
                                         @if(!empty($umeta->city))
                                             @foreach($umeta->city as $key => $cityval)
                                                 @if ($loop->first)
@@ -157,6 +187,9 @@
                                                 @endif
                                             @endforeach
                                         @endif
+                                    @else
+                                        保密
+                                    @endif
                                     </h3>
                                     <div class="setext">
                                         <h4>
@@ -165,7 +198,11 @@
                                         </h4>
                                         <h4>
                                             <span>體型：</span>
-                                            {{$visitor->meta_()->body}}
+                                            @if(isset($visitor->meta_()->body))
+                                                {{$visitor->meta_()->body}}
+                                            @else
+                                                保密
+                                            @endif
                                         </h4>
                                         <h4>
                                             <span>預算：</span>
@@ -245,15 +282,23 @@
             showLabels: true,
             showScale: true
         });
+
         $('#twzipcode').twzipcode({
             'detect': true,
+            'countySel' : "{{ $_GET['county'] or '' }}",
+            'districtSel' : "{{ $_GET['district'] or '' }}",
             'css': ['form-control twzip', 'form-control twzip', 'zipcode'],
             onCountySelect: function() {
                 $("select[name='district']").prepend('<option selected value="">全市</option>');
             }
         });
         $('input[name="zipcode"]').remove();
+        $(".usera_radio label").click(function() {
+            $(this).siblings("span").addClass("active");
+            $(this).parent().siblings("div").find("span").removeClass("active");
+        });
 
+        
     });
     </script>
 @stop

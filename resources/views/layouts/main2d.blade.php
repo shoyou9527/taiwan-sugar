@@ -9,7 +9,7 @@
         {{-- <style>body{background-color: #F7EEEB;}</style> 無作用--}} 
         <div class="row">
             <div class="col-md-12">
-                <!--共用訊息提示-->
+                {{-- 共用訊息提示 --}}
                 @include('partials.errors')
                 @include('partials.message')
             </div>
