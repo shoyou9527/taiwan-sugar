@@ -22,4 +22,3 @@ config/session.php
 config/app.php
 /.vscode
 *.DS_Store
-/resources/views_AFTER
