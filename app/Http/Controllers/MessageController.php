@@ -98,11 +98,18 @@ class MessageController extends Controller {
     {
         $user = $request->user();
         $m_time = '';
+        // if($isVip){
+            $messages = Message::allSendersAdmin($user->id, 1);
+        // }else{
+            // $messages = \App\Models\Message::allSenders($user->id, 0);
+        // }
+
         if (isset($user)) {
             $isVip = $user->isVip();
             return view('dashboard.chat')
                 ->with('user', $user)
                 ->with('m_time', $m_time)
+                ->with('messages', $messages)
                 ->with('isVip', $isVip);
         }
     }

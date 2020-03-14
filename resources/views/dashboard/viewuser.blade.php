@@ -12,8 +12,18 @@
     <div class="col-md-9 zlrightbg">
         <div class="container_03">
             <div class="col-md-3 m_none">
-                                    
-                <div><img src="{{$to->meta_()->pic}}" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->meta_()->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
+                @php
+                if (!isset($to)) {
+                    $tometa = null;
+                } else {
+                    $tometa = $to->meta_();
+                    if(isset($tometa->city)){
+                        $tometa->city = explode(",",$tometa->city);
+                        $tometa->area = explode(",",$tometa->area);
+                    }
+                }
+                @endphp
+                <div><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
                 <ul style="color:#575757;">
                     <li class="weui-pt30"><img src="/images/3_14.png" class="n_huiyuan"> <span class="weui-v_m weui-dnb weui-pl5"><span class="weui-f24 weui-f_b">{{$be_fav_count}}</span>粉絲</span></li>
                     <li class="weui-pt30"><img src="/images/3_17.png" class="n_huiyuan"> <span class="weui-v_m weui-dnb weui-pl5"><span class="weui-f24 weui-f_b">{{$be_visit_other_count}}</span>被瀏覽次數</span>
@@ -70,26 +80,15 @@
             <div class="col-md-9">
                 <div class="r_content">
                     <div class="oth_tx clearfix">
-                        <div class="pic picleft"><img src="{{$to->meta_()->pic}}" onerror="this.src=@if ($to->meta_()->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                        <div class="pic picleft"><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                         </div>
                     </div>
                     <div class="weui-f24 picleft_font" style="color:#3c2726;"><b class="weui-f36 weui-v_t">{{$to->name}}</b>
-                        @if($to->meta_()->isHideArea == '0')
-                            @php
-                            if (!isset($to)) {
-                                $umeta = null;
-                            } else {
-                                $umeta = $to->meta_();
-                                if(isset($umeta->city)){
-                                    $umeta->city = explode(",",$umeta->city);
-                                    $umeta->area = explode(",",$umeta->area);
-                                }
-                            }
-                            @endphp
-                            @if(isset($umeta->city))
-                                @if(is_array($umeta->city))
-                                    @foreach($umeta->city as $key => $cityval)
-                                        <span class="weui-pl30 add weui-v_m">{{$umeta->city[$key]}},{{$umeta->area[$key]}}</span>
+                        @if($tometa->isHideArea == '0')
+                            @if(isset($tometa->city))
+                                @if(is_array($tometa->city))
+                                    @foreach($tometa->city as $key => $cityval)
+                                        <span class="weui-pl30 add weui-v_m">{{$tometa->city[$key]}},{{$tometa->area[$key]}}</span>
                                     @endforeach
                                 @endif
                             @endif
@@ -129,7 +128,7 @@
                                         <input type="hidden" name="userId" value="{{$user->id}}">
                                         <input type="hidden" name="to" value="{{$to->id}}}">
                                         <button type="submit" style="background: none; border: none; padding: 0">
-                                            <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05.png) center no-repeat;background-size: 100% 100%;"></div> 解封
+                                            <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05.png) center no-repeat;background-size: 100% 100%;"></div> 解除封鎖
                                         </button>
                                     </form>
                                 </div>
@@ -152,7 +151,15 @@
                     </div>
                     <div class="row weui-mt15">
                         @foreach($member_pic as $row)
-                            <a href="{{$row->pic}}" target="_blank"><img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" onerror="this.src=@if ($to->meta_()->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></a>
+                            @if($row->isHidden == 1)
+                                <img src="{{ 'makesomeerror' }}" width="96px" style="margin:5px" height="96px" 
+                                onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                            @else
+                                <a href="{{$row->pic}}" target="_blank">
+                                    <img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" 
+                                    onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                </a>
+                            @endif
                         @endforeach
                     </div>
                     <div class="clearfix weui-mt30 otn_tit ">
@@ -162,31 +169,31 @@
                     <ul class="pe_data">
                         <li class="nic"><span>暱稱</span>{{$to->name}}</li>
                         <li class="nic"><span>地區</span>新北市,新店區</li>
-                        <li><span>年齡</span>{{$to->meta_()->age()}}</li>
-                        <li><span>生日</span>{{$to->meta_()->birthdate}}</li>
-                        <li><span>身高</span>{{$to->meta_()->height}}(CM)</li>
-                        <li><span>體型</span>{{$to->meta_()->body}}</li>
-                        @if(!empty($to->meta_()->weight))<li><span>體重</span>{{$to->meta_()->weight}}(KG)</li>@endif
-                        <li><span>預算</span>{{$to->meta_()->budget}}</li>
-                        <li><span>教育</span>{{$to->meta_()->education}}</li>
-                        <li><span>現狀</span>{{$to->meta_()->occupation}}</li>
-                        @if(!empty($to->meta_()->marriage))<li><span>婚姻</span>{{$to->meta_()->marriage}}</li>@endif
-                        @if(!empty($to->meta_()->cup) && $to->meta_()->isHideCup == '0')<li><span>CUP</span>{{$to->meta_()->cup}}</li>@endif
+                        <li><span>年齡</span>{{$tometa->age()}}</li>
+                        <li><span>生日</span>{{$tometa->birthdate}}</li>
+                        <li><span>身高</span>{{$tometa->height}}(CM)</li>
+                        <li><span>體型</span>{{$tometa->body}}</li>
+                        @if(!empty($tometa->weight))<li><span>體重</span>{{$tometa->weight}}(KG)</li>@endif
+                        <li><span>預算</span>{{$tometa->budget}}</li>
+                        <li><span>教育</span>{{$tometa->education}}</li>
+                        <li><span>現狀</span>{{$tometa->occupation}}</li>
+                        @if(!empty($tometa->marriage))<li><span>婚姻</span>{{$tometa->marriage}}</li>@endif
+                        @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
                     </ul>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" style="padding:30px 0px 0 0">
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20 weui-mr10">
-                                @if($to->meta_()->smoking=='不抽')
+                                @if($tometa->smoking=='不抽')
                                     <img src="/images/04.png">
                                 @endif
-                                <p class="weui-pt10">{{$to->meta_()->smoking}}</p>
+                                <p class="weui-pt10">{{$tometa->smoking}}</p>
                             </span>
                             
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20">
-                                @if($to->meta_()->drinking=='不喝')
+                                @if($tometa->drinking=='不喝')
                                     <img src="/images/03.png">
                                 @endif
-                                <p class="weui-pt10">{{$to->meta_()->drinking}}</p>
+                                <p class="weui-pt10">{{$tometa->drinking}}</p>
                             </span>
                         </div>
                     </div>
@@ -195,14 +202,14 @@
                         <span class="weui-fr"><img src="/images/z_06.png"></span>
                     </div>
                     <div class="weui-p20 weui-bgcolor weui-c_9">
-                        {!! nl2br($to->meta_()->about) !!}
+                        {!! nl2br($tometa->about) !!}
                     </div>
                     <div class="clearfix weui-mt30 otn_tit">
                         <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">期待約會模式</span>
                         <span class="weui-fr"><img src="/images/data_03.png"></span>
                     </div>
                     <div class="weui-p20 weui-mt10 weui-bgcolor weui-c_9">
-                        {!! nl2br($to->meta_()->style) !!}
+                        {!! nl2br($tometa->style) !!}
                     </div>
                 </div>
             </div>

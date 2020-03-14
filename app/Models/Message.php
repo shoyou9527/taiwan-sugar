@@ -44,18 +44,17 @@ class Message extends Model
         }
         if($message->is_row_delete_1 == 0) {
             Message::deleteRowMessage($uid, $sid, 0);
-        }
-        else if($message->is_single_delete_1 <> 0 && $message->is_single_delete_2 == 0) {
+        // }elseif($message->is_single_delete_1 <> 0 && $message->is_single_delete_2 == 0) {
+        }elseif($message->is_single_delete_2 == 0) {
             Message::deleteRowMessage($uid, $sid, 1);
         }
     }
 
     public static function deleteAll($uid) {
         $message = Message::where([['to_id', $uid], ['from_id', '!=', $uid]])->orWhere([['from_id', $uid], ['to_id', '!=',$uid]])->orderBy('created_at', 'desc')->get();
-
         for($i = 0; $i < $message->count(); $i++) {
-            //echo $message[$i]->temp_id . '<br/>';
-            //echo $uid . '<br/>';
+            echo $message[$i]->temp_id . '<br/>';
+            echo $uid . '<br/>';
             if($message[$i]->temp_id != $uid) {
                 $message[$i]->all_delete_count += 1;
                 $message[$i]->temp_id = $uid;
@@ -82,10 +81,9 @@ class Message extends Model
         for($i = 0 ; $i < $message->count() ; $i++) {
             if($step == 0) {
                 $message[$i]->is_row_delete_1 = $uid;
-            }
-            else if($step == 1) {
+            }elseif($step == 1) {
                 $message[$i]->is_row_delete_2 = $uid;
-                Message::deleteRowMessagesFromDB($uid, $sid);
+                // Message::deleteRowMessagesFromDB($uid, $sid);  //TS不真正刪除DB
             }
             $message[$i]->save();
         }
@@ -165,12 +163,23 @@ class Message extends Model
         //$msgShow = User::findById($uid)->meta_()->notifhistory;
         $user = \Auth::user();
         $banned_users = \App\Models\SimpleTables\banned_users::select('member_id')->get();
+        //TS版信件夾加入被使用者封鎖的過濾
+        $blocked_users = Blocked::getAllBlock($uid);
         foreach($messages as $key => &$message) {
             if($banned_users->contains('member_id', $message->to_id)){
                 unset($messages[$key]);
                 continue;
             }
             if($banned_users->contains('member_id', $message->from_id) && $message->from_id != $user->id){
+                unset($messages[$key]);
+                continue;
+            }
+
+            if($blocked_users->contains('blocked_id', $message->to_id)){
+                unset($messages[$key]);
+                continue;
+            }
+            if($blocked_users->contains('blocked_id', $message->from_id) && $message->from_id != $user->id){
                 unset($messages[$key]);
                 continue;
             }
@@ -186,11 +195,20 @@ class Message extends Model
             }
 
             // end 1 and 2
-            if($message->all_delete_count == 2) {
-                Message::deleteAllMessagesFromDB($message->to_id, $message->from_id);
+            // if($message->all_delete_count == 2) {
+            //     // Message::deleteAllMessagesFromDB($message->to_id, $message->from_id);
+            // }
+
+            //TS版不真正刪除資料庫訊息
+            if($message->all_delete_count >= 2) {
+                unset($messages[$key]);
+                continue;
             }
+
             if($message->all_delete_count == 1 && ($message->is_row_delete_1 == $message->to_id || $message->is_row_delete_2 == $message->to_id || $message->is_row_delete_1 == $message->from_id || $message->is_row_delete_2 == $message->from_id)) {
-                Message::deleteAllMessagesFromDB($message->to_id, $message->from_id);
+                // Message::deleteAllMessagesFromDB($message->to_id, $message->from_id); TS不真正刪除資料庫訊息
+                unset($messages[$key]);
+                continue;
             }
 
             // delete row messages
@@ -208,8 +226,19 @@ class Message extends Model
             // add messages to array
             if(!in_array(['to_id' => $message->to_id, 'from_id' => $message->from_id], $tempMessages) && !in_array(['to_id' => $message->from_id, 'from_id' => $message->to_id], $tempMessages)) {
                 array_push($tempMessages, ['to_id' => $message->to_id, 'from_id' => $message->from_id]);
-                array_push($saveMessages, ['created_at' => $message->created_at,'to_id' => $message->to_id, 'from_id' => $message->from_id, 'temp_id' => $message->temp_id,'all_delete_count' => $message->all_delete_count, 'is_row_delete_1' => $message->is_row_delete_1,
-                    'is_row_delete_2' => $message->is_row_delete_2, 'is_single_delete_1' => $message->is_single_delete_1, 'is_single_delete_2' => $message->is_single_delete_2,'content'=>$message->content]);
+                array_push($saveMessages, [
+                    'created_at' => $message->created_at,
+                    'to_id' => $message->to_id,
+                    'from_id' => $message->from_id,
+                    'temp_id' => $message->temp_id,
+                    'all_delete_count' => $message->all_delete_count,
+                    'is_row_delete_1' => $message->is_row_delete_1,
+                    'is_row_delete_2' => $message->is_row_delete_2,
+                    'is_single_delete_1' => $message->is_single_delete_1,
+                    'is_single_delete_2' => $message->is_single_delete_2,
+                    'read' => $message->read,
+                    'content' => $message->content
+                 ]);
                 $noVipCount++;
             }
 

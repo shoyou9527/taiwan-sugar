@@ -33,14 +33,16 @@
     <img src="/images/jt.png" class="jt">
     <div class="bl_icon">
         <li>
-            @if($user->isVip())
-                <a href="{!! url('/dashboard/cancel') !!}"><img src="/images/icon_12.png">
-                    <font>取消VIP</font>
-                </a>
-            @else
-                <a href="{!! url('/dashboard/upgrade') !!}"><img src="/images/icon_12.png">
-                    <font>升級VIP</font>
-                </a>
+            @if(isset($user))
+                @if($user->isVip())
+                    <a href="{!! url('/dashboard/cancel') !!}"><img src="/images/icon_12.png">
+                        <font>取消VIP</font>
+                    </a>
+                @else
+                    <a href="{!! url('/dashboard/upgrade') !!}"><img src="/images/icon_12.png">
+                        <font>升級VIP</font>
+                    </a>
+                @endif
             @endif
         </li>
         <li>

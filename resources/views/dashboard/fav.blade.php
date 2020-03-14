@@ -8,8 +8,8 @@
                     <a href="javascript:" class="yichu_t">移除收藏</a>
                 </div>
                 <div class="row weui-t_c weui_mt19">
-                    @foreach ($visitors as $visitor)
-                        @php $favUser = \App\Models\User::findById($visitor->member_fav_id) @endphp
+                    @forelse ($memberfavs as $memberfav)
+                        @php $favUser = \App\Models\User::findById($memberfav->member_fav_id) @endphp
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20">
                             <div class="yicw">
                                 <img src="{{ $favUser->meta_()->pic }}" onerror="this.src=@if($favUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="hypic">
@@ -19,9 +19,11 @@
                                 </a>
                             </div>
                         </div>
-                    @endforeach
-                    <nav aria-label="Page navigation" class="se_page0">
-                        {!! $visitors->render() !!}
+                    @empty
+                        沒有資料!!
+                    @endforelse
+                    <nav aria-label="Page navigation" class="se_page0 newpage">
+                        {!! $memberfavs->render() !!}
                     </nav>
                 </div>
             </div>

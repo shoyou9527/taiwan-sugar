@@ -148,7 +148,7 @@ class UserMeta extends Model
         return User::where('id', $this->user_id)->first();
     }
 
-    public static function search($city, $area, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $engroup, $blockcity, $blockarea, $blockdomain, $blockdomainType, $seqtime, $body, $userid,$isvip)
+    public static function search($city, $area, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $engroup, $blockcity, $blockarea, $blockdomain, $blockdomainType, $seqtime, $body, $userid)
     {
         if ($engroup == 1)
         {
@@ -158,10 +158,6 @@ class UserMeta extends Model
         else if ($engroup == 2) { $engroup = 1; }
 
         $query = UserMeta::where('users.engroup', $engroup)->join('users', 'user_id', '=', 'users.id');
-
-        if($isvip==1){
-            $query = $query->join('member_vip', 'member_vip.member_id', '=', 'user_meta.user_id')->where('member_vip.active','1');
-        }
 
          if (isset($city) && strlen($city) != 0) $query = $query->where('city','like', '%'.$city.'%');
          if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%');
@@ -191,28 +187,98 @@ class UserMeta extends Model
             //if (isset($blockdomain) && strlen($blockdomain) != 0) $query->where('blockdomain', '<>', $blockdomain);
             //if (isset($blockdomainType) && strlen($blockdomainType) != 0) $query->where('blockdomainType', '<>', $blockdomainType);
         }
-
         // dd($cup);
-        // if (isset($cup)&&$cup!=''){
-        //     if(count($cup) > 0){
-        //         $query = $query->whereIn('cup', $cup);
-        //     }
-        // }
+        if (isset($cup)&&$cup!=''){
+            if(count($cup) > 0){
+                $query = $query->whereIn('cup', $cup);
+            }
+        }
         if (isset($marriage) && strlen($marriage) != 0) $query = $query->where('marriage', $marriage);
         if (isset($budget) && strlen($budget) != 0) $query = $query->where('budget', $budget);
         if (isset($income) && strlen($income) != 0) $query = $query->where('income', $income);
         if (isset($smoking) && strlen($smoking) != 0) $query = $query->where('smoking', $smoking);
         if (isset($drinking) && strlen($drinking) != 0) $query = $query->where('drinking', $drinking);
-        // if (isset($body)&&$body!=''){
-        //     if(count($body) > 0){
-        //         $query = $query->whereIn('body', $body);
-        //     }
-        // }
+        if (isset($body)&&$body!=''){
+            if(count($body) > 0){
+                $query = $query->whereIn('body', $body);
+            }
+        }
+        if (isset($photo) && strlen($photo) != 0) $query = $query->whereNotNull('pic')->where('pic', '<>', 'NULL');
+        if (isset($agefrom) && isset($ageto) && strlen($agefrom) != 0 && strlen($ageto) != 0) {
+            $agefrom = $agefrom < 18 ? 18 : $agefrom;
+            try{
+                $query = $query->whereBetween('birthdate', [Carbon::now()->subYears($ageto), Carbon::now()->subYears($agefrom)]);
+            }
+            catch(\Exception $e){
+                Log::info('Searching function exception occurred, user id: ' . $userid . ', $agefrom: ' . $agefrom . ', $ageto: ' . $ageto);
+                Log::info('Useragent: ' . $_SERVER['HTTP_USER_AGENT']);
+            }
+        }
 
-        //TS age cpu body
-        if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup);
+        try{
+            $query = $query->where('birthdate', '<', Carbon::now()->subYears(18));
+        }
+        catch(\Exception $e){
+            Log::info('Searching function exception occurred, user id: ' . $userid);
+            Log::info('Useragent: ' . $_SERVER['HTTP_USER_AGENT']);
+        }
+
+        $bannedUsers = banned_users::select('member_id')->get();
+        $blockedUsers = blocked::select('blocked_id')->where('member_id',$userid)->get();
+        //if($blockedUsers)$query->whereNotIn('user_id', $blockedUsers);
+        $beBlockedUsers = blocked::select('member_id')->where('blocked_id',$userid)->get();
+
+
+        $block = UserMeta::where('users.id', $userid)->join('users', 'user_id', '=', 'users.id')->get()->first();
+        $user_city = explode(',',$block->city);
+        $user_area = explode(',',$block->area);
+       
+
+        /*判斷搜尋的使用者的blockcity, blockarea是否為搜索者的city, area*/
+        $block_user = [];
+        $user_filter = $query->get();
+        foreach($user_filter as $user_filter){
+            $block_c = explode(',',$user_filter->blockcity);
+            $block_a = explode(',',$user_filter->blockarea);
+            if(array_intersect($block_c, $user_city) && array_intersect($block_a, $user_area) ){
+                array_push($block_user,$user_filter->user_id);
+            }
+        }
+
+
+        if(isset($seqtime) && $seqtime == 2)
+            return $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.created_at', 'desc')->paginate(12);
+        else
+            return $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
+    }
+
+    //TS搜尋頁加入VIP與保密過濾
+    public static function search2($city, $area, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $engroup, $blockcity, $blockarea, $blockdomain, $blockdomainType, $seqtime, $body, $userid, $isvip, $havepic)
+    {
+
+        if($engroup == 1){
+            $engroup = 2;
+        }elseif($engroup == 2){
+            $engroup = 1;
+        }
+
+        $query = UserMeta::where('users.engroup', $engroup)->join('users', 'user_id', '=', 'users.id');
+
+        if (isset($marriage) && strlen($marriage) != 0) $query = $query->where('marriage', $marriage);
+        if (isset($budget) && strlen($budget) != 0) $query = $query->where('budget', $budget);
+        if (isset($income) && strlen($income) != 0) $query = $query->where('income', $income);
+        if (isset($smoking) && strlen($smoking) != 0) $query = $query->where('smoking', $smoking);
+        if (isset($drinking) && strlen($drinking) != 0) $query = $query->where('drinking', $drinking);
+
+        //TS的 body多選轉單選 age調整單一傳入 cup過濾保密 pic過濾隱藏 地區過濾保密 vip過濾
+        if (isset($havepic) && strlen($havepic) != 0) $query = $query->where('isAvatarHidden', '0');
+        if (isset($city) && strlen($city) != 0) $query = $query->where('city','like', '%'.$city.'%')->where('isHideArea', '0');
+        if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%')->where('isHideArea', '0');
+        if (isset($isvip) && $isvip==1){
+            $query = $query->join('member_vip', 'member_vip.member_id', '=', 'user_meta.user_id')->where('member_vip.active','1');
+        }
+        if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup)->where('isHideCup', '0');
         if (isset($body) && strlen($body) != 0) $query = $query->where('body', $body);
-
         if (!empty($agefrom) && empty($ageto)){
             $age = explode(",",$agefrom);
             $agemin = $age[0];
@@ -260,6 +326,7 @@ class UserMeta extends Model
        
 
         /*判斷搜尋的使用者的blockcity, blockarea是否為搜索者的city, area*/
+        //SG舊功能  女生可設定 拒絕被某些縣市的男生搜索
         $block_user = [];
         $user_filter = $query->get();
         foreach($user_filter as $user_filter){
@@ -272,8 +339,9 @@ class UserMeta extends Model
 
         $query = $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
 
-        //追加额外参数，例如搜索条件
+        //追加额外参数，例如搜索条件 翻頁保持GET資料
         return $query->appends(array(
+            'havepic'=> $havepic,
             'county'=> $city,
             'district'=> $area,
             'agefrom'=> $agefrom,

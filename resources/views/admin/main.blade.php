@@ -1,4 +1,4 @@
-@include('partials.header')
+@include('partials.header_sg')
 <style>
     .sidenav {
         height: 100%;
@@ -65,7 +65,7 @@
     @include('admin.panel')
     <div class="navbar">
         <span onclick="openNav()" class="" id="open">&#9776;</span>
-        <span class="instructor">甜心花園網：管理後台</span>
+        <span class="instructor">{{ config('app.name') }}：管理後台</span>
     </div>
     @include('partials.errors')
     @include('partials.message')

@@ -8,7 +8,7 @@
                     <a href="javascript:" class="yichu_t">解除封鎖</a>
                 </div>
                 <div class="row weui-t_c weui_mt19">
-                    @foreach ($blocks as $block)
+                    @forelse ($blocks as $block)
                         @php $blockedUser = \App\Models\User::findById($block->blocked_id) @endphp
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20">
                             <div class="yicw">
@@ -21,11 +21,15 @@
                                     class="hypic">
                                 <div class="yichu" style="display:none;cursor: pointer;" data-uid="{{$user->id}}" data-to="{{$block->blocked_id}}">解除</div>
                                 <a href="/dashboard/viewuser/{{$blockedUser->id}}" class="weui-db">
-                                    <p class="weui-pt15" style="white-space:nowrap;">{{$blockedUser->name}} @if($blockedUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </p>
+                                    <p class="weui-pt15" style="white-space:nowrap;">{{$blockedUser->name}}
+                                        @if($blockedUser->isVip())<img src="/images/05.png" class="weui-v_t">@endif
+                                    </p>
                                 </a>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        沒有資料!!
+                    @endforelse
                     <nav aria-label="Page navigation" class="se_page0">
                         {!! $blocks->render() !!}
                     </nav>

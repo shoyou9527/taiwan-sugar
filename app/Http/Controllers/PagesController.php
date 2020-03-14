@@ -1304,11 +1304,11 @@ class PagesController extends Controller
     public function fav(Request $request)
     {
         $user = $request->user();
-        $visitors = \App\Models\MemberFav::findBySelf2($user->id);
+        $memberfavs = \App\Models\MemberFav::findBySelf2($user->id);
         if ($user) {
             return view('dashboard.fav')
             ->with('user', $user)
-            ->with('visitors', $visitors);
+            ->with('memberfavs', $memberfavs);
         }
     }
 
@@ -1425,8 +1425,10 @@ class PagesController extends Controller
     public function history(Request $request)
     {
         $user = $request->user();
+        $visitors = Visited::findBySelf2($user->id);
         if ($user) {
             return view('dashboard.history')
+            ->with('visitors', $visitors)
             ->with('user', $user);
         }
     }
@@ -1443,6 +1445,7 @@ class PagesController extends Controller
         }
     }
 
+    //TS版搜尋
     public function search(Request $request)
     {
         $user = $request->user();
@@ -1454,6 +1457,7 @@ class PagesController extends Controller
         $district = (isset($_GET['district']) && ($_GET['district'] != '0'))? $_GET['district'] : '';
         $county = (isset($_GET['county']) && ($_GET['county'] != '0'))? $_GET['county'] : '';
         $cup = isset($_GET['cup'])? $_GET['cup'] : '';
+        $havepic = isset($_GET['havepic'])? $_GET['havepic'] : '';
         $marriage = isset($_GET['marriage'])? $_GET['marriage'] : '';
         $budget = isset($_GET['budget'])? $_GET['budget'] : '';
         $income = isset($_GET['income'])? $_GET['income'] : '';
@@ -1465,12 +1469,13 @@ class PagesController extends Controller
         $seqtime = isset($_GET['seqtime'])? $_GET['seqtime'] : '';
         $body = isset($_GET['body'])? $_GET['body'] : '';
         $isvip = isset($_GET['isvip'])? $_GET['isvip'] : '';
-        $vis = UserMeta::search($county, $district, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $user->engroup, $umeta->city, $umeta->area, $umeta->blockdomain, $umeta->blockdomainType, $seqtime, $body, $user->id, $isvip);
+        $vis = UserMeta::search2($county, $district, $cup, $marriage, $budget, $income, $smoking, $drinking, $photo, $agefrom, $ageto, $user->engroup, $umeta->city, $umeta->area, $umeta->blockdomain, $umeta->blockdomainType, $seqtime, $body, $user->id, $isvip, $havepic);
 
         return view('dashboard.search')
                 ->with('vis', $vis)
                 ->with('user', $user);
     }
+
     public function search2(Request $request)
     {
         $user = $request->user();

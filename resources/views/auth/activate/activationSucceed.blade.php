@@ -1,13 +1,12 @@
 @include('partials.header')
 <link href="/css/ts_css.css" type="text/css" rel="stylesheet">
-</head>
 
 <body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
     <header class="header headerbg weui-pb10 weui-pt10 tophear">
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid ">
                 <div class="navbar-header topr">
-                    <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('/') !!}"><img src="images/homeicon.png"></a>
+                    <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('/') !!}"><img src="/images/homeicon.png"></a>
                 </div>
             </div>
         </nav>

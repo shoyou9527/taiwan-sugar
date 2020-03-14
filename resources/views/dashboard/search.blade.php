@@ -65,10 +65,9 @@
                 <div class="lytitle"><i></i>搜尋條件</div>
                 <div class="se_leftbg">
                     <form action="{!! url('dashboard/search') !!}" class="m-form m-form--fit m-form--label-align-right" method="GET">
-                        <input type="hidden" name="_token" value="{{csrf_token()}}" >
                         <div class="vipfont">
                             <font>地區</font>
-                            <span><input type="checkbox" name="pic" value="hasPic" class="search_inp" @if(!empty($_GET["pic"]) && $_GET["pic"] == "hasPic" ) checked @endif>照片</span>
+                            <span><input type="checkbox" name="havepic" value="1" class="search_inp" @if(!empty($_GET["havepic"]) && $_GET["havepic"] == "1" ) checked @endif>照片</span>
                         </div>
                         <div class="se_search" id="twzipcode">
                             <div class="twzip" data-role="county" data-name="county">
@@ -87,12 +86,10 @@
                                 </div>
                                 <div class="usera_radio" style="margin-left: 4%;">
                                     <label for="usera_radio">
-                                        <input type="radio" name="isvip" value="1">VIP會員
+                                        <input type="radio" name="isvip" value="1" @if(isset($_GET['isvip']) && ($_GET['isvip'] == '1')) checked @endif>VIP會員
                                     </label>
                                     <span class="btn @if(isset($_GET['isvip']) && ($_GET['isvip'] == '1')) active @endif">VIP會員</span>
                                 </div>          
-                                {{-- <a href="/dashboard/search?isvip=0" class="se_button">全部會員</a> --}}
-                                {{-- <a href="/dashboard/search?isvip=1" class="se_button01">VIP會員</a> --}}
                             </div>
                             <div class="se_title a1">年齡</div>
                             <div class="se_wu">
@@ -147,7 +144,7 @@
                                 </span>
                             @endif
                         </div>
-                        <input type="reset" value="重置" class="sebotbut">
+                        <input type="reset" value="重置" class="sebotbut" onclick="location.href='{!! url('dashboard/search') !!}'">
                         <input type="submit" value="完成" class="sebotbut02">
                     </form>
                 </div>
@@ -155,8 +152,7 @@
             <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
                 <div class="serightpe">
                     <ul class="new_search">
-                    @if (!empty($vis) && isset($vis) && sizeof($vis) > 0)
-                        @foreach ($vis as $vi)
+                        @forelse ($vis as $vi)
                             @php 
                                 $visitor = $vi->user();
                                 $umeta = $visitor->meta_();
@@ -211,8 +207,12 @@
                                         @if ($user->engroup == 1)
                                             <h4>
                                                 <span>CUP：</span>
-                                                @if(isset($visitor->meta_()->cup))
-                                                    {{$visitor->meta_()->cup}}
+                                                @if($umeta->isHideCup == '0')
+                                                    @if(isset($visitor->meta_()->cup))
+                                                        {{$visitor->meta_()->cup}}
+                                                    @else
+                                                        保密
+                                                    @endif
                                                 @else
                                                     保密
                                                 @endif
@@ -235,8 +235,9 @@
                                     </div>
                                 </div>
                             </li>
-                        @endforeach
-                    @endif
+                        @empty
+                            沒有資料!!
+                        @endforelse
                     </ul>
                     <nav aria-label="Page navigation" class="se_page0 newpage">
                         {!! $vis->render() !!}
@@ -282,7 +283,6 @@
             showLabels: true,
             showScale: true
         });
-
         $('#twzipcode').twzipcode({
             'detect': true,
             'countySel' : "{{ $_GET['county'] or '' }}",
@@ -292,13 +292,13 @@
                 $("select[name='district']").prepend('<option selected value="">全市</option>');
             }
         });
-        $('input[name="zipcode"]').remove();
-        $(".usera_radio label").click(function() {
-            $(this).siblings("span").addClass("active");
-            $(this).parent().siblings("div").find("span").removeClass("active");
-        });
-
-        
     });
+
+    $(".usera_radio label").click(function() {
+        $(this).siblings("span").addClass("active");
+        $(this).parent().siblings("div").find("span").removeClass("active");
+    });
+        $('input[name="zipcode"]').remove();
+
     </script>
 @stop

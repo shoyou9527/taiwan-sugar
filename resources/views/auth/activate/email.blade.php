@@ -21,12 +21,11 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container-fluid ">
                 <div class="navbar-header topr">
-                    <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('/') !!}"><img src="images/homeicon.png"></a>
+                    <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('/') !!}"><img src="/images/homeicon.png"></a>
                 </div>
             </div>
         </nav>
     </header>
-    @include('layouts.menu_vipcl')
     <div class="m-content">
         <div class="m-content zlleftbg nerbg">
             <div class="col-sm-12 col-xs-12 col-md-12">

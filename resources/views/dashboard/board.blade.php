@@ -30,7 +30,7 @@
                 <li>
                     <div class="l_zright a1">
                         <div class="ly_next">
-                            <div class="l_zleft"><a href="/user/view/{{$postUser->id}}"> <img src="@if($postUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{ $postUser->meta_()->pic }} @endif" class="lyphoto" onerror="this.src='/images/male-avatar.png'"> </a> </div>
+                            <div class="l_zleft"><a href="/user/view/{{$postUser->id}}"> <img src="@if($postUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{ $postUser->meta_()->pic }} @endif" class="lyphoto" onerror="this.src=@if ($postUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"> </a> </div>
                             <h2>{{ $postUser->name }}</h2>
                             <h3>{{ $post->created_at }}</h3>
                         </div>

@@ -60,13 +60,13 @@
                     {{-- 迴圈生活照 --}}
                     @if(!empty($member_pics))
                         <div class="grxiphoto">
-                            @foreach($member_pics as $key=>$member_pic)
+                            @foreach($member_pics as $key => $member_pic)
                                 <li class="col-sm-6 col-xs-6 col-md-2">
                                     <form method="POST" action="/dashboard/imagedel">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
                                         <input type="hidden" name="imgId" value="{{$member_pic->id}}">
-                                        <img src="{{$member_pic->pic}}" width="100%" height="180px">
+                                        <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" @if ($user->engroup == 1) onerror="this.src='/img/male-avatar.png'" @else onerror="this.src='/img/female-avatar.png'" @endif" width="100%" height="180px">
                                         <button type="submit" style="
                                         display: block;
                                         color: #e65858;

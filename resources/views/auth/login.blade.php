@@ -8,7 +8,7 @@
     }
 </style>
     <header class="header clearfix weui-pl32 weui-pr30 weui-pt20">
-        <a href="{!! url('') !!}" class="weui-fl weui-ml30 logo weui-ml5"><img src="images/homeicon.png"></a>
+        <a href="{!! url('') !!}" class="weui-fl weui-ml30 logo weui-ml5"><img src="/images/homeicon.png"></a>
         <ul class="weui-fl navtop weui-ml30">
             <li class="weui-fl"><a href="/contact" class="weui-white">關於我們</a></li>
         </ul>
