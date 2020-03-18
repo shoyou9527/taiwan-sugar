@@ -97,12 +97,15 @@
                             <div class="weui-flex__item weui-pl10"><input type="text" class="form02" placeholder="一句話形容自己" name="title" value="" required></div>
                         </div>
                     </div>
-                    <p class="weui-pt10">
-                        <input type="checkbox" name="agree" id="zhengce" required>
+                    <div>
+                        <div class="weui-flex" style="padding:10px 10px 10px 0px;">
+                            <div class="weui-pl10"><input type="checkbox" name="agree" id="zhengce" required>
                         <label for="zhengce" style="margin-bottom:0px;font-weight:100">
                             <span>我同意台灣甜心的使用條款和隱私政策</span>
-                        </label>
-                    </p>
+                        </label></div>
+                        </div>
+                    </div>
+
                     <div class="row weui-pt20">
                         <div class=" col-sm-6 col-xs-6 col-md-6 col-lg-6"><button type="submit" id="m_login_signup_submit" class=" btn btn_reater01 btn-block">註冊</button></div>
                         <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6"><a href="/" class="btn btn_reater02 btn-block">取消</a></div>

@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@sugar-garden.org'),
-        'name' => env('MAIL_FROM_NAME', '甜心花園網'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@ming.test-tw.icu'),
+        'name' => env('MAIL_FROM_NAME', '台灣甜心網'),
     ],
 
     /*
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', 'admin@sugar-garden.org'),
+    'username' => env('MAIL_USERNAME', 'admin@ming.test-tw.icu'),
 
     'password' => env('MAIL_PASSWORD', 'admin'),
 

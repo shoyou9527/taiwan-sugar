@@ -61,22 +61,14 @@
                     @if(!empty($member_pics))
                         <div class="grxiphoto">
                             @foreach($member_pics as $key => $member_pic)
-                                <li class="col-sm-6 col-xs-6 col-md-2">
+                                <li class="col-sm-4 col-xs-6">
+                                    <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
+                                        onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="img_square2">
                                     <form method="POST" action="/dashboard/imagedel">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
                                         <input type="hidden" name="imgId" value="{{$member_pic->id}}">
-                                        <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" @if ($user->engroup == 1) onerror="this.src='/img/male-avatar.png'" @else onerror="this.src='/img/female-avatar.png'" @endif" width="100%" height="180px">
-                                        <button type="submit" style="
-                                        display: block;
-                                        color: #e65858;
-                                        text-align: left;
-                                        line-height: 30px;
-                                        background:none!important;
-                                        border:none; 
-                                        padding:0!important;
-                                        font: inherit;
-                                        cursor: pointer;">刪除</button>
+                                        <button type="submit" class="delbutton">刪除</button>
                                     </form>
                                 </li>
                             @endforeach

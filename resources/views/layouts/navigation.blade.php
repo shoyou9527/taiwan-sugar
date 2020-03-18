@@ -1,5 +1,9 @@
 @if (Auth::user() && Request::path() != '/activate' && Request::path() != '/activate/send-token')
-	@include('partials.menu_vipcl')
+	@include('partials.menu')
+	<style>
+	    /*強制顯示右上角導航列*/
+	    .toplink{ display: block}
+	</style>
 @else
 	<header class="header headerbg weui-pb10 weui-pt10 tophear">
 	    <nav class="navbar navbar-default" role="navigation">

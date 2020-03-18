@@ -337,19 +337,19 @@ class UserMeta extends Model
             }
         }
 
-        $query = $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
+        return $query = $query->whereNotIn('user_id', $bannedUsers)->whereNotIn('user_id', $block_user)->whereNotIn('user_id', $blockedUsers)->whereNotIn('user_id', $beBlockedUsers)->orderBy('users.last_login', 'desc')->paginate(12);
 
         //追加额外参数，例如搜索条件 翻頁保持GET資料
-        return $query->appends(array(
-            'havepic'=> $havepic,
-            'county'=> $city,
-            'district'=> $area,
-            'agefrom'=> $agefrom,
-            'budget'=> $budget,
-            'body'=> $body,
-            'isvip'=> $isvip,
-            'cup'=> $cup
-        ));
+        // return $query->appends(array(
+        //     'havepic'=> $havepic,
+        //     'county'=> $city,
+        //     'district'=> $area,
+        //     'agefrom'=> $agefrom,
+        //     'budget'=> $budget,
+        //     'body'=> $body,
+        //     'isvip'=> $isvip,
+        //     'cup'=> $cup
+        // ));
 
     }
 }

@@ -1,10 +1,10 @@
 @include('partials.header')
 @if (!str_contains(url()->current(), '/dashboard/search'))
     {{-- 除搜尋頁外使用的css --}}
-    <link rel="stylesheet" href="/css/ts.css.css" />
+    <link href="/css/ts_css.css" type="text/css" rel="stylesheet">
 @endif
 <body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push" >
-    @include('partials.menu_toplink')
+    @include('partials.menu')
     <div class="m-content">
         {{-- <style>body{background-color: #F7EEEB;}</style> 無作用--}} 
         <div class="row">

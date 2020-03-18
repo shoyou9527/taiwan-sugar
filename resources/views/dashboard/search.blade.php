@@ -223,7 +223,7 @@
                                             </h4>
                                         @endif
                                     </div>
-                                    <div class="setextbut" style="white-space: nowrap;">
+                                    <div class="setextbut">
                                         <form action="/dashboard/fav" method="POST">
                                             {!! csrf_field() !!}
                                             <input type="hidden" name="userId" value="{{$user->id}}">
@@ -240,7 +240,7 @@
                         @endforelse
                     </ul>
                     <nav aria-label="Page navigation" class="se_page0 newpage">
-                        {!! $vis->render() !!}
+                        {!! $vis->appends(request()->all())->render() !!}
                     </nav>
                 </div>
             </div>

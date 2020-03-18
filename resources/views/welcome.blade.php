@@ -4,10 +4,13 @@
     <link href="/css/owl.carousel.css" type="text/css" rel="stylesheet">
     <link href="/css/owl.theme.css" type="text/css" rel="stylesheet">
     <script src="/js/owl.carousel.min.js"></script>
-
 <body class="bgimg">
     @if (Auth::user() && Request::path() != '/activate' && Request::path() != '/activate/send-token')
-        @include('partials.menu_vipcl')
+        @include('partials.menu')
+        <style>
+            /*強制顯示右上角導航列*/
+            .toplink{ display: block}
+        </style>
     @else
         <header class="header a1 clearfix weui-pl32 weui-pr30 weui-pt20">
             <a href="/" class="weui-fl weui-ml30 logo"><img src="/images/homeicon.png"></a>
