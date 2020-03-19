@@ -35,6 +35,8 @@
             </div>
         </nav>
     </header>
+    @include('partials.errors')
+    @include('partials.status')
     <div class="newheight">
         <div class="rester_wrap weui-box_s shpa30">
             <div class="lytitle"><i></i>註冊新用戶</div>

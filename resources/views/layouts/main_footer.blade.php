@@ -7,6 +7,6 @@
     </div>
     @include('partials.footer')
     @include('partials.scripts')
-    {{-- @yield("javascript") --}}
+    @yield("javascript")
 </body>
 </html>

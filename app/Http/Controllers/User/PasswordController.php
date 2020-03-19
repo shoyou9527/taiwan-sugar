@@ -47,6 +47,7 @@ class PasswordController extends Controller
      */
     public function update(PasswordUpdateRequest $request)
     {
+        dd('密碼更改');
         $password = $request->new_password;
 
         if (Hash::check($request->old_password, Auth::user()->password)) {
