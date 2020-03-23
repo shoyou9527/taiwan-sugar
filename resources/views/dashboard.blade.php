@@ -39,6 +39,12 @@
                             <input type="submit" value="上傳" class="group_but">
                         </div>
                     </form>
+                    <div class="grxiphoto">
+                        <li class="headshot col-sm-4 col-xs-6">
+                            <img src="{{$umeta->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" 
+                            class="img_square2">
+                        </li>
+                    </div>
                 </div>
                 <div class="group">
                     <div class="grouttitle">生活照</div>
@@ -212,11 +218,11 @@
                 <div class="zlxctitle grtu01">個人說明</div>
                 <div class="grzltable01" style="margin-top:5px">
                     <div class="grrow_1">
-                        <h2>關於我</h2>
+                        <h2><i class="icon iconfont icon-tanhao grrow_icon"></i>關於我</h2>
                         <textarea name="about" rows="4" class="form_co" maxlength="300">{{ $umeta->about }}</textarea>
                     </div>
                     <div class="grrow_1">
-                        <h2>期待約會模式</h2>
+                        <h2><i class="icon iconfont icon-tanhao grrow_icon"></i>期待約會模式</h2>
                         <textarea name="style" rows="3" maxlength="300" class="form_co">{{ $umeta->style }}</textarea>
                     </div>
                 </div>

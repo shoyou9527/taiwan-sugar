@@ -2,10 +2,15 @@
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse" aria-expanded="true"> <span class="sr-only">切换引導列</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse" aria-expanded="false">
+                    <span class="sr-only">切换引導列</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('') !!}"><img src="/images/homeicon.png"></a>
             </div>
-            <div class="navbar-collapse weui-fr collapse show" id="example-navbar-collapse" style="">
+            <div class="navbar-collapse weui-fr collapse" id="example-navbar-collapse" style="">
                 <div class="weui-fr  weui-white coleft toplink">
                     <div class="conterleft">
                         <a href="{!! url('dashboard') !!}"><i><img src="/images/ic_01.png"></i><span>個人資料</span></a>
@@ -32,14 +37,16 @@
     <img src="/images/jt.png" class="jt">
     <div class="bl_icon">
         <li>
-            @if($user->isVip())
-                <a href="{!! url('/dashboard/cancel') !!}"><img src="/images/icon_12.png">
-                    <font>取消VIP</font>
-                </a>
-            @else
-                <a href="{!! url('/dashboard/upgrade') !!}"><img src="/images/icon_12.png">
-                    <font>升級VIP</font>
-                </a>
+            @if(isset($user))
+                @if($user->isVip())
+                    <a href="{!! url('/dashboard/cancel') !!}"><img src="/images/icon_12.png">
+                        <font>取消VIP</font>
+                    </a>
+                @else
+                    <a href="{!! url('/dashboard/upgrade') !!}"><img src="/images/icon_12.png">
+                        <font>升級VIP</font>
+                    </a>
+                @endif
             @endif
         </li>
         <li>
