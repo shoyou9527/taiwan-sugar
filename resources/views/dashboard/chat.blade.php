@@ -21,6 +21,7 @@
                         }elseif($message['from_id'] == $user->id) {
                             $msgUser = \App\Models\User::findById($message['to_id']);
                         }
+                        $t = explode(" ",$message['created_at']);
                     @endphp
                     <div class="m-widget3__item" style="margin:10px;box-shadow: 0 1px 15px 1px rgba(244, 164, 164, 0.7); padding: 14px 28px;
                         {{--未讀且是不是我發出的訊息 顯示粉紅底--}}
@@ -37,9 +38,17 @@
                                         <span class="m-widget3__username">{{$msgUser->name}}</span>
                                     </a>
                                 </div>
-                                <p class="word_text" style="word-wrap:break-word;word-break:break-all;padding-left:10px;">{{ $message['content'] }}</p>
+                                <p class="word_text" style="
+                                word-wrap:break-word;
+                                word-break:break-all;
+                                padding-left:10px;
+                                display: -webkit-box;
+                                -webkit-box-orient: vertical;
+                                -webkit-line-clamp: 2;"
+                                >{{ $message['content'] }}</p>
                                 <div class="m-widget3__sj">
-                                    <p>{{ $message['created_at'] }}</p>
+                                    <p>{{ $t['0'] }}</p>
+                                    <span>{{ $t['1'] }}</span>
                                 </div>
                                 <form method="post" action="{!! route('deleteBetween', ['uid' => $user->id, 'sid' => $msgUser->id]) !!}">
                                     {!! csrf_field() !!}

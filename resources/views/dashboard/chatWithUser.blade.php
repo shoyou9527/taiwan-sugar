@@ -164,7 +164,7 @@
                                                 </button>
                                             </form></li>
                                          @endif
-                                        <li><a href="/dashboard/chat"><img src="/images/new_07.png" class="popicon"><span>返回</span></a></li>
+                                        <li><a href="{{ url()->previous() }}"><img src="/images/new_07.png" class="popicon"><span>返回</span></a></li>
                                     </div>
                                 </div>
                             </div>

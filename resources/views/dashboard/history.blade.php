@@ -15,14 +15,11 @@
                 $histUser = \App\Models\User::findById($visitor->member_id);
             @endphp
             @if(isset($histUser))
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-4 weui-pb20 lytitle_aa new_line">
+                <div class="col-xs-6 col-sm-3 lytitle_aa new_line">
                     <a href="/user/view/{{$histUser->id}}" style="text-align: center; vertical-align: middle!important;" class="weui-db">
-                        <img src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" onerror="this.src=@if ($histUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="img_square">
-                        <p class="weui-pt15 hiy_id">
-                            <span class="polfont">
-                                @if ($histUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif
-                            </span>
-                            <span>{{ $histUser->name }}</span>
+                        <img src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" onerror="this.src=@if ($histUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="history_square">
+                        <p class="weui-pt15">
+                            <span>{{ $histUser->name }} @if($histUser->isVip()) <img src="/images/05.png" class="weui-v_t">@endif</span>
                         </p>
                         <p class="weui-c_9">{{ $visitor->created_at }}</p>
                     </a>

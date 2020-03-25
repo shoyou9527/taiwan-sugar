@@ -1,21 +1,16 @@
 @extends('layouts.main2d')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg">
-    <div class="" style="background-color:white;">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 style="text-align:left;" class="m-portlet__head-text">
-                        檢舉會員：{{ \App\Models\User::findById($uid)->name }} - 請填寫理由
-                    </h3>
-                    <span style="text-align:right;" class="m-portlet__head-text">
-                        <a class="btn btn-danger m-btn m-btn--air m-btn--custom" href="/user/view/{{ $uid }}"> 回去{{ \App\Models\User::findById($uid)->name }}的會員資料</a>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{ route('reportNext') }}">
+<div class="col-sm-12 col-xs-12 col-md-9 liuyan">
+    <div class="l_zlxc">
+        <div class="lytitle"><i></i>檢舉</div>
+        <h3 style="text-align:left;padding:15px;" class="m-portlet__head-text">
+            檢舉會員：{{ \App\Models\User::findById($uid)->name }} - 請填寫理由
+        </h3>
+        <span style="text-align:right;padding:15px;" class="m-portlet__head-text">
+            <a class="btn btn-danger m-btn m-btn--air m-btn--custom" href="/user/view/{{ $uid }}"> 回去{{ \App\Models\User::findById($uid)->name }}的會員資料</a>
+        </span>
+        <form class="m-form m-form--fit m-form--label-align-right" style="margin-top: 20px;" method="POST" action="{{ route('reportNext') }}">
             {!! csrf_field() !!}
             <input type="hidden" name="aid" value="{{ $aid }}">
             <input type="hidden" name="uid" value="{{ $uid }}">
@@ -38,10 +33,7 @@
         </form>
     </div>
 </div>
-
 @stop
 
 @section('javascript')
-
-
 @stop

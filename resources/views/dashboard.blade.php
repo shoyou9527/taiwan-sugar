@@ -41,8 +41,8 @@
                     </form>
                     <div class="grxiphoto">
                         <li class="headshot col-sm-4 col-xs-6">
-                            <img src="{{$umeta->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" 
-                            class="img_square2">
+                            <img src="{{$umeta->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
+                            class="dashboard_square">
                         </li>
                     </div>
                 </div>
@@ -67,9 +67,9 @@
                     @if(!empty($member_pics))
                         <div class="grxiphoto">
                             @foreach($member_pics as $key => $member_pic)
-                                <li class="col-sm-4 col-xs-6">
+                                <li class="col-xs-6 col-sm-4  col-md-3 col-lg-2">
                                     <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
-                                        onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="img_square2">
+                                        onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="dashboard_square">
                                     <form method="POST" action="/dashboard/imagedel">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
