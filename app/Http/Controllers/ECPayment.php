@@ -32,19 +32,19 @@ class ECPayment extends Controller
 
 
             //基本參數(請依系統規劃自行調整)
-            $MerchantTradeNo = "SG".time() ;
+            $MerchantTradeNo = "TS".time() ;
             $obj->Send['ReturnURL']         = Config::get('ecpay.payment'.$envStr.'.ReturnURL') ;    //付款完成通知回傳的網址
             $obj->Send['ClientBackURL']     = Config::get('ecpay.payment'.$envStr.'.ClientBackURL') ;
             $obj->Send['MerchantTradeNo']   = $MerchantTradeNo;                        //訂單編號
             $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');                     //交易時間
-            $obj->Send['TotalAmount']       = 888;                                     //交易金額
-            $obj->Send['TradeDesc']         = "SG-VIP(".$request->userId.")";                                //交易描述
+            $obj->Send['TotalAmount']       = 1688;                                     //交易金額
+            $obj->Send['TradeDesc']         = "TS-VIP(".$request->userId.")";                                //交易描述
             $obj->Send['ChoosePayment']     = ECPay_PaymentMethod::Credit;             //付款方式:Credit
             // $obj->Send['IgnorePayment']     = ECPay_PaymentMethod::GooglePay ;           //不使用付款方式:GooglePay
             $obj->Send['CustomField1']      = $request->userId;
 
             //訂單的商品資料
-            array_push($obj->Send['Items'], array('Name' => "SG-VIP(".$request->userId.")", 'Price' => (int)"888", 'Currency' => "元", 'Quantity' => (int) "1", 'URL' => ""));
+            array_push($obj->Send['Items'], array('Name' => "TS-VIP(".$request->userId.")", 'Price' => (int)"1688", 'Currency' => "元", 'Quantity' => (int) "1", 'URL' => ""));
 
 
             //Credit信用卡分期付款延伸參數(可依系統需求選擇是否代入)
@@ -56,7 +56,7 @@ class ECPayment extends Controller
 
             //Credit信用卡定期定額付款延伸參數(可依系統需求選擇是否代入)
             //以下參數不可以跟信用卡分期付款參數一起設定
-            $obj->SendExtend['PeriodAmount'] = '888' ;    //每次授權金額，預設空字串
+            $obj->SendExtend['PeriodAmount'] = '1688' ;    //每次授權金額，預設空字串
             $obj->SendExtend['PeriodType']   = 'M' ;    //週期種類，預設空字串
             $obj->SendExtend['Frequency']    = '1' ;    //執行頻率，預設空字串
             $obj->SendExtend['ExecTimes']    = '99' ;    //執行次數，預設空字串

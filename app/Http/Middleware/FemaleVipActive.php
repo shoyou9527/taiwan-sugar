@@ -73,6 +73,7 @@ class FemaleVipActive
             $user->vip_record = Carbon::now();
             $user->save();
             Vip::upgrade($user->id, '1111000', '0', 0, 'OOOOOOOO', 1, 1);
+            return back()->with('message', '成功升級免費VIP');
         }
 
         return $next($request);

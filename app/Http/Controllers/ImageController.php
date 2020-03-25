@@ -7,6 +7,7 @@ use App\Http\Requests\ImageRequest;
 use App\Http\Requests\MultipleImageRequest;
 use App\Http\Requests;
 use App\Models\User;
+use App\Models\Vip;
 use App\Models\MemberPic;
 use App\Models\UserMeta;
 use Image;
@@ -20,6 +21,19 @@ class ImageController extends Controller
     {
         $payload = $request->all();
         MemberPic::destroy($payload['imgId']);
+
+        //刪除生活照檢查一下 女生少於4張刪除免費VIP
+        $user = $request->user();
+        $is_vip = $user->isVip();
+        $isFreeVip = $user->isFreeVip();
+        $pic_count = MemberPic::getPicNums( $user->id );
+        if(($pic_count)<4 && $is_vip==1 && $user->engroup==2 && $isFreeVip){
+            Vip::cancel($user->id, 1);
+            return back()->with('message', '照片過少取消免費VIP!');
+        }else{
+            return back()->with('message', '成功刪除照片');
+        }
+
         if(!$admin){
             return redirect("/dashboard?img");
         }
@@ -154,7 +168,7 @@ class ImageController extends Controller
 
         if($files = $request->file('images')) {
             foreach ($files as $file) {
-                //dd($files);
+                // dd($files);
                 $now = Carbon::now()->format('Ymd');
                 $input['imagename'] = $now . rand(100000000,999999999) . '.' . $file->getClientOriginalExtension();
 
@@ -182,8 +196,8 @@ class ImageController extends Controller
                 $memberPic->pic = $destinationPath;
                 $memberPic->save();
             }
+            return back()->with('message', '照片上傳成功');
         }
-
         if(!$admin){
             return redirect()->to('/dashboard?img')
                    ->with('success','照片上傳成功');

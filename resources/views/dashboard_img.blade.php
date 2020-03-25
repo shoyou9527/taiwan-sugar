@@ -19,6 +19,12 @@
                             <input type="submit" value="上傳" class="group_but">
                         </div>
                     </form>
+                    <div class="grxiphoto">
+                        <li class="headshot col-sm-4 col-xs-6">
+                            <img src="{{$user->meta_()->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
+                            class="dashboard_square">
+                        </li>
+                    </div>
                 </div>
                 <div class="group">
                     <div class="grouttitle">生活照</div>
@@ -41,22 +47,14 @@
                     @if(!empty($member_pics))
                         <div class="grxiphoto">
                             @foreach($member_pics as $key=>$member_pic)
-                                <li class="col-sm-6 col-xs-6 col-md-2">
+                                <li class="col-xs-6 col-sm-4  col-md-3 col-lg-2">
+                                    <img src="@if($user->meta_()->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
+                                        onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="dashboard_square">
                                     <form method="POST" action="/dashboard/imagedel">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
                                         <input type="hidden" name="imgId" value="{{$member_pic->id}}">
-                                        <img src="{{$member_pic->pic}}" width="100%" height="180px">
-                                        <button type="submit" style="
-                                        display: block;
-                                        color: #e65858;
-                                        text-align: left;
-                                        line-height: 30px;
-                                        background:none!important;
-                                        border:none; 
-                                        padding:0!important;
-                                        font: inherit;
-                                        cursor: pointer;">刪除</button>
+                                        <button type="submit" class="delbutton">刪除</button>
                                     </form>
                                 </li>
                             @endforeach
@@ -70,98 +68,11 @@
 
 @section ('javascript')
     <script src="/js/cropper.min.js"></script>
-    <script>
-    var domainJson = ({
-        '請選擇': ['請選擇'],
-        '資訊科技': ['軟體網路', '電信通訊', '光電光學', '半導體業', '電腦週邊', '電子相關'],
-        '傳產製造': ['食品飲料', '紡織相關', '鞋類紡織', '家具家飾', '紙製製造', '印刷相關', '化學製造', '石油製造', '橡膠塑膠', '非金屬製造', '金屬製造', '機械設備', '電力機械', '運輸工具', '儀器醫材', '育樂用品', '其他製造', '物流倉儲', '營建土木', '農林漁牧', '礦業土石'],
-        '工商服務': ['法律服務', '會計服務', '顧問研發', '人力仲介', '租賃業', '汽車維修', '徵信保全'],
-        '民生服務': ['批發零售', '金融機構', '投資理財', '保險業', '電影業', '旅遊休閒', '美容美髮', '醫療服務', '環境衛生', '住宿服務', '餐飲服務'],
-        '文教傳播': ['教育服務', '印刷出版', '藝文相關', '廣播電視', '廣告行銷', '政治社福']
-    });
-
-    setDomain(1);
-
-    function setDomain(initial) {
-        var domain = eval(domainJson);
-        var type = $("#domainType").val();
-        //console.log('type is ' + type);
-        if (!initial) {
-            $("#domain option").remove();
-            $("#domain").append('<option value="0">請選擇</option>');
-        }
-        for (var i in domain[type]) {
-            //console.log(domain[type][i]);
-            if (domain[type][i] != $("#domain option:selected").val()) {
-                $("#domain").append('<option value="' + domain[type][i] + '">' + domain[type][i] + '</option>');
-                $("#domain").selectpicker('refresh');
-            }
-        }
-    }
-
-    jQuery(document).ready(function() {
-
-        var BootstrapDatepicker = function() { var t = function() { $("#m_datepicker_1, #m_datepicker_1_validate").datepicker({ todayHighlight: !0, orientation: "bottom left", templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_1_modal").datepicker({ todayHighlight: !0, orientation: "bottom left", templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_2, #m_datepicker_2_validate").datepicker({ todayHighlight: !0, orientation: "bottom left", templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_2_modal").datepicker({ todayHighlight: !0, orientation: "bottom left", templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_3, #m_datepicker_3_validate").datepicker({ todayBtn: "linked", clearBtn: !0, todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_3_modal").datepicker({ todayBtn: "linked", clearBtn: !0, todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_4_1").datepicker({ orientation: "top left", todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_4_2").datepicker({ orientation: "top right", todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_4_3").datepicker({ orientation: "bottom left", todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_4_4").datepicker({ orientation: "bottom right", todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_5").datepicker({ todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }), $("#m_datepicker_6").datepicker({ todayHighlight: !0, templates: { leftArrow: '<i class="la la-angle-left"></i>', rightArrow: '<i class="la la-angle-right"></i>' } }) }; return { init: function() { t() } } }();
-        jQuery(document).ready(function() { BootstrapDatepicker.init() });
-        var BootstrapSelect = function() { var t = function() { $(".m_selectpicker").selectpicker() }; return { init: function() { t() } } }();
-        jQuery(document).ready(function() { BootstrapSelect.init() });
-
-        $('.twzipcode').twzipcode({
-            'detect': true,
-            'css': ['form-control twzip', 'form-control twzip', 'zipcode']
-        });
-    });
-    </script>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-
-        //Check File API support
-        function uploadFiles() {
-            if (window.File && window.FileList && window.FileReader) {
-                var filesInput = document.getElementById("images");
-
-                filesInput.addEventListener("change", function(event) {
-
-                    var files = event.target.files; //FileList object
-                    var output = document.getElementById("result");
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-
-                        //Only pics
-                        if (!file.type.match('image'))
-                            continue;
-
-                        var picReader = new FileReader();
-
-                        picReader.addEventListener("load", function(event) {
-
-                            var picFile = event.target;
-                            var div = document.createElement("div");
-
-                            div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" +
-                                "title='" + picFile.name + "'/>";
-
-                            output.insertBefore(div, null);
-
-                        });
-                        //Read the image
-                        picReader.readAsDataURL(file);
-                    }
-                });
-            }
-        }
-
-        // $("#images").on("change", function() {
-        //  if($("#images")[0].files.length > 2) {
-        //      alert("You can select only 2 images");
-        //  } else {
-        //     uploadFiles();
-        //  }
-
         var max_fields = 0; //maximum input boxes allowed
         var wrapper = $(".input_field_weap"); //Fields wrapper
         var add_button = $("#add_image"); //Add button ID
-
         var x = 1; //initlal text box count
         $(add_button).click(function(e) { //on add input button click
             e.preventDefault();
