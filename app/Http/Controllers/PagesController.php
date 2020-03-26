@@ -1799,9 +1799,10 @@ class PagesController extends Controller
         if(!$user->isVip()){
             return back()->withErrors(['很抱歉，您目前還不是本站VIP，因此無法執行這個步驟。']);
         }
-        else if($user->isFreeVip()){
-            return back()->withErrors(['很抱歉，由於您是免費VIP，因此無法執行這個步驟。']);
-        }
+        //免費VIP也可取消VIP
+        // else if($user->isFreeVip()){
+        //     return back()->withErrors(['很抱歉，由於您是免費VIP，因此無法執行這個步驟。']);
+        // }
         if ($user) {
             return view('auth.checkAccount')->with('user', $user);
         }
