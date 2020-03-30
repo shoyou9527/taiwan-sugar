@@ -210,6 +210,9 @@
                                                 $date_temp = substr($message['created_at'],0,10);
                                             @endphp
                                         @endforeach
+                                        <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
+                                            {!! $messages->render() !!}
+                                        </nav>
                                     @endif
                                 </ul>
                                 <form class="m-form m-form--label-align-right" method="POST" action="/dashboard/chat">

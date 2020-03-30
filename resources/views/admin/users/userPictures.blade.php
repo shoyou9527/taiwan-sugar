@@ -46,8 +46,8 @@
         <tr>
             <th>地區</th>
             <td class="twzipcode">
-                <div class="twzip" data-role="county" data-name="city" data-value="@if(isset($city)) $city @endif"></div>
-                <div class="twzip" data-role="district" data-name="area" data-value="@if(isset($area)) $area @endif"></div>
+                <div class="twzip" data-role="county" data-name="city"></div>
+                <div class="twzip" data-role="district" data-name="area"></div>
             </td>
         </tr>
         <tr>

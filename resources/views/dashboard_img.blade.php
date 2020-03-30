@@ -19,12 +19,19 @@
                             <input type="submit" value="上傳" class="group_but">
                         </div>
                     </form>
+                    @if(!empty($user->meta_()->pic))
                     <div class="grxiphoto">
-                        <li class="headshot col-sm-4 col-xs-6">
+                        <li class="col-sm-4 col-xs-6" style="padding-top: 10px;">
                             <img src="{{$user->meta_()->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
                             class="dashboard_square">
+                            <form method="POST" action="/dashboard/picdel">
+                                {!! csrf_field() !!}
+                                <input type="hidden" name="userId" value="{{ $user->id }}">
+                                <button type="submit" class="delbutton">刪除</button>
+                            </form>
                         </li>
                     </div>
+                    @endif
                 </div>
                 <div class="group">
                     <div class="grouttitle">生活照</div>

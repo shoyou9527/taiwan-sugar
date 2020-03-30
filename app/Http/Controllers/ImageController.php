@@ -22,12 +22,12 @@ class ImageController extends Controller
         $payload = $request->all();
         MemberPic::destroy($payload['imgId']);
 
-        //刪除生活照檢查一下 女生少於4張刪除免費VIP
+        //刪除生活照檢查一下 女生少於3張刪除免費VIP
         $user = $request->user();
         $is_vip = $user->isVip();
         $isFreeVip = $user->isFreeVip();
         $pic_count = MemberPic::getPicNums( $user->id );
-        if(($pic_count)<4 && $is_vip==1 && $user->engroup==2 && $isFreeVip){
+        if(($pic_count)<3 && $is_vip==1 && $user->engroup==2 && $isFreeVip){
             Vip::cancel($user->id, 1);
             return back()->with('message', '照片過少取消免費VIP!');
         }else{
@@ -40,6 +40,30 @@ class ImageController extends Controller
         else{
             return back()->with('message', '成功刪除照片');
         }
+    }
+
+    public function deletePic(Request $request)
+    {
+        if(!empty($request->userId)){
+            $u = UserMeta::select('id', 'pic')->where('user_id', $request->userId)->get()->first();
+            $u->pic = null;
+            $u->save();
+
+            //刪除大頭照檢查一下 女生免費VIP的話取消免費VIP
+            $user = $request->user();
+            $is_vip = $user->isVip();
+            $isFreeVip = $user->isFreeVip();
+            if($is_vip == 1 && $user->engroup == 2 && $isFreeVip){
+                Vip::cancel($user->id, 1);
+                return back()->with('message', '無大頭貼取消免費VIP!');
+            }else{
+                return back()->with('message', '成功刪除照片');
+            }
+            return back()->with('message', '成功刪除大頭照');
+        }else{
+            return back()->withErrors(['出現預期外的錯誤']);
+        }
+        
     }
 
     /**
@@ -85,7 +109,7 @@ class ImageController extends Controller
         $umeta = User::id_($userId)->meta_();
         $umeta->pic = $destinationPath;
         $umeta->save();
-
+        return back()->with('message', '照片上傳成功');
         if(!$admin){
             return redirect()->to('/dashboard?img')
                    ->with('success','照片上傳成功')

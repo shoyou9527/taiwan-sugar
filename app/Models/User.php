@@ -210,7 +210,7 @@ class User extends Authenticatable
     public function existHeaderImage() {
         $pics = MemberPic::where('member_id', $this->id)->count();
         //echo $pics;
-        return isset($this->meta_()->pic) && ($pics >= 4);
+        return isset($this->meta_()->pic) && ($pics >= 3);//免費VIP生活照三張以上
     }
 
     public function isActive() {
