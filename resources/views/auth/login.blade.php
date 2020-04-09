@@ -10,14 +10,7 @@
         margin-bottom: 0px;
     }
 </style>
-    <header class="header clearfix weui-pl32 weui-pr30 weui-pt20">
-        <a href="{!! url('') !!}" class="weui-fl weui-ml30 logo weui-ml5"><img src="/images/homeicon.png"></a>
-        <ul class="weui-fl navtop weui-ml30">
-            <li class="weui-fl"><a href="/contact" class="weui-white">關於我們</a></li>
-        </ul>
-        <a href="{!! url('login') !!}" class="weui-fr weui-white weui-mr30 weui-pt15 ">登入</a>
-        <a href="{!! url('register') !!}" class="weui-fr weui-white weui-mr30 weui-pt15">註冊</a>
-    </header>
+    @include('partials.nav_login_register')
     @include('partials.errors')
     @include('partials.status')
     <div class="loginbg newheight01">

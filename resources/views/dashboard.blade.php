@@ -35,7 +35,7 @@
                             <input required type="file" id="image" class="custom-file-input" value="瀏覽" name="image">
                         </div>
                         <div class="col-sm-2 col-xs-6 col-md-2"></div>
-                        <div class="col-sm-3 col-xs-12 col-md-3">
+                        <div class="col-sm-3 col-xs-12 col-md-3 grtwo">
                             <input type="submit" value="上傳" class="group_but">
                         </div>
                     </form>
@@ -44,9 +44,8 @@
                         <li class="col-sm-4 col-xs-6" style="padding-top: 10px;">
                             <img src="{{$umeta->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
                             class="dashboard_square">
-                            <form method="POST" action="/dashboard/picdel">
+                            <form method="POST" action="{{ url("/dashboard/picdel") }}">
                                 {!! csrf_field() !!}
-                                <input type="hidden" name="userId" value="{{ $user->id }}">
                                 <button type="submit" class="delbutton">刪除</button>
                             </form>
                         </li>
@@ -60,14 +59,13 @@
                             {!! csrf_field() !!}
                             <input type="hidden" name="userId" value="{{ $user->id }}">
                             <div class="input_field_weap input-group">
-                                <input type="file" id="images" class="custom-file-input" name="images[]">
+                                <input required type="file" id="images" class="custom-file-input" name="images[]">
+                                <a href="javascript::voide(0)" onclick="resetfile()">&nbsp;取消</a>
                             </div>
                         </div>
                         <div class="col-sm-2 col-xs-6 col-md-2"><a href="javascript::voide(0)" type="button" id="add_image" class="gradd" name="button">+添加</a></div>
                         <div class="col-sm-3 col-xs-12 col-md-3 grtwo">
                             <input type="submit" value="上傳" class="group_but">
-                            &nbsp;&nbsp;
-                            <!--<button type="reset" class="btn btn-cs" disabled>取消</button>-->
                         </div>
                     </form>
                     {{-- 迴圈生活照 --}}
@@ -77,7 +75,7 @@
                                 <li class="col-xs-6 col-sm-4  col-md-3 col-lg-2">
                                     <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
                                         onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="dashboard_square">
-                                    <form method="POST" action="/dashboard/imagedel">
+                                    <form method="POST" action="{{ url("/dashboard/imagedel") }}">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
                                         <input type="hidden" name="imgId" value="{{$member_pic->id}}">
@@ -102,7 +100,7 @@
                         <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>預算</span>
                             <font>
                                 <select name="budget" class="form_co">
-                                    <option value="0">請選擇</option>
+                                    <option value="">請選擇</option>
                                     <option value="基礎" {{ ($umeta->budget == '基礎')?"selected":""  }}>基礎</option>
                                     <option value="進階" @if($umeta->budget == '進階') selected @endif>進階</option>
                                     <option value="高級" @if($umeta->budget == '高級') selected @endif>高級</option>
@@ -142,10 +140,10 @@
                     </div>
                     <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>生日</span>
                         <font>
-                            <input type="text" class="form-control" id="m_datepicker_1" data-date-format="yyyy-mm-dd" name="birthdate" readonly placeholder="請選擇" value="{{ $umeta->birthdate }}">
+                            <input type="text" class="form-control" style="background-color: white;" id="m_datepicker_1" data-date-format="yyyy-mm-dd" name="birthdate" readonly placeholder="請選擇" value="{{ $umeta->birthdate }}">
                         </font>
                     </div>
-                    <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>體型</span>
+                    <div class="grrow"> <span>體型</span>
                         <font>
                             <select name="body" class="form_co">
                                 <option value="0">請選擇</option>
@@ -159,22 +157,31 @@
                     @if($user->engroup==2)
                         <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>CUP</span>
                             <font>
-                                <input name="title" type="text" class="form_co" maxlength="20" value="{{ $umeta->cup }}">
+                                <select name="cup" class="form_co">
+                                    <option value="">請選擇</option>
+                                    <option value="A" @if($umeta->cup == 'A') selected @endif>A</option>
+                                    <option value="B" @if($umeta->cup == 'B') selected @endif>B</option>
+                                    <option value="C" @if($umeta->cup == 'C') selected @endif>C</option>
+                                    <option value="D" @if($umeta->cup == 'D') selected @endif>D</option>
+                                    <option value="E" @if($umeta->cup == 'E') selected @endif>E</option>
+                                    <option value="F" @if($umeta->cup == 'F') selected @endif>F</option>
+                                </select>
                                 <div class="twzip fromright">
-                                    <input type="hidden" name="isHideArea" value="0">
-                                    <input type="checkbox" name="isHideArea" @if($umeta->isHideCup == true) checked @endif value="1">
+                                    <input type="hidden" name="isHideCup" value="0">
+                                    <input type="checkbox" name="isHideCup" @if($umeta->isHideCup == true) checked @endif value="1">
                                     隱藏
                                 </div>
                             </font>
                         </div>
                         <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>現況</span>
                             <font>
-                                <select name="education" class="form_co">
-                                    <option value="0">請選擇</option>
-                                    <option value="老师" @if($umeta->situation == '老师') selected @endif>老师</option>
-                                    <option value="高中" @if($umeta->situation == '高中') selected @endif>高中</option>
+                                <select name="occupation" class="form_co">
+                                    <option value="">請選擇</option>
+                                    <option value="學生" @if($umeta->situation == '學生') selected @endif>學生</option>
+                                    <option value="待業" @if($umeta->situation == '待業') selected @endif>待業</option>
+                                    <option value="休學" @if($umeta->situation == '休學') selected @endif>休學</option>
                                     <option value="打工" @if($umeta->situation == '打工') selected @endif>打工</option>
-                                    <option value="研究所" @if($umeta->situation == '研究所') selected @endif>研究所</option>
+                                    <option value="上班族" @if($umeta->situation == '上班族') selected @endif>上班族</option>
                                 </select>
                             </font>
                         </div>
@@ -182,38 +189,42 @@
                     <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>婚姻</span>
                         <font>
                             <select name="marriage" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="已婚">已婚</option>
-                                <option value="分居">分居</option>
-                                <option value="單身" selected>單身</option>
-                                <option value="有女友">有女友</option>
+                                <option value="">請選擇</option>
+                                <option value="已婚" @if($umeta->marriage == '已婚') selected @endif>已婚</option>
+                                <option value="分居" @if($umeta->marriage == '分居') selected @endif>分居</option>
+                                <option value="單身" @if($umeta->marriage == '單身') selected @endif>單身</option>
+                                @if($user->engroup==2)
+                                    <option value="有男友" @if($umeta->marriage == '有男友') selected @endif>有男友</option>
+                                @else
+                                    <option value="有女友" @if($umeta->marriage == '有女友') selected @endif>有女友</option>
+                                @endif
                             </select>
                         </font>
                     </div>
                     <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>抽菸</span>
                         <font>
                             <select name="smoking" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="不抽" selected>不抽</option>
-                                <option value="偶爾抽">偶爾抽</option>
-                                <option value="常抽">常抽</option>
+                                <option value="">請選擇</option>
+                                <option value="不抽" @if($umeta->smoking == '不抽') selected @endif>不抽</option>
+                                <option value="偶爾抽" @if($umeta->smoking == '偶爾抽') selected @endif>偶爾抽</option>
+                                <option value="常抽" @if($umeta->smoking == '常抽') selected @endif>常抽</option>
                             </select>
                         </font>
                     </div>
                     <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>喝酒</span>
                         <font>
                             <select name="drinking" class="form_co">
-                                <option value="0">請選擇</option>
-                                <option value="不喝" selected>不喝</option>
-                                <option value="偶爾喝">偶爾喝</option>
-                                <option value="常喝">常喝</option>
+                                <option value="">請選擇</option>
+                                <option value="不喝" @if($umeta->drinking == '不喝') selected @endif>不喝</option>
+                                <option value="偶爾喝" @if($umeta->drinking == '偶爾喝') selected @endif>偶爾喝</option>
+                                <option value="常喝" @if($umeta->drinking == '常喝') selected @endif>常喝</option>
                             </select>
                         </font>
                     </div>
                     <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>教育</span>
                         <font>
                             <select name="education" class="form_co">
-                                <option value="0">請選擇</option>
+                                <option value="">請選擇</option>
                                 <option value="國中" @if($umeta->education == '國中') selected @endif>國中</option>
                                 <option value="高中" @if($umeta->education == '高中') selected @endif>高中</option>
                                 <option value="大學" @if($umeta->education == '大學') selected @endif>大學</option>
@@ -244,6 +255,11 @@
 @section ('javascript')
     <script src="/js/cropper.min.js"></script>
     <script>
+
+    function resetfile(){
+        $("#images").val('');
+    }
+
     var domainJson = ({
         '請選擇': ['請選擇'],
         '資訊科技': ['軟體網路', '電信通訊', '光電光學', '半導體業', '電腦週邊', '電子相關'],

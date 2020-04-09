@@ -48,7 +48,7 @@
                                 >{{ $message['content'] }}</p>
                                 <div class="m-widget3__sj">
                                     <p>{{ $t['0'] }}</p>
-                                    <span>{{ $t['1'] }}</span>
+                                    <span class="jmstime">{{ $t['1'] }}</span>
                                 </div>
                                 <form method="post" action="{!! route('deleteBetween', ['uid' => $user->id, 'sid' => $msgUser->id]) !!}">
                                     {!! csrf_field() !!}

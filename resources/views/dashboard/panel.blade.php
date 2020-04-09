@@ -40,7 +40,7 @@
                 <span>取消VIP</span>
             </a>
         @else
-            <a href="{!! url('/dashboard/upgrade') !!}" class="cancel">
+            <a href="{!! url('/dashboard/upgrade') !!}" class="upgrade">
                 <span>升級VIP</span>
             </a>
         @endif

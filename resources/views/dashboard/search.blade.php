@@ -179,7 +179,7 @@
                                                 @if ($loop->first)
                                                     {{$umeta->city[$key]}} {{$umeta->area[$key]}}
                                                 @else
-                                                    {{$umeta->city[$key]}} {{$umeta->area[$key]}}
+                                                    , {{$umeta->city[$key]}} {{$umeta->area[$key]}}
                                                 @endif
                                             @endforeach
                                         @endif
@@ -194,10 +194,10 @@
                                         </h4>
                                         <h4>
                                             <span>體型：</span>
-                                            @if(isset($visitor->meta_()->body))
+                                            @if(isset($visitor->meta_()->body) AND $visitor->meta_()->body != '0' AND $visitor->meta_()->body != 'null')
                                                 {{$visitor->meta_()->body}}
                                             @else
-                                                保密
+                                                不公開
                                             @endif
                                         </h4>
                                         <h4>
@@ -236,7 +236,9 @@
                                 </div>
                             </li>
                         @empty
-                            沒有資料!!
+                            <li class="col-sm-6 col-xs-12 col-md-6" style="text-align:center;">
+                                沒有資料!!
+                            </li>
                         @endforelse
                     </ul>
                     <nav aria-label="Page navigation" class="se_page0 newpage">
@@ -289,7 +291,9 @@
             'districtSel' : "{{ $_GET['district'] or '' }}",
             'css': ['form-control twzip', 'form-control twzip', 'zipcode'],
             onCountySelect: function() {
-                $("select[name='district']").prepend('<option selected value="">全市</option>');
+                if($("select[name='county']").val()!=0){
+                	$("select[name='district']").prepend('<option selected value="">全市</option>');
+                }
             }
         });
     });

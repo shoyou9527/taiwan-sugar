@@ -151,7 +151,7 @@
                                                 <input type="hidden" name="userId" value="{{$user->id}}">
                                                 <input type="hidden" name="to" value="{{$to->id}}}">
                                                 <button type="submit" style="background: none; border: none; padding: 0">
-                                                <img src="/images/new_05.png" class="popicon"><span>解除封鎖</span>
+                                                <img src="/images/new_05_1.png" class="popicon"><span>解除封鎖</span>
                                                 </button>
                                             </form></li>
                                         @else

@@ -16,7 +16,7 @@
                         @php $blockedUser = \App\Models\User::findById($block->blocked_id) @endphp
                         <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20">
                             <div class="yicw">
-                                <img src="{{ $blockedUser->meta_()->pic }}"
+                                <img src="{{ $blockedUser->meta_()->pic }}" class="fav_block_square" 
                                     @if ($blockedUser->engroup == 1)
                                         onerror="this.src='/img/male-avatar.png'" 
                                     @else

@@ -5,7 +5,7 @@
         <div class="container lh24 newheight">
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
-                    <div class="p100">
+                    <div class="kajbt">
                         <div class=" weui-bgf weui-box_s weui-p20">
                             <h3 class="weui-f18 title weui-pl10">站長開講 </h3>
                             <h2 class="weui-f28 weui-t_c weui-pb25 weui-pt20">新手大叔的注意事項</h2>

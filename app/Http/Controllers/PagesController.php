@@ -1752,7 +1752,9 @@ class PagesController extends Controller
             $log = new \App\Models\LogCancelVip();
             $log->user_id = $user->id;
             $log->save();
-            if(Auth::attempt(array('email' => $payload['email'], 'password' => $payload['password']))){
+            //修正取消VIP的判斷自身帳密
+            // if(Auth::attempt(array('email' => $payload['email'], 'password' => $payload['password']))){
+            if($payload['email']==Auth::user()->email AND Hash::check($payload['password'], Auth::user()->password)){
                 $vip = Vip::findById($user->id);
                 $this->logService->cancelLog($vip);
                 $this->logService->writeLogToDB();
@@ -1784,7 +1786,7 @@ class PagesController extends Controller
                 $log = new \App\Models\LogCancelVipFailed();
                 $log->user_id = $user->id;
                 $log->save();
-                return back()->with('message', '帳號密碼輸入錯誤');
+                return back()->withErrors(['帳號密碼輸入錯誤']);
             }
         }
         else{

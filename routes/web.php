@@ -314,12 +314,12 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
     Route::post('/dashboard/chatpay', 'PagesController@postChatpay')->name('chatpay');
     Route::post('/dashboard/chatpayLog', 'PagesController@postChatpayLog')->name('chatpayLog');
     Route::post('/dashboard/chatpaycomment', 'PagesController@postChatpayComment')->name('chatpaycomment');
-    Route::post('/dashboard/header/{admin?}', 'ImageController@resizeImagePostHeader');
-    Route::post('/dashboard/header2/{admin?}', 'ImageController@resizeImagePostHeader2');
+    Route::post('/dashboard/header', 'ImageController@resizeImagePostHeader');
+    Route::post('/dashboard/header2', 'ImageController@resizeImagePostHeader2');
     Route::post('/fileuploader_image_upload', 'ImageController@fileuploader_image_upload')->name('fileuploader_image_upload');
-    Route::post('/dashboard/image/{admin?}', 'ImageController@resizeImagePost');
-    Route::post('/dashboard/imagedel/{admin?}', 'ImageController@deleteImage');
-    Route::post('/dashboard/picdel/{admin?}', 'ImageController@deletePic');
+    Route::post('/dashboard/image', 'ImageController@resizeImagePost');
+    Route::post('/dashboard/imagedel', 'ImageController@deleteImage');
+    Route::post('/dashboard/picdel', 'ImageController@deletePic');
     Route::post('/dashboard/block', 'PagesController@postBlock');
     Route::post('/dashboard/blockAJAX', 'PagesController@postBlockAJAX')->name('postBlockAJAX');//new route
     Route::post('/dashboard/unblock', 'PagesController@unblock');

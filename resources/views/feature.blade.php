@@ -5,7 +5,7 @@
         <div class="container lh24 newheight">
 			<div class="row">
 				<div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
-					<div class="p100">
+					<div class="kajbt">
 						<div class=" weui-bgf weui-box_s weui-p20">
 							<h3 class="weui-f18 title weui-pl10">網站使用 </h3>
 							<p class="weui-mt20">網站的建設方向是要更有效的過濾出真心包養的Daddy，篩選掉無聊的網蟲。 各位大叔可能不知道，一個女會員註冊，會收到數十封的邀約信。 漂亮一點的信件數量更是驚人。所以本站的規畫就是盡量凸顯真心包養大叔的經濟優勢。 目前有更進一步的功能規劃中，如果各位有什麼意見歡迎跟站長聯絡提出。<a href="{!! url('contact') !!}" class="weui-blue">(聯絡我們)</a></p>

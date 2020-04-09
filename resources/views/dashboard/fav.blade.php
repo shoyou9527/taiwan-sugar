@@ -16,7 +16,7 @@
                     @php $favUser = \App\Models\User::findById($memberfav->member_fav_id) @endphp
                     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20">
                         <div class="yicw">
-                            <img src="{{ $favUser->meta_()->pic }}" onerror="this.src=@if($favUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="hypic">
+                            <img src="{{ $favUser->meta_()->pic }}" onerror="this.src=@if($favUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="fav_block_square">
                             <div class="yichu" style="cursor: pointer;@if(!empty($_GET["r"])&&$_GET["r"]=="1") display:block; @else display:none; @endif" data-uid="{{$user->id}}" data-to="{{$favUser->id}}">移除</div>
                             <a href="/dashboard/viewuser/{{$favUser->id}}" class="weui-db">
                                 <p class="weui-pt15" style="white-space:nowrap;">{{$favUser->name}} @if($favUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </p>

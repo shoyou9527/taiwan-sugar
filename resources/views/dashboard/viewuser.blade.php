@@ -128,7 +128,7 @@
                                         <input type="hidden" name="userId" value="{{$user->id}}">
                                         <input type="hidden" name="to" value="{{$to->id}}}">
                                         <button type="submit" style="background: none; border: none; padding: 0">
-                                            <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05.png) center no-repeat;background-size: 100% 100%;"></div> 解除封鎖
+                                            <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05_1.png) center no-repeat;background-size: 100% 100%;"></div> 解除封鎖
                                         </button>
                                     </form>
                                 </div>
@@ -168,15 +168,28 @@
                     </div>
                     <ul class="pe_data">
                         <li class="nic"><span>暱稱</span>{{$to->name}}</li>
-                        <li class="nic"><span>地區</span>新北市,新店區</li>
+                        <li class="nic">
+                            <span>地區</span>
+                            @if($tometa->isHideArea == '0')
+                                @if(isset($tometa->city))
+                                    @if(is_array($tometa->city))
+                                        @foreach($tometa->city as $key => $cityval)
+                                            {{$tometa->city[$key]}},{{$tometa->area[$key]}}
+                                        @endforeach
+                                    @endif
+                                @endif
+                            @else
+                                保密
+                            @endif
+                        </li>
                         <li><span>年齡</span>{{$tometa->age()}}</li>
                         <li><span>生日</span>{{$tometa->birthdate}}</li>
                         <li><span>身高</span>{{$tometa->height}}(CM)</li>
-                        <li><span>體型</span>{{$tometa->body}}</li>
+                        <li><span>體型</span>@if(isset($tometa->body) AND $tometa->body != '0' AND $tometa->body != 'null') {{ $tometa->body }} @else 不公開 @endif</li>
                         @if(!empty($tometa->weight))<li><span>體重</span>{{$tometa->weight}}(KG)</li>@endif
-                        <li><span>預算</span>{{$tometa->budget}}</li>
-                        <li><span>教育</span>{{$tometa->education}}</li>
-                        <li><span>現狀</span>{{$tometa->occupation}}</li>
+                        <li><span>預算</span>@if(isset($tometa->budget) AND $tometa->budget != '0' AND $tometa->budget != 'null') {{ $tometa->budget }} @else 不公開 @endif</li>
+                        <li><span>教育</span>@if(isset($tometa->education) AND $tometa->education != '0' AND $tometa->education != 'null') {{ $tometa->education }} @else 不公開 @endif</li>
+                        <li><span>現狀</span>@if(isset($tometa->occupation) AND $tometa->occupation != '0' AND $tometa->occupation != 'null') {{ $tometa->occupation }} @else 不公開 @endif</li>
                         @if(!empty($tometa->marriage))<li><span>婚姻</span>{{$tometa->marriage}}</li>@endif
                         @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
                     </ul>

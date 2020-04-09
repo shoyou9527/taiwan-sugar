@@ -24,17 +24,7 @@
     }
 </style>
 <body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
-    <header class="header headerbg weui-pb10 weui-pt10 tophear">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid ">
-                <div class="navbar-header topr">
-                    <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('') !!}"><img src="/images/homeicon.png"></a>
-                    <a href="{!! url('login') !!}" class="weui-fr weui-white weui-mr30 weui-pt15 toprig">登入</a>
-                    <a href="{!! url('register') !!}" class="weui-fr weui-white weui-mr30 weui-pt15">註冊</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    @include('partials.nav_login_register')
     @include('partials.errors')
     @include('partials.status')
     <div class="newheight">
@@ -103,7 +93,7 @@
                         <div class="weui-flex" style="padding:10px 10px 10px 0px;">
                             <div class="weui-pl10"><input type="checkbox" name="agree" id="zhengce" required>
                         <label for="zhengce" style="margin-bottom:0px;font-weight:100">
-                            <span>我同意台灣甜心的使用條款和隱私政策</span>
+                            <span>同意使用條款和隱私政策</span>
                         </label></div>
                         </div>
                     </div>

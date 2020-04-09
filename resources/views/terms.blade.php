@@ -6,7 +6,7 @@
             <div class="container lh24">
                 <div class="row">
                     <div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
-                        <div class="p100">
+                        <div class="kajbt">
                             <div class=" weui-bgf weui-box_s weui-p20">
                                 <h3 class="weui-f18 title weui-pl10">使用條款/隱私政策 </h3>
                                 <h4 class="weui-f_b weui-pt15 text-center">Taiwan-Sugar Terms of Use Agreement</h4>

@@ -12,13 +12,17 @@
             .toplink{ display: block}
         </style>
     @else
-        <header class="header a1 clearfix weui-pl32 weui-pr30 weui-pt20">
-            <a href="/" class="weui-fl weui-ml30 logo"><img src="/images/homeicon.png"></a>
-            <ul class="weui-fl navtop weui-ml30">
-                <li class="weui-fl"><a href="/contact" class="weui-white">關於我們</a></li>
-            </ul>
-            <a href="/login" class="weui-fr weui-white weui-pt10">登入</a>
-            <a href="/register" class="weui-fr weui-white weui-mr30 weui-pt10">註冊</a>
+        <header class="header  weui-pb10 weui-pt10 tophear">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header topr">
+                        <a href="{!! url('/') !!}" class="weui-fl weui-pl10 weui-pt5"><img src="images/homeicon.png"></a>
+                        <a href="{!! url('contact') !!}" class="weui-white weui-fl navtop weui-ml30 weui-mr30 weui-pt15">關於我們</a>
+                        <a href="{!! url('login') !!}" class="weui-fr weui-white weui-mr30 weui-pt15 toprig top_zc">登入</a>
+                        <a href="{!! url('register') !!}" class="weui-fr weui-white weui-mr15 weui-pt15">註冊</a>
+                    </div>
+                </div>
+            </nav>
         </header>
     @endif
     <div class="container weui-white">
@@ -164,7 +168,7 @@
                 </script>
                 <div class="col-md-6 weui-pt30">
                     <h3 class="weui-f18">如果我是</h3>
-                    <h3 class=" weui-pl30 weui-ml30" style="font-size:50px; font-family:'Times New Roman', Times, serif">Sugar Baby?</h3>
+                    <h3 class=" weui-pl30 weui-ml30" style="font-size:44px; font-family:'Times New Roman', Times, serif; text-align:center">Sugar Baby?</h3>
                     <p class="weui-pt30 weui-lh30 weui-f16" style="color:#898e8a">
                         妳可能是個學生, 也可能是個上班族, 或許是某個經紀公司的模特兒. 妳期待著被有經濟能力的人來照顧,現在註冊包養/包養網,馬上尋找那位妳的貴人。
                     </p>

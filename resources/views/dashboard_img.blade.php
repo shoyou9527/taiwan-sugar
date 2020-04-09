@@ -24,7 +24,7 @@
                         <li class="col-sm-4 col-xs-6" style="padding-top: 10px;">
                             <img src="{{$user->meta_()->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
                             class="dashboard_square">
-                            <form method="POST" action="/dashboard/picdel">
+                            <form method="POST" action="{{ url("/dashboard/picdel") }}">
                                 {!! csrf_field() !!}
                                 <input type="hidden" name="userId" value="{{ $user->id }}">
                                 <button type="submit" class="delbutton">刪除</button>
@@ -40,7 +40,7 @@
                             {!! csrf_field() !!}
                             <input type="hidden" name="userId" value="{{ $user->id }}">
                             <div class="input_field_weap input-group">
-                                <input type="file" id="images" class="custom-file-input" name="images[]">
+                                <input required type="file" id="images" class="custom-file-input" name="images[]">
                             </div>
                         </div>
                         <div class="col-sm-2 col-xs-6 col-md-2"><a href="javascript::voide(0)" type="button" id="add_image" class="gradd" name="button">+添加</a></div>
@@ -57,10 +57,10 @@
                                 <li class="col-xs-6 col-sm-4  col-md-3 col-lg-2">
                                     <img src="@if($user->meta_()->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
                                         onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="dashboard_square">
-                                    <form method="POST" action="/dashboard/imagedel">
+                                    <form method="POST" action="{{ url("/dashboard/imagedel") }}">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{ $user->id }}">
-                                        <input type="hidden" name="imgId" value="{{$member_pic->id}}">
+                                        <input type="hidden" name="imgId" value="{{ $member_pic->id }}">
                                         <button type="submit" class="delbutton">刪除</button>
                                     </form>
                                 </li>

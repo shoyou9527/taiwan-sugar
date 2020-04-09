@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImageRequest;
 use App\Http\Requests\MultipleImageRequest;
@@ -29,40 +30,29 @@ class ImageController extends Controller
         $pic_count = MemberPic::getPicNums( $user->id );
         if(($pic_count)<3 && $is_vip==1 && $user->engroup==2 && $isFreeVip){
             Vip::cancel($user->id, 1);
-            return back()->with('message', '照片過少取消免費VIP!');
+            return back()->with('message', '照片少於三張取消免費VIP!');
         }else{
-            return back()->with('message', '成功刪除照片');
-        }
-
-        if(!$admin){
-            return redirect("/dashboard?img");
-        }
-        else{
             return back()->with('message', '成功刪除照片');
         }
     }
 
     public function deletePic(Request $request)
     {
-        if(!empty($request->userId)){
-            $u = UserMeta::select('id', 'pic')->where('user_id', $request->userId)->get()->first();
-            $u->pic = null;
-            $u->save();
+        $u = UserMeta::select('id', 'pic')->where('user_id', Auth::id())->get()->first();
+        $u->pic = null;
+        $u->save();
 
-            //刪除大頭照檢查一下 女生免費VIP的話取消免費VIP
-            $user = $request->user();
-            $is_vip = $user->isVip();
-            $isFreeVip = $user->isFreeVip();
-            if($is_vip == 1 && $user->engroup == 2 && $isFreeVip){
-                Vip::cancel($user->id, 1);
-                return back()->with('message', '無大頭貼取消免費VIP!');
-            }else{
-                return back()->with('message', '成功刪除照片');
-            }
-            return back()->with('message', '成功刪除大頭照');
+        //刪除大頭照檢查一下 女生免費VIP的話取消免費VIP
+        $user = $request->user();
+        $is_vip = $user->isVip();
+        $isFreeVip = $user->isFreeVip();
+        if($is_vip == 1 && $user->engroup == 2 && $isFreeVip){
+            Vip::cancel($user->id, 1);
+            return back()->with('message', '無大頭貼取消免費VIP!');
         }else{
-            return back()->withErrors(['出現預期外的錯誤']);
+            return back()->with('message', '成功刪除照片');
         }
+        return back()->with('message', '成功刪除大頭照');
         
     }
 
@@ -110,17 +100,6 @@ class ImageController extends Controller
         $umeta->pic = $destinationPath;
         $umeta->save();
         return back()->with('message', '照片上傳成功');
-        if(!$admin){
-            return redirect()->to('/dashboard?img')
-                   ->with('success','照片上傳成功')
-                   ->with('imageName',$input['imagename']);
-        }
-        else if($admin){
-            return back()->with('message', '照片上傳成功');
-        }
-        else{
-            return back()->withErrors(['出現預期外的錯誤']);
-        }
     }
 
     public function resizeImagePostHeader2(Request $request, $admin = false)
@@ -221,16 +200,6 @@ class ImageController extends Controller
                 $memberPic->save();
             }
             return back()->with('message', '照片上傳成功');
-        }
-        if(!$admin){
-            return redirect()->to('/dashboard?img')
-                   ->with('success','照片上傳成功');
-        }
-        else if($admin){
-            return back()->with('message', '照片上傳成功');
-        }
-        else{
-            return back()->withErrors(['出現預期外的錯誤']);
         }
     }
 
