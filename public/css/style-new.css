@@ -376,6 +376,21 @@ input {
 .bgimg {
 	background:url(../images/3.png) center top no-repeat;
 }
+
+@media (max-width:1024px){
+.bgimg {background:url(../images/pad3.png) center top no-repeat;background-size:120%;}
+}
+@media (max-width:992px){
+.bgimg {background:url(../images/pad3.png) center top no-repeat;background-size:100%;}
+}
+
+@media (max-width:720px){
+.bgimg {background:url(../images/sj3.png) center top no-repeat; background-size:100%}
+}
+@media (max-width:320px){
+.bgimg {background:url(../images/sj5.png) center top no-repeat; background-size:100%}
+}
+
 .navtop a {
 	padding:10px 30px;
 	display:block;
@@ -410,7 +425,7 @@ input {
 
 .footer {
 	background:url(../images/5.png) center no-repeat;
-	height:449px; display:table;width:100%
+	height:220px; display:table;width:100%
 }
 .footer h3 {
 	margin:0;
@@ -418,7 +433,7 @@ input {
 
 
 .footer .row {
-	padding:100px 0;
+	padding:25px 0;
 }
 .start {
 	background:#f8f8f8;
@@ -819,6 +834,9 @@ input {
 	box-shadow:0 0 10px #ccc;
 	margin:0 auto;
 }
+@media (min-width:320px){
+.circle01{width:130px;height:130px;padding:16px 15px 0 ;}
+}
 .circle02 {
 	background:url(../images/sjzc02_13.png) center no-repeat;
 	background-size:100% 100%;
@@ -1126,6 +1144,9 @@ input {
 	.contleft a{ color:#ffffff}
 	.contleft font{ line-height:50px; font-size:12px;}
 
+@media (max-width:992px){
+.logo {margin-left:20px;}
+}
 
 @media (max-width:767px){
     .phtext{ text-align:center; margin-top:0px;}
@@ -1343,10 +1364,13 @@ display:none !important
     margin-top: 0px;
 }
 .header {
-	padding:0;
+	/*padding:0;*/
 }
 .header.a1 {
 	padding:20px;
+}
+.header.a_2 {
+	padding:20px 15px;
 }
 .setext {
     width: 300px;
@@ -1530,7 +1554,13 @@ display:block;
 
 .sz_vip .cxbutton02{ width:200px;}
 .m-form--fit img { width:180px}
-.liuyan{ min-height:725px !important}
+.liuyan{ min-height:750px}
+@media (max-width: 1024px){
+.liuyan {min-height:1070px;}
+}
+@media (max-width:720px){
+.liuyan {min-height:500px;}
+}
 .liuyana1{min-height:260px !important}
 .zhand li{ font-size:12px !important;}
 .sex{right:0 ; top:50px;}
@@ -1561,6 +1591,8 @@ display:block;
 .rester_top.a1{background:#C0C0C0 !important;}
 .m-widget3__sj p{ margin-bottom:0;display:inline-block; }
 .m-widget3__sj span{ display:block; margin-left:7px;}
+
+.jmstime{ margin-left:0px !important}
 .weui-v_t{ display:inline-block;}
 .m-widget3__text{ height:40px; overflow:hidden; width:160px;}
 

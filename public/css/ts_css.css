@@ -86,20 +86,25 @@ h3,h2 {
 @media (max-width: 575px) {
     .history_square {width: 30vw; height: 30vw;}
     .dashboard_square {width: 40vw; height: 40vw;}
+    .fav_block_square {width: 35vw; height: 35vw;}
 }
 @media (min-width: 576px) and (max-width: 767px){
     .history_square {width: 20vw; height: 20vw;}
     .dashboard_square {width: 30vw;  height: 30vw;}
+    .fav_block_square {width: 25vw; height: 25vw;}
 }
 @media (min-width: 768px) and (max-width: 991px){
     .history_square {width: 15vw; height: 15vw;}
     .dashboard_square {width: 20vw; height: 20vw;}
+    .fav_block_square {width: 17vw; height: 17vw;}
 }
 @media (min-width: 992px) and (max-width: 1199px){
     .history_square {width: 12vw; height: 12vw;}
     .dashboard_square {width: 15vw; height: 15vw;}
+    .fav_block_square {width: 13vw; height: 13vw;}
 }
 @media (min-width: 1200px) {
     .history_square {width: 8vw; height: 8vw;}
     .dashboard_square {width: 10vw; height: 10vw;}
+    .fav_block_square {width: 9vw; height: 9vw;}
 }

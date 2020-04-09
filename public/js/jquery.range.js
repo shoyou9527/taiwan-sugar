@@ -39,8 +39,8 @@
 		template: '<div class="slider-container">\
 			<div class="back-bar">\
                 <div class="selected-bar"></div>\
-                <div class="pointer low"></div><div class="pointer-label">123456</div>\
-                <div class="pointer high"></div><div class="pointer-label">456789</div>\
+                <div class="pointer low"></div><div class="pointer-label low">123456</div>\
+                <div class="pointer high"></div><div class="pointer-label high" style="right: 0px;">456789</div>\
                 <div class="clickable-dummy"></div>\
             </div>\
             <div class="scale"></div>\
