@@ -12,6 +12,7 @@
             </div>
             <div class="navbar-collapse weui-fr collapse" id="example-navbar-collapse" style="">
                 <div class="weui-fr  weui-white coleft toplink">
+                    @if($user->meta_()->is_active==1)
                     <div class="conterleft">
                         <a href="{!! url('dashboard') !!}"><i><img src="/images/ic_01.png"></i><span>個人資料</span></a>
                     </div>
@@ -24,6 +25,7 @@
                     <div class="conterleft">
                         <a onclick="cl()"><i><img src="/images/ic_04.png"></i><span>VIP</span></a>
                     </div>
+                    @endif
                     <div class="conterleft">
                         <a href="{!! url('logout') !!}"><i><img src="/images/ic_05.png"></i><span>登出</span></a>
                     </div>

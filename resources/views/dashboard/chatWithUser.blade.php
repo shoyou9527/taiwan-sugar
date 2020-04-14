@@ -40,7 +40,7 @@
         color: #999;
         position: absolute;
         right: -35px;
-        bottom: 0px;
+        bottom: -4px;
         margin-bottom: 0;
     }
 
@@ -164,7 +164,14 @@
                                                 </button>
                                             </form></li>
                                          @endif
-                                        <li><a href="{{ url()->previous() }}"><img src="/images/new_07.png" class="popicon"><span>返回</span></a></li>
+                                        <li>
+                                            <a href="{{ url()->previous() }}">
+                                                <button type="submit" style="background: none; border: none; padding: 0">
+                                                    <img src="/images/new_07.png" class="popicon">
+                                                    <span>返回</span>
+                                                </button>
+                                            </a>
+                                        </li>
                                     </div>
                                 </div>
                             </div>
@@ -199,10 +206,16 @@
                                                         <img src="{{$msgUser->meta_()->pic}}" height="40" width="40" onerror="this.src=@if ($msgUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                                     @endif
                                                 </div>
-
-@if($message['read'] == "Y" && $message['from_id'] == $user->id) 已讀 @elseif($message['read'] == "N" && $message['from_id'] == $user->id) 未讀 @endif
                                                 <div class="textInfo">
-                                                <p>{!! nl2br($message['content']) !!}<label>{{ substr($message['created_at'],11,5) }}</label></p>
+                                                <p>
+                                                    {!! nl2br($message['content']) !!}
+                                                    <label>{{ substr($message['created_at'],11,5) }}</label>
+                                                    @if($message['read'] == "Y" && $message['from_id'] == $user->id)
+                                                        <label style="bottom: 12px;color:black;">已讀</label>
+                                                    @elseif($message['read'] == "N" && $message['from_id'] == $user->id)
+                                                        <label style="bottom: 12px;color:black;">未讀</label>
+                                                    @endif
+                                                </p>
                                                 <i class="arrow_icon"></i>
                                                 </div>
                                             </li>

@@ -38,14 +38,7 @@
                                         <span class="m-widget3__username">{{$msgUser->name}}</span>
                                     </a>
                                 </div>
-                                <p class="word_text" style="
-                                word-wrap:break-word;
-                                word-break:break-all;
-                                padding-left:10px;
-                                display: -webkit-box;
-                                -webkit-box-orient: vertical;
-                                -webkit-line-clamp: 2;"
-                                >{{ $message['content'] }}</p>
+                                <p class="word_text">{{ $message['content'] }}</p>
                                 <div class="m-widget3__sj">
                                     <p>{{ $t['0'] }}</p>
                                     <span class="jmstime">{{ $t['1'] }}</span>

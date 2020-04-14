@@ -25,10 +25,28 @@
                 @endphp
                 <div><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
                 <ul style="color:#575757;">
-                    <li class="weui-pt30"><img src="/images/3_14.png" class="n_huiyuan"> <span class="weui-v_m weui-dnb weui-pl5"><span class="weui-f24 weui-f_b">{{$be_fav_count}}</span>粉絲</span></li>
-                    <li class="weui-pt30"><img src="/images/3_17.png" class="n_huiyuan"> <span class="weui-v_m weui-dnb weui-pl5"><span class="weui-f24 weui-f_b">{{$be_visit_other_count}}</span>被瀏覽次數</span>
+                    <li class="weui-pt30">
+                        <img src="/images/3_14.png" class="n_huiyuan">
+                        粉絲
+                        <span class="weui-v_m weui-dnb weui-pl5">
+                            <span class="weui-f24 weui-f_b">{{$be_fav_count}}</span>
+                        </span>
                     </li>
-                    <li class="weui-pt30"><img src="/images/3_20.png" class="n_huiyuan"> <span class="weui-v_m weui-dnb weui-pl5"><span class="weui-f24 weui-f_b">{{$tip_count}}</span>車馬費邀請次數</span>
+
+                    <li class="weui-pt30">
+                        <img src="/images/3_17.png" class="n_huiyuan">
+                        被瀏覽次數
+                        <span class="weui-v_m weui-dnb weui-pl5">
+                            <span class="weui-f24 weui-f_b">{{$be_visit_other_count}}</span>
+                        </span>
+                    </li>
+
+                    <li class="weui-pt30">
+                        <img src="/images/3_20.png" class="n_huiyuan">
+                        車馬費邀請次數
+                        <span class="weui-v_m weui-dnb weui-pl5">
+                            <span class="weui-f24 weui-f_b">{{$tip_count}}</span>
+                        </span>
                     </li>
                 </ul>
                 @if($user->isVip())
@@ -42,7 +60,7 @@
                             <dt>上次登入時間</dt>
                             <dd class="weui-c_9">{{substr($to->last_login,0,10)}}</dd>
                         </dl>
-                        <dl class="weui-pt20">
+                        <dl>
                             <dt>被收藏次數</dt>
                             <dd class="weui-c_9">{{$be_fav_count}}</dd>
                         </dl>
@@ -163,7 +181,7 @@
                         @endforeach
                     </div>
                     <div class="clearfix weui-mt30 otn_tit ">
-                        <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">關於我</span>
+                        <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">基本資料</span>
                         <span class="weui-fr"><img src="/images/z_03.png"></span>
                     </div>
                     <ul class="pe_data">
@@ -189,10 +207,35 @@
                         @if(!empty($tometa->weight))<li><span>體重</span>{{$tometa->weight}}(KG)</li>@endif
                         <li><span>預算</span>@if(isset($tometa->budget) AND $tometa->budget != '0' AND $tometa->budget != 'null') {{ $tometa->budget }} @else 不公開 @endif</li>
                         <li><span>教育</span>@if(isset($tometa->education) AND $tometa->education != '0' AND $tometa->education != 'null') {{ $tometa->education }} @else 不公開 @endif</li>
-                        <li><span>現狀</span>@if(isset($tometa->occupation) AND $tometa->occupation != '0' AND $tometa->occupation != 'null') {{ $tometa->occupation }} @else 不公開 @endif</li>
-                        @if(!empty($tometa->marriage))<li><span>婚姻</span>{{$tometa->marriage}}</li>@endif
-                        @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
+                        @if($to->engroup == 1)
+                            <li><span>婚姻</span>{{$tometa->marriage}}</li>
+                        @else
+                            <li><span>現狀</span>@if(isset($tometa->occupation) AND $tometa->occupation != '0' AND $tometa->occupation != 'null') {{ $tometa->occupation }} @else 不公開 @endif</li>
+                            @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
+                        @endif
                     </ul>
+
+                    <!--手機板VIP-->
+                    @if($user->isVip())
+                    <div class="clearfix weui-mt30 otn_tit">
+                        <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
+                    </div>
+                    <ul class="advanced_data">
+                        <li><span>粉絲</span>{{ $be_fav_count }}</li>
+                        <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
+                        <li><span>車馬費邀請次數</span>{{ $tip_count }}</li>
+                        <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
+                        <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
+                        <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
+                        <li><span>收藏會員次數</span>{{ $fav_count }}</li>
+                        <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
+                        <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
+                        <li><span>發信次數</span>{{ $message_count }}</li>
+                        <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
+                        <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
+                    </ul>
+                    @endif
+
                     <div class="row">
                         <div class="col-md-12 col-xs-12" style="padding:30px 0px 0 0">
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20 weui-mr10">

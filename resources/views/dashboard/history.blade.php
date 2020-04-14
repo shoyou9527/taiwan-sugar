@@ -1,12 +1,8 @@
 @extends('layouts.main2d')
 
 @section('app-content')
-<style>
-    .new_line{ border-bottom:#eeeeee 1px solid !important; margin-bottom:34px !important;}
-</style>
-
 <div class="col-md-9 zlrightbg newheight03">
-    <div class="p100 weui-f18">
+    <div class="p100 weui-f18" style="min-height: 800px;">
         <div class="l_zlxc" style="margin-top:-14px; margin-bottom:8px;">
             <div class="lytitle"><i></i>足跡</div>
         </div>
@@ -15,7 +11,7 @@
                 $histUser = \App\Models\User::findById($visitor->member_id);
             @endphp
             @if(isset($histUser))
-                <div class="col-xs-6 col-sm-3 lytitle_aa new_line">
+                <div class="col-xs-6 col-sm-3 lytitle_aa bottomline">
                     <a href="/user/view/{{$histUser->id}}" style="text-align: center; vertical-align: middle!important;" class="weui-db">
                         <img src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" onerror="this.src=@if ($histUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="history_square">
                         <p class="weui-pt15">
@@ -28,10 +24,10 @@
         @empty
             沒有資料!!
         @endforelse
-        <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
-            {!! $visitors->render() !!}
-        </nav>
     </div>
+    <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
+        {!! $visitors->render() !!}
+    </nav>
 </div>
 
 @stop

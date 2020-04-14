@@ -27,7 +27,7 @@
         </nav>
     </header>
     <div class="m-content">
-        <div class="m-content zlleftbg nerbg">
+        <div class="m-content nerbg wnheight">
             <div class="col-sm-12 col-xs-12 col-md-12">
                 <div class="newsize newheight">
                     <div class="lytitle"><i></i>Email驗證</div>
@@ -37,7 +37,7 @@
                         <ul>
                             @if(isset($user))
                             <li><label>暱稱：</label>{{ $user->name }}</li>
-                            <li><label>帳號類型：</label>@if($user->engroup == 2) 甜心寶貝 @else 甜心爹地 @endif</li>
+                            <li><label>帳號類型：</label>@if($user->engroup == 2) 甜心寶貝 @else 甜心大哥 @endif</li>
                             <li><label>想說的一句話：</label>{{ $user->title }}</li>
                             <li><label>Email：</label>{{ $user->email }} (若Email填寫錯誤，請重新註冊)</li>
                             @endif

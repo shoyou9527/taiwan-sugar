@@ -322,7 +322,7 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
     Route::post('/dashboard/picdel', 'ImageController@deletePic');
     Route::post('/dashboard/block', 'PagesController@postBlock');
     Route::post('/dashboard/blockAJAX', 'PagesController@postBlockAJAX')->name('postBlockAJAX');//new route
-    Route::post('/dashboard/unblock', 'PagesController@unblock');
+    Route::post('/dashboard/unblock', 'PagesController@unblock')->name('unblock');;
     Route::post('/dashboard/unblockajax', 'PagesController@unblockAJAX')->name('unblockAJAX'); //new route
     Route::post('/dashboard/unblockAll', 'PagesController@unblockAll')->name('unblockAll'); //new route
     Route::post('/dashboard/fav', 'PagesController@postfav');

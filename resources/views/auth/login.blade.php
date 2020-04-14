@@ -24,7 +24,7 @@
                             <div class="weui-pt10 sign_relative">
                                 <input class="form-control form" type="email" placeholder="帳號 (您的E-mail)" name="email" values="" autocomplete="off">
                             </div>
-                            <div class="weui-pt20 sign_relative">
+                            <div class="weui-pt10 sign_relative">
                                 <input class="form-control form" type="password" placeholder="密碼" name="password" id="password">
                             </div>
                             <div class="clearfix weui-pt20">

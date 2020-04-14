@@ -1213,8 +1213,7 @@ class PagesController extends Controller
         {
             Blocked::unblock($aid, $bid);
         }
-
-        return back()->with('message', '解除封鎖成功');
+        return back()->with('message', '解除封鎖'.$payload['name'].'成功');
     }
 
     public function unblockAJAX(Request $request)
@@ -1276,11 +1275,12 @@ class PagesController extends Controller
 
     public function removeFav(Request $request)
     {
-        if ($request->userId !== $request->favUserId)
+        $aid = auth()->id();
+        if ($aid !== $request->favUserId)
         {
-            MemberFav::remove($request->userId, $request->favUserId);
+            MemberFav::remove($aid, $request->favUserId);
         }
-        return back()->with('message', '移除成功');
+        return back()->with('message', '移除收藏'.$request->name.'成功');
     }
 
     public function removeFav_ajax(Request $request)
