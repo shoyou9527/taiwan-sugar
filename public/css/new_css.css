@@ -545,13 +545,18 @@ body{ overflow-x:hidden}
 .pe_data li{width:50%; float:left; line-height:35px}
 .pe_data li span{width:40%; text-align:left; color:#999999; float:left}
 
+.advanced_data{width:100%; display:table}
+.advanced_data li{width:100%; float:left; line-height:35px}
+.advanced_data li span{width:50%; text-align:left; color:#999999; float:left}
+
 .picleft_font{text-align:left}
 
 
 .nic{ display:none}
 
 @media (max-width:320px){
-.pe_data li span{width:45%;}
+.pe_data li span{width:40%;}
+.advanced_data li span{width:50%;}
 }
 
 .picleft{ display:none}
@@ -572,7 +577,7 @@ body{ overflow-x:hidden}
 .wjpaword{width:100%;}
 }
 
-.new_search{width:100%}
+.new_search{width:100%;min-height: 750px;}
 
 .newlif{ line-height:25px}
 .newlif:hover{ color:#fff; text-decoration:underline}

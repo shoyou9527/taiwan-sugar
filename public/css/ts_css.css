@@ -108,3 +108,7 @@ h3,h2 {
     .dashboard_square {width: 10vw; height: 10vw;}
     .fav_block_square {width: 9vw; height: 9vw;}
 }
+
+.bottomline{
+    border-bottom:#eeeeee 1px solid !important; margin-bottom:34px !important;
+}

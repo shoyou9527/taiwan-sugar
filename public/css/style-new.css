@@ -1540,7 +1540,7 @@ display:block;
 .headerbg.a1{ padding:20px;}
 .m-widget3__item{ padding:10px !important;}
 .m-widget3__body{ width:110px; margin-left:5px;}
-.m-widget3__username{ margin-left:10px;}
+.m-widget3__username{ margin-left:10px;font-weight:bold;}
 .m-widget3__delete form{ position:relative; right:-140px;}
 .m-form__actions{ margin:0 auto; text-align:center;}
 .m-form__actions button{ width:120px; margin:0 10px; float:none !important;}
@@ -1627,8 +1627,8 @@ display:block;
 .denl{ font-size:20px; text-align:center; margin-bottom:20px;
 }
 
-.m-widget3__user-img a{ height:136px; display:inline-block;}
-.m-widget3__user-img a img{ height:136px;}
+.m-widget3__user-img a{ height:110px; display:inline-block;}
+.m-widget3__user-img a img{ height:110px;}
 }
 @media (max-width:412px){
 	.m-widget3__sj{margin-top:29px;}
@@ -1697,9 +1697,14 @@ right:0;
 bottom:1px;
 }
 .word_text {
-    word-wrap: break-word;
-    word-break: break-all;
-	    height: 40px;
-    overflow: hidden;
-	}
+	word-wrap: break-word;
+	word-break: break-all;
+	height: 40px;
+	overflow: hidden;
+	padding-left:10px;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	color:#707070;
+}
 	
