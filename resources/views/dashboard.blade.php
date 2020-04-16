@@ -143,7 +143,7 @@
                             <input type="text" class="form-control" style="background-color: white;" id="m_datepicker_1" data-date-format="yyyy-mm-dd" name="birthdate" readonly placeholder="請選擇" value="{{ $umeta->birthdate }}">
                         </font>
                     </div>
-                    <div class="grrow"> <span>體型</span>
+                    <div class="grrow"><span><i style="margin-left:21px"></i>體型</span>
                         <font>
                             <select name="body" class="form_co">
                                 <option value="0">請選擇</option>

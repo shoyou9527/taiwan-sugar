@@ -236,7 +236,7 @@
                                 </div>
                             </li>
                         @empty
-                            <li class="col-sm-6 col-xs-12 col-md-6" style="text-align:center;">
+                            <li class="col-sm-6 col-xs-12 col-md-6" style="text-align:center;width: 100%;">
                                 沒有資料!!
                             </li>
                         @endforelse

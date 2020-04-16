@@ -144,7 +144,7 @@
                                     <form action="/dashboard/unblock" class="m-nav__link" method="POST">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{$user->id}}">
-                                        <input type="hidden" name="to" value="{{$to->id}}}">
+                                        <input type="hidden" name="to" value="{{$to->id}}">
                                         <button type="submit" style="background: none; border: none; padding: 0">
                                             <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05_1.png) center no-repeat;background-size: 100% 100%;"></div> 解除封鎖
                                         </button>
@@ -155,7 +155,7 @@
                                     <form action="/dashboard/block" class="m-nav__link" method="POST">
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="userId" value="{{$user->id}}">
-                                        <input type="hidden" name="to" value="{{$to->id}}}">
+                                        <input type="hidden" name="to" value="{{$to->id}}">
                                         <button type="submit" style="background: none; border: none; padding: 0">
                                             <div class=" xin weui-dnb weui-v_m" style="width: 50px;height: 50px;background: url(/images/new_05.png) center no-repeat;background-size: 100% 100%;"></div> 封鎖
                                         </button>

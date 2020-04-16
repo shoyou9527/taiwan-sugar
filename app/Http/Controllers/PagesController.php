@@ -83,6 +83,7 @@ class PagesController extends Controller
     public function profileUpdate(Request $request, ProfileUpdateRequest $profileUpdateRequest)
     // public function profileUpdate(Request $request)
     {
+        $user = Auth::user();
         //Custom validation.
         Validator::extend('not_contains', function($attribute, $value, $parameters)
         {
@@ -93,15 +94,29 @@ class PagesController extends Controller
             }
             return true;
         });
-        $rules = [
-            'name'     => ['required', 'max:255', 'not_contains'],
-        ];
-        $messages = [
-            'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！'
-        ];
+        //女生表單驗證判斷多cup與現況
+        if($user->engroup == 2){
+            $rules = [
+                'name' => ['required', 'max:12', 'not_contains'],
+                'cup' => ['required'],
+                'occupation' => ['required']
+            ];
+            $messages = [
+                'name.not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
+                'cup.required'  => '請輸入罩杯',
+                'occupation.required'  => '請輸入現況'
+            ];
+        }else{
+            $rules = [
+                'name'     => ['required', 'max:12', 'not_contains'],
+            ];
+            $messages = [
+                'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！'
+            ];
+        }
         $validator = \Validator::make($request->all(), $rules, $messages);
         if($validator->fails()){
-            return redirect('/dashboard')->withErrors(['請勿使用包含「站長」或「管理員」的字眼做為暱稱！']);
+            return redirect('/dashboard')->withErrors($validator);
         }
         else{
             if ($this->service->update(auth()->id(), $request->all())) {
@@ -1213,7 +1228,7 @@ class PagesController extends Controller
         {
             Blocked::unblock($aid, $bid);
         }
-        return back()->with('message', '解除封鎖'.$payload['name'].'成功');
+        return back()->with('message', '解除封鎖成功');
     }
 
     public function unblockAJAX(Request $request)
@@ -1280,7 +1295,7 @@ class PagesController extends Controller
         {
             MemberFav::remove($aid, $request->favUserId);
         }
-        return back()->with('message', '移除收藏'.$request->name.'成功');
+        return back()->with('message', '移除收藏成功');
     }
 
     public function removeFav_ajax(Request $request)

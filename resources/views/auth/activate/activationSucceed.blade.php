@@ -12,7 +12,7 @@
         </nav>
     </header>
     <div class="">
-        <div class="m-content zlleftbg nerbg">
+        <div class="m-content wnheight nerbg">
             <div class="">
                 @include('partials.sendmsgtip2')
                 <style>
