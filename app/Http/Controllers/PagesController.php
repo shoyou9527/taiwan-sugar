@@ -1398,6 +1398,10 @@ class PagesController extends Controller
     public function chat(Request $request, $cid)
     {
         $user = $request->user();
+        //被封鎖不顯示會員資料
+        if(Blocked::where('blocked_id', $user->id)->where('member_id', $cid)->count() >= 1){
+            return back()->withErrors(['此用戶已關閉資料。']);
+        }
         $m_time = '';
         $messages = Message::allToFromSender($user->id, $cid);
         if (isset($user)) {
@@ -1778,15 +1782,12 @@ class PagesController extends Controller
                     Vip::cancel($user->id, 0);
                     $data = Vip::where('member_id', $user->id)->where('expiry', '!=', '0000-00-00 00:00:00')->get()->first();
                     $date = date('Y年m月d日', strtotime($data->expiry));
-
-                    $offVIP = AdminCommonText::getCommonText(4);
+                    $offVIP = AdminCommonText::getCommonText(4);//取資料表內取消VIP字段
                     $offVIP = str_replace('DATE', $date, $offVIP);
-
                     $request->session()->flash('cancel_notice', $offVIP);
                     $request->session()->save();
                     return redirect('/dashboard')->with('user', $user)->with('message', $offVIP);
                     //return back()->with('user', $user)->with('message', 'VIP 取消成功！')->with('cancel_notice', '您已成功取消VIP付款，下個月起將不再繼續扣款，目前的VIP權限可以維持到'.$date);
-
                 }
                 else{
                     $log = new \App\Models\LogCancelVipFailed();
@@ -1813,13 +1814,12 @@ class PagesController extends Controller
 
     public function showCheckAccount(Request $request) {
         $user = $request->user();
+        //更改回免費VIP無法取消VIP
         if(!$user->isVip()){
             return back()->withErrors(['很抱歉，您目前還不是本站VIP，因此無法執行這個步驟。']);
+        }else if($user->isFreeVip()){
+            return back()->withErrors(['很抱歉，由於您是免費VIP，因此無法執行這個步驟。']);
         }
-        //免費VIP也可取消VIP
-        // else if($user->isFreeVip()){
-        //     return back()->withErrors(['很抱歉，由於您是免費VIP，因此無法執行這個步驟。']);
-        // }
         if ($user) {
             return view('auth.checkAccount')->with('user', $user);
         }

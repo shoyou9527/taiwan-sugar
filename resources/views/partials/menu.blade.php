@@ -1,17 +1,23 @@
 <header class="header headerbg weui-pb10 weui-pt10">
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-            <div class="navbar-header">
-                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse" aria-expanded="false">
+            <div class="navbar-header @if($user->meta_()->is_active!=1) topr @endif">
+                @if($user->meta_()->is_active!=1)
+                {{-- 若無驗證的會員只給登出文字連結 --}}
+                <a href="{!! url('logout') !!}" class="weui-fr weui-white weui-mr30 weui-pt15 toprig top_zc">登出</a>
+                @else
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#example-navbar-collapse" aria-expanded="false">
                     <span class="sr-only">切换引導列</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                @endif
                 <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('') !!}"><img src="/images/homeicon.png"></a>
             </div>
             <div class="navbar-collapse weui-fr collapse" id="example-navbar-collapse" style="">
                 <div class="weui-fr  weui-white coleft toplink">
+                    @if(isset($user))
                     @if($user->meta_()->is_active==1)
                     <div class="conterleft">
                         <a href="{!! url('dashboard') !!}"><i><img src="/images/ic_01.png"></i><span>個人資料</span></a>
@@ -25,10 +31,11 @@
                     <div class="conterleft">
                         <a onclick="cl()"><i><img src="/images/ic_04.png"></i><span>VIP</span></a>
                     </div>
-                    @endif
                     <div class="conterleft">
                         <a href="{!! url('logout') !!}"><i><img src="/images/ic_05.png"></i><span>登出</span></a>
                     </div>
+                    @endif
+                    @endif
                 </div>
             </div>
         </div>

@@ -1,59 +1,6 @@
 @extends('layouts.main2d')
 
 @section('app-content')
-    <style>
-        .usera_radio {
-            float:left;
-            position: relative;
-            width: 48%;
-            height: 40px;
-            z-index: 1;
-        }
-        .usera_radio label {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%; /*選擇框的寬度*/
-            height: 40px;
-            z-index: 3;
-            opacity: 0;
-            margin: auto;
-            display: inline-block;
-            line-height: 40px;
-            cursor: pointer;
-        }
-        .usera_radio input {
-            cursor: pointer;
-            display: inline-block;
-            vertical-align: middle;
-            height: 40px;
-            width: 100%;
-            line-height: 40px;
-            margin: 0;
-        }
-        .usera_radio span.btn {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            z-index: 2;
-            margin: auto;
-            display: inline-block;
-            line-height: 30px;
-            text-align: center;
-            color: #d0bd9f;
-            border-radius: 5px;
-            background-color: #ffff;
-        }
-        .usera_radio span.active {
-            background-color: #d0bd9f;
-            color: #fff;
-        }
-    </style>
-
     <link rel="stylesheet" href="/css/jquery.range.css" />
     <style>
         /*強制顯示右上角導航列*/
@@ -178,8 +125,8 @@
                                             @foreach($umeta->city as $key => $cityval)
                                                 @if ($loop->first)
                                                     {{$umeta->city[$key]}} {{$umeta->area[$key]}}
-                                                @else
-                                                    , {{$umeta->city[$key]}} {{$umeta->area[$key]}}
+                                                {{-- @else
+                                                    , {{$umeta->city[$key]}} {{$umeta->area[$key]}} --}}
                                                 @endif
                                             @endforeach
                                         @endif
@@ -224,11 +171,12 @@
                                         @endif
                                     </div>
                                     <div class="setextbut">
+                                        {{-- <form id="favajax" enctype="multipart/form-data" action="/dashboard/poatfavajax" method="post" onsubmit="return submitForm()"> --}}
                                         <form action="/dashboard/fav" method="POST">
                                             {!! csrf_field() !!}
-                                            <input type="hidden" name="userId" value="{{$user->id}}">
                                             <input type="hidden" name="to" value="{{$visitor->id}}">
                                             <button type="submit" class="linklized">收藏</button>
+                                            {{-- <input type="submit" class="linklized" value="收藏"> --}}
                                             <a href="/dashboard/chatShow/{{$visitor->id}}" target="blank">發訊</a>
                                             <a href="/dashboard/viewuser/{{$visitor->id}}" class="se_bg" target="blank">更多</a>
                                         </form>
@@ -252,6 +200,7 @@
 
 @section('javascript')
     <script src="/js/bootstrap.min.js"></script>
+    <script src="http://malsup.github.io/min/jquery.form.min.js"></script>
     <script type="text/javascript" src="/js/jquery.range.js"></script>
     <script type="text/javascript">
     $(function() {
@@ -303,6 +252,15 @@
         $(this).parent().siblings("div").find("span").removeClass("active");
     });
         $('input[name="zipcode"]').remove();
+
+    function submitForm() {
+        $("#favajax").ajaxSubmit(function(message) {
+            alert(message.msg);
+            $(".col-md-12").html('');
+            $(".col-md-12").append('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><span>'+message.msg+'</span></div>');
+        });
+        return false;
+    }
 
     </script>
 @stop

@@ -54,6 +54,9 @@
                     沒有資料!!
                 @endforelse
             </div>
+            <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
+                {!! $messages->appends(request()->all())->render() !!}
+            </nav>
         </div>
     </div>
 </div>

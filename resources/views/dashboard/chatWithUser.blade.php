@@ -47,6 +47,8 @@
     .textBox li .textInfo p{
         margin: 0;
         background: #f7f6fb;
+        word-wrap:break-word;
+        word-break:normal;
         border-radius: 5px;
         padding: 5px 10px;
         max-width: 80%;
@@ -151,7 +153,7 @@
                                                 <input type="hidden" name="userId" value="{{$user->id}}">
                                                 <input type="hidden" name="to" value="{{$to->id}}}">
                                                 <button type="submit" style="background: none; border: none; padding: 0">
-                                                <img src="/images/new_05_1.png" class="popicon"><span>解除封鎖</span>
+                                                <img src="/images/new_05_1.png" class="popicon"><span>解封</span>
                                                 </button>
                                             </form></li>
                                         @else
@@ -211,9 +213,9 @@
                                                     {!! nl2br($message['content']) !!}
                                                     <label>{{ substr($message['created_at'],11,5) }}</label>
                                                     @if($message['read'] == "Y" && $message['from_id'] == $user->id)
-                                                        <label style="bottom: 12px;color:black;">已讀</label>
+                                                        <label style="bottom: 12px;">已讀</label>
                                                     @elseif($message['read'] == "N" && $message['from_id'] == $user->id)
-                                                        <label style="bottom: 12px;color:black;">未讀</label>
+                                                        <label style="bottom: 12px;">未讀</label>
                                                     @endif
                                                 </p>
                                                 <i class="arrow_icon"></i>

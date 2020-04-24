@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator; 
 
 class MessageController extends Controller {
 
@@ -94,7 +96,8 @@ class MessageController extends Controller {
         return back();
     }
 
-    public function chatview(Request $request)
+    //無分頁版本
+    public function chatview_sg(Request $request)
     {
         $user = $request->user();
         $m_time = '';
@@ -104,6 +107,29 @@ class MessageController extends Controller {
             // $messages = \App\Models\Message::allSenders($user->id, 0);
         // }
 
+        if (isset($user)) {
+            $isVip = $user->isVip();
+            return view('dashboard.chat')
+                ->with('user', $user)
+                ->with('m_time', $m_time)
+                ->with('messages', $messages)
+                ->with('isVip', $isVip);
+        }
+    }
+
+    //TS分頁版本
+    public function chatview(Request $request)
+    {
+        $user = $request->user();
+        $m_time = '';
+        $uid = $user->id;
+        $msg = Message::where([['to_id', $uid], ['from_id', '!=', $uid]])->orWhere([['from_id', $uid], ['to_id', '!=',$uid]])->orderBy('created_at', 'desc')->get();
+        $messages = Message::chatArray($uid, $msg, 1);
+        $page = $request->page ?: 1;//當前頁數 預設1
+        $perPage = 10;//每頁的條數
+        $offset = ($page * $perPage) - $perPage;//計算每頁分頁的初始位置
+        //例項化LengthAwarePaginator類，並傳入對應的引數
+        $messages = new LengthAwarePaginator(array_slice($messages, $offset, $perPage, true), count($messages), $perPage,$page, ['path' => $request->url(), 'query' => $request->query()]);
         if (isset($user)) {
             $isVip = $user->isVip();
             return view('dashboard.chat')

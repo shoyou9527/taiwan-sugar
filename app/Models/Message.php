@@ -45,7 +45,7 @@ class Message extends Model
         if($message->is_row_delete_1 == 0) {
             Message::deleteRowMessage($uid, $sid, 0);
         // }elseif($message->is_single_delete_1 <> 0 && $message->is_single_delete_2 == 0) {
-        }elseif($message->is_single_delete_2 == 0) {
+        }elseif($message->is_row_delete_2 == 0) {
             Message::deleteRowMessage($uid, $sid, 1);
         }
     }
@@ -481,6 +481,7 @@ class Message extends Model
 
         echo json_encode($saveMessages);
         if(count($saveMessages) == 0){
+
             return array_values(['No data']);
         }
         else{
@@ -602,54 +603,42 @@ class Message extends Model
 
     public static function allToFromSender($uid, $sid)
     {
-        if(Blocked::isBlocked($uid, $sid)) {
-            $blockTime = Blocked::getBlockTime($uid, $sid);
-            return Message::where([['to_id', $uid],['from_id', $sid],['created_at', '<=', $blockTime->created_at]])->orWhere([['from_id', $uid],['to_id', $sid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
-        }
+        // if(Blocked::isBlocked($uid, $sid)) {
+        //     $blockTime = Blocked::getBlockTime($uid, $sid);
+        //     return Message::where([['to_id', $uid],['from_id', $sid],['created_at', '<=', $blockTime->created_at]])->orWhere([['from_id', $uid],['to_id', $sid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
+        // }
 
-        return Message::where([['to_id', $uid],['from_id', $sid],['is_single_delete_1','<>',$uid]])->orWhere([['from_id', $uid],['to_id', $sid],['is_single_delete_1','<>',$uid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
+        // return Message::where([['to_id', $uid],['from_id', $sid],['is_single_delete_1','<>',$uid]])->orWhere([['from_id', $uid],['to_id', $sid],['is_single_delete_1','<>',$uid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
+        return Message::where([['to_id', $uid],['from_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])->orWhere([['from_id', $uid],['to_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
     }
 
     public static function unread($uid)
     {
-        $messages = DB::select(DB::raw("
-            select * from `message` 
-            WHERE  (`to_id` = $uid and `from_id` != $uid) or (`from_id` = $uid and `to_id` != $uid) 
-            order by `created_at` desc 
-        "));
-        $saveMessages = Message::chatArray($uid, $messages, 1);
-        $unreadCount = 0;
-        foreach ($saveMessages as $message) {
-            if($message['read']=='N' AND $message['from_id'] != $uid){
-                $unreadCount += 1;
-            }
-        }
         // block information
-        //修正應判斷同個人最後一筆發給我的訊息是否未讀
-        // $user = User::findById($uid);
-        // $block = Blocked::getAllBlock($uid);
-        // $banned_users = banned_users::select('member_id')->get();
-        // $all_msg = Message::where([['to_id', $uid],['from_id', '!=', $uid], ['is_row_delete_1', '=' ,0], ['temp_id', '=', 0]])->where('read', 'N')->whereNotIn('from_id', $banned_users);
-        // if($user->meta_()->notifhistory == '顯示VIP會員信件') {
-        //     //$allVip = \App\Models\Vip::allVip();
-        //     //$all_msg = $all_msg->whereIn('from_id', $allVip);
-        //     $all_msg = $all_msg->join('member_vip', 'member_vip.member_id', '=', 'message.from_id');
-        // }
-        // $unreadCount = 0;
-        // $all_msg->
-        // if($block->count() == 0) return $all_msg->count();
-        // //echo $block->count();
-        // //echo 'count = '. $block->count();
-        // $blocked_ids = array();
-        // foreach($block as $b) {
-        //     if(!in_array($b->blocked_id, $blocked_ids)){
-        //         array_push($blocked_ids, $b->blocked_id);
-        //     }
-        // }
-        // $unreadCount += $all_msg->whereNotIn('from_id', $blocked_ids)->count();
+        //
+        $user = User::findById($uid);
+        $block = Blocked::getAllBlockedId($uid);
+        $banned_users = \App\Services\UserService::getBannedId();
+
+        $query = Message::where(function($query)use($uid)
+        {
+            $query->where('to_id','=' ,$uid)
+                ->where('from_id','!=',$uid);
+        });
+        $all_msg = $query->whereNotIn('from_id', $banned_users)
+            ->whereNotIn('to_id', $banned_users)
+            ->whereNotIn('from_id', $block)
+            ->whereNotIn('to_id', $block)
+            ->where([['is_row_delete_1', '=' ,0], ['temp_id', '=', 0]])
+            ->where('read', 'N');
+        if($user->meta_()->notifhistory == '顯示VIP會員信件') {
+            //$allVip = \App\Models\Vip::allVip();
+            //$all_msg = $all_msg->whereIn('from_id', $allVip);
+            $all_msg = $all_msg->join('member_vip', 'member_vip.member_id', '=', 'message.from_id');
+        }
+        $unreadCount = $all_msg->count();
 
         return $unreadCount;
-        //return Message::where([['to_id', $uid],['from_id', '!=', $uid],['from_id', '!=', $block[$i]->blocked_id]])->where('read', 'N')->count();
     }
 
     public static function read($message, $uid)

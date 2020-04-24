@@ -8,6 +8,18 @@
         .zlrightbg{
             padding:50px 0; background:url(/images/09.png) center top no-repeat #ffffff;
         }
+
+        @media (max-width:991px){
+            .m_block{
+                display:block;
+            }
+        }
+        @media (min-width:992px){
+            .m_block{
+                display:none;
+            }
+        }
+        
     </style>
     <div class="col-md-9 zlrightbg">
         <div class="container_03">
@@ -106,7 +118,9 @@
                             @if(isset($tometa->city))
                                 @if(is_array($tometa->city))
                                     @foreach($tometa->city as $key => $cityval)
-                                        <span class="weui-pl30 add weui-v_m">{{$tometa->city[$key]}},{{$tometa->area[$key]}}</span>
+                                        @if ($loop->first)
+                                            <span class="weui-pl30 add weui-v_m">{{$tometa->city[$key]}},{{$tometa->area[$key]}}</span>
+                                        @endif
                                     @endforeach
                                 @endif
                             @endif
@@ -192,7 +206,9 @@
                                 @if(isset($tometa->city))
                                     @if(is_array($tometa->city))
                                         @foreach($tometa->city as $key => $cityval)
-                                            {{$tometa->city[$key]}},{{$tometa->area[$key]}}
+                                            @if ($loop->first)
+                                                {{$tometa->city[$key]}},{{$tometa->area[$key]}}
+                                            @endif
                                         @endforeach
                                     @endif
                                 @endif
@@ -217,23 +233,25 @@
 
                     <!--手機板VIP-->
                     @if($user->isVip())
-                    <div class="clearfix weui-mt30 otn_tit">
-                        <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
+                    <div class="m_block">
+                        <div class="clearfix weui-mt30 otn_tit">
+                            <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
+                        </div>
+                        <ul class="advanced_data">
+                            <li><span>粉絲</span>{{ $be_fav_count }}</li>
+                            <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
+                            <li><span>車馬費邀請次數</span>{{ $tip_count }}</li>
+                            <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
+                            <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
+                            <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
+                            <li><span>收藏會員次數</span>{{ $fav_count }}</li>
+                            <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
+                            <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
+                            <li><span>發信次數</span>{{ $message_count }}</li>
+                            <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
+                            <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
+                        </ul>
                     </div>
-                    <ul class="advanced_data">
-                        <li><span>粉絲</span>{{ $be_fav_count }}</li>
-                        <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
-                        <li><span>車馬費邀請次數</span>{{ $tip_count }}</li>
-                        <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
-                        <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
-                        <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
-                        <li><span>收藏會員次數</span>{{ $fav_count }}</li>
-                        <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
-                        <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
-                        <li><span>發信次數</span>{{ $message_count }}</li>
-                        <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
-                        <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
-                    </ul>
                     @endif
 
                     <div class="row">
