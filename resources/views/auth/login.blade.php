@@ -1,18 +1,6 @@
-@include('partials.header')
-<body>
-<style>
-    .header{
-        background: #8a7d77;
-        padding-bottom: 10px;
-        padding-top: 10px;
-    }
-    .alert {
-        margin-bottom: 0px;
-    }
-</style>
-@include('partials.nav_login_register')
-@include('partials.errors')
-@include('partials.status')
+@extends('layouts.main')
+
+@section('app-content')
 <div class="loginbg newheight01">
     <div class="container">
         <div class="row">
@@ -41,8 +29,4 @@
         </div>
     </div>
 </div>
-@include('partials.footer')
-@include('partials.scripts')
-<script src="/js/login.js" type="text/javascript"></script>
-</body>
-</html>
+@stop

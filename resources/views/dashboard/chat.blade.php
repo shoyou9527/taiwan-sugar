@@ -1,7 +1,7 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg">
+<div class="col-md-9 zlrightbg" style="min-height: 804px;">
     <div class=" p100">
         <div class="lytitle"><i></i>收件夾
             <span style="float:right;margin-top:-3px; margin-right:10px" class="m-portlet__head-text">

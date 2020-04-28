@@ -1,6 +1,13 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
+<style type="text/css">
+.pagination{
+    margin: 0 auto;
+    display: table;
+    padding-bottom: 20px;
+}
+</style>
 <div class="col-md-9 zlrightbg newheight03" style="padding-bottom: 20px;">
     <div class="p100 weui-f18" style="min-height: 800px;">
         <div class="l_zlxc" style="margin-top:-14px; margin-bottom:8px;">
@@ -12,7 +19,7 @@
             @endphp
             @if(isset($histUser))
                 <div class="col-xs-6 col-sm-3 lytitle_aa bottomline">
-                    <a href="/user/view/{{$histUser->id}}" style="text-align: center; vertical-align: middle!important;" class="weui-db">
+                    <a href="/dashboard/viewuser/{{$histUser->id}}" style="text-align: center; vertical-align: middle!important;" class="weui-db">
                         <img class="hypic yichub" src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" 
                             onerror="this.src=@if ($histUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                         <p class="weui-pt15">

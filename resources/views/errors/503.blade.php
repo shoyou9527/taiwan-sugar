@@ -1,19 +1,19 @@
-@extends('layouts.website')
+@extends('layouts.main')
 
 @section('app-content')
-
-<div class="m-portlet__head">
-<div class="m-portlet__head-caption">
-    <div class="m-portlet__head-title">
-        <h3 class="m-portlet__head-text">
-        503 <small></small>
-        </h3>
-    </div>			
+<div class="wrap">
+    <div class="container lh24 newheight">
+		<div class="row">
+			<div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
+				<div class="kajbt">
+					<div class=" weui-bgf weui-box_s weui-p20">
+						<h3 class="weui-f18 title weui-pl10">503 </h3>
+						<p class="weui-mt20">503 Unauthorized</p>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
 </div>
-</div>
-<div class="m-portlet__body">
-<p>503 錯誤</p>
-</div>
-
 @stop
 

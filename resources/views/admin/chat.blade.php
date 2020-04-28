@@ -124,7 +124,7 @@ $admin_email = Config::get('social.admin.email');
                 <div @if ($icc == 1) <?php echo 'style="border-bottom: none !important; background-color: rgba(0, 196, 255, 0.4); box-shadow: 0 1px 15px 1px rgba(0, 196, 255, 0.4); padding: 16px 32px; 0px 32px"'; $icc = 0?>@else <?php $icc = 1; echo'style="border-bottom: none !important; padding: 14px 28px 0px 28px;"'; ?> @endif>
                     <div @if(isset($to))style="width:95%"@endif>
                         <div style="display:inline-block; margin-right: 6%; vertical-align: middle;">
-                            <a href="/user/view/{{$msgUser->id}}"><img class="m-widget3__img" style="max-width:4rem" src="{{$msgUser->meta_()->pic}}" onerror="this.src='/img/male-avatar.png'" alt=""></a>
+                            <a href="/dashboard/viewuser/{{$msgUser->id}}"><img class="m-widget3__img" style="max-width:4rem" src="{{$msgUser->meta_()->pic}}" onerror="this.src='/img/male-avatar.png'" alt=""></a>
                         </div>
                 @endif
                         <div style="display:inline-block; word-wrap: break-word; word-break: break-all">

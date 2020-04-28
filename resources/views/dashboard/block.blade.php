@@ -1,7 +1,14 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg newheight03">
+<style type="text/css">
+.pagination{
+    margin: 0 auto;
+    display: table;
+    padding-bottom: 20px;
+}
+</style>
+<div class="col-md-9 zlrightbg newheight03" style="padding-bottom: 20px;">
     <div class="p100 weui-f18" style="background-color:white;">
         <div class="lytitle ffs"><i></i>封鎖名單
         @if(!empty($_GET["r"])&&$_GET["r"]=="1") 
@@ -10,10 +17,10 @@
             <a href="/dashboard/block?r=1" class="yichu_t">解除封鎖</a>
         @endif
         </div>
-        <div class="row weui-t_c weui_mt19" style="min-height: 804px;">
+        <div class="row weui-t_c weui_mt19" style="min-height: 744px;">
             @forelse ($blocks as $block)
                 @php $blockedUser = \App\Models\User::findById($block->blocked_id) @endphp
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20 bottomline">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 bottomline">
                     <div class="yicw">
                         <img src="{{ $blockedUser->meta_()->pic }}" class="hypic yichub"
                             onerror="this.src=@if ($blockedUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
@@ -37,7 +44,7 @@
             @endforelse
         </div>
     </div>
-    <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;padding-bottom: 20px;">
+    <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
         {!! $blocks->appends(request()->all())->render() !!}
     </nav>
 </div>

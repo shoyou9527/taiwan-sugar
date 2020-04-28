@@ -1,4 +1,4 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
     <div class="col-sm-12 col-xs-12 col-md-9 bgwf newheight03">

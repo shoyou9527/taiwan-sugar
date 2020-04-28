@@ -1,4 +1,4 @@
-@include('partials.header_sg')
+@include('partials.header')
 <style>
     .sidenav {
         height: 100%;

@@ -1,4 +1,4 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
     <div class="col-sm-12 col-xs-12 col-md-9 zlrightbg">
@@ -83,18 +83,18 @@
         var x = 1; //initlal text box count
         $(add_button).click(function(e) { //on add input button click
             e.preventDefault();
-            if (14 - max_fields >= x) { //max input box allowed
+            if (5 - max_fields >= x) { //max input box allowed
                 x++; //text box increment
                 $(wrapper).append('<div><input type="file" id="images" class="custom-file-input" name="images[]" ><a href="#" class="remove_field">&nbsp;移除</a></div>'); //add input box
             } else {
-                alert('最多上傳15張');
+                alert('最多上傳6張');
             }
         });
 
         $('#images').click(function(e) {
             //e.preventDefault();
-            if (max_fields >= 15) {
-                alert('最多上傳15張');
+            if (max_fields >= 6) {
+                alert('最多上傳6張');
                 e.preventDefault();
             }
         })

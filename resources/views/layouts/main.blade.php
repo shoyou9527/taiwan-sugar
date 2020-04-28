@@ -1,111 +1,46 @@
-@include('partials.header')
-<style>
-    h3, h2 {
-        text-align: center;
-    }
-    .announce-box {
-        background-color: #f7eeeb;
-        position: fixed;
-        z-index: 999;
-        left: 0;
-        right: 0;
-        top: 10%;
-        bottom: 10%;
-        margin-left: 15%;
-        margin-right: 15%;
-        border-width: 3px;
-        border-style: dotted solid dotted;
-        border-color: rgba(244, 164, 164, 0.7);
-        padding: 5px;
-        box-shadow: 0 1px 15px 1px rgba(113, 106, 202, .08);
-        word-break: break-word;
-    }
-    .announce-box-small {
-        background-color: #f7eeeb;
-        position: fixed;
-        z-index: 999;
-        left: 0;
-        right: 0;
-        top: 25%;
-        bottom: 25%;
-        margin-left: 25%;
-        margin-right: 25%;
-        border-width: 3px;
-        border-style: dotted solid dotted;
-        border-color: rgba(244, 164, 164, 0.7);
-        padding: 5px;
-        box-shadow: 0 1px 15px 1px rgba(113, 106, 202, .08);
-        word-break: break-word;
-    }
-    .float {
-        position: absolute;
-        float: left;
-    }
-    .m-footer {
-        position: absolute;
-        width: 133px;
-        left: 0;
-        right: 0;
-        bottom: 5px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .center {
-        font-size: large;
-        text-align: center;
-    }
-</style>
-<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push" >
-    @include('layouts.navigation')
-    <div class="m-content">
-        <style>
-            body{
-                background-color: #F7EEEB;
-            }
-        </style>
-        <div class="m-content zlleftbg">
-            <div class="row">
-                    @include('dashboard.panel')
-                    @include('partials.sendmsgtip2')
-
-                    @yield("app-content")
-
-                @include('partials.footer')
-                <script type="text/javascript">
-                    var _token = '{!! Session::token() !!}';
-                    var _url = '{!! url("/") !!}';
-                </script>
-                @include('partials.scripts')
-                @yield("javascript")
-            </div>
-        </div>
-    </div>
-</body>
-<script>
-    let close = document.getElementsByClassName("close-window");
-    for(let i = 0, len = close.length; i < len; i++){
-        close[i].addEventListener('click', function() {
-            close[i].parentNode.parentNode.removeChild(close[i].parentNode);
-        })
-    }
-    @if(isset($user))
-        function disableAnnounce(aid){
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('announceRead') }}',
-                data: { uid: "{{ $user->id }}", aid: aid, _token: "{{ csrf_token() }}"},
-                success: function(xhr, status, error){
-                    console.log(xhr);
-                    console.log(error);
-                },
-                error: function(xhr, status, error){
-                    console.log(xhr);
-                    console.log(status);
-                    console.log(error);
-                }
-            });
-        }
-    @endif
-
-</script>
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}" >
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>@yield('title') 台灣甜心包養網，在這邊，許多 Daddy 與 Baby 甜蜜相遇。--Let Find Your Sugar Dating--台灣甜心網提供都會男女包養網站的甜蜜邂逅。</title>
+		<meta name="Keywords" content="包養行情|包養故事|包養|包養網|甜心|甜心寶貝">
+		<meta name="Description" content="我們提供都會優質男女交流的機遇。台灣甜心網是台灣最大的包養的媒合網站。">
+		<link href="{{ asset('css/vendors.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+		<link href="{{ asset('css/iconfont.css') }}" type="text/css" rel="stylesheet">
+		<link href="{{ asset('css/new_css.css') }}" type="text/css" rel="stylesheet">
+		{{-- <link href="{{ asset('css/ts_css.css') }}" type="text/css" rel="stylesheet"> --}}
+		<link href="{{ asset('css/style-new.css') }}" type="text/css" rel="stylesheet">
+		<script src="{{ asset('js/jquery.min.js') }}"></script>
+		@if (!str_contains(url()->current(), '/dashboard/search'))
+		    {{-- 除搜尋頁外使用的css --}}
+		    <style> h3,h2 {text-align: center;}</style>
+		@endif
+		@stack('style')
+		@stack('header_script')
+	</head>
+	<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
+		{{-- @include('partials.menu') --}}
+		@include('layouts.navigation')
+		<div class="m-content">
+        	{{-- 共用訊息提示 --}}
+            @include('partials.errors')
+            @include('partials.message')
+		    <div class="m-content zlleftbg">
+		        <div class="row">
+		            {{-- 側邊欄規則 dashboard才有 但dashboard搜尋頁無--}}
+		            @if(str_contains(url()->current(), '/dashboard') AND !str_contains(url()->current(), '/dashboard/search'))
+		                @include('dashboard.panel')
+		            @endif
+		            @yield("app-content")
+		        </div>
+		    </div>
+		</div>
+		@include('partials.footer')
+		@include('partials.scripts')
+		@yield("javascript")
+	</body>
 </html>

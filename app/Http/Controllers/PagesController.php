@@ -97,21 +97,23 @@ class PagesController extends Controller
         //女生表單驗證判斷多cup與現況
         if($user->engroup == 2){
             $rules = [
-                'name' => ['required', 'max:12', 'not_contains'],
+                'name' => ['required', 'max:7', 'not_contains'],
                 'cup' => ['required'],
                 'occupation' => ['required']
             ];
             $messages = [
                 'name.not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
+                'name.max'  => '暱稱至多輸入七位數',
                 'cup.required'  => '請輸入罩杯',
                 'occupation.required'  => '請輸入現況'
             ];
         }else{
             $rules = [
-                'name'     => ['required', 'max:12', 'not_contains'],
+                'name'     => ['required', 'max:7', 'not_contains'],
             ];
             $messages = [
-                'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！'
+                'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
+                'max'  => '暱稱至多輸入七位數'
             ];
         }
         $validator = \Validator::make($request->all(), $rules, $messages);
@@ -973,6 +975,11 @@ class PagesController extends Controller
     {
         $user = $request->user();
         
+        //被封鎖不顯示會員資料
+        if(Blocked::where('blocked_id', $user->id)->where('member_id', $uid)->count() >= 1){
+            return back()->withErrors(['此用戶已關閉資料。']);
+        }
+
         if (isset($user) && isset($uid)) {
             $targetUser = User::where('id', $uid)->get()->first();
             if (!isset($targetUser)) {
@@ -1082,7 +1089,7 @@ class PagesController extends Controller
             return view('dashboard.reportUser', [ 'aid' => $request->aid, 'uid' => $request->uid, 'user' =>  $user])->withErrors(['檢舉失敗，請填寫理由。']);
         }
         Reported::report($request->aid, $request->uid, $request->content);
-        return redirect('/user/view/'.$request->uid)->with('message', '檢舉成功');
+        return redirect('/dashboard/viewuser/'.$request->uid)->with('message', '檢舉成功');
     }
 
     public function reportPost(Request $request){
@@ -1157,7 +1164,7 @@ class PagesController extends Controller
             }
             ReportedPic::report($request->reporter_id, $request->reported_pic_id, $request->content);
         }
-        return redirect('/user/view/'.$request->reported_user_id)->with('message', '檢舉成功');
+        return redirect('/dashboard/viewuser/'.$request->reported_user_id)->with('message', '檢舉成功');
     }
 
     public function reportPicNextNew(Request $request){
@@ -1398,10 +1405,7 @@ class PagesController extends Controller
     public function chat(Request $request, $cid)
     {
         $user = $request->user();
-        //被封鎖不顯示會員資料
-        if(Blocked::where('blocked_id', $user->id)->where('member_id', $cid)->count() >= 1){
-            return back()->withErrors(['此用戶已關閉資料。']);
-        }
+
         $m_time = '';
         $messages = Message::allToFromSender($user->id, $cid);
         if (isset($user)) {

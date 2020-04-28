@@ -1,12 +1,8 @@
-@extends('layouts.main_footer')
+@extends('layouts.main')
 
 @section('app-content')
-@include('partials.errors')
-@include('partials.status')
 <style>
-.alert {
-    margin-bottom: 0px;
-}
+    .zlleftbg{background:white}
 </style>
 <div class="m-content zlleftbg nerbg">
     <div class="col-sm-12 col-xs-12 col-md-12">
@@ -31,20 +27,18 @@
 </div>
 @stop
 @section('javascript')
-    <script>
-        var password = document.getElementById("password")
-            , confirm_password = document.getElementById("password_confirmation");
+<script>
+    var password = document.getElementById("password")
+        , confirm_password = document.getElementById("password_confirmation");
 
-        function validatePassword(){
-            if(password.value != confirm_password.value) {
-                confirm_password.setCustomValidity("密碼確認與上述密碼不相符");
-            } else {
-                confirm_password.setCustomValidity('');
-            }
+    function validatePassword(){
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("密碼確認與上述密碼不相符");
+        } else {
+            confirm_password.setCustomValidity('');
         }
-
-        password.onchange = validatePassword;
-        confirm_password.onkeyup = validatePassword;
-    </script>
-
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
 @stop

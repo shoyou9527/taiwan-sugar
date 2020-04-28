@@ -1,4 +1,4 @@
-@extends('layouts.website')
+@extends('layouts.main')
 
 @section('app-content')
 <div class="m-portlet__head">

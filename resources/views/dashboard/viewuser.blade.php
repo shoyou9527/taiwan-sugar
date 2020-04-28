@@ -1,4 +1,4 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
     <style>
@@ -7,17 +7,6 @@
         }
         .zlrightbg{
             padding:50px 0; background:url(/images/09.png) center top no-repeat #ffffff;
-        }
-
-        @media (max-width:991px){
-            .m_block{
-                display:block;
-            }
-        }
-        @media (min-width:992px){
-            .m_block{
-                display:none;
-            }
         }
         
     </style>
@@ -36,32 +25,31 @@
                 }
                 @endphp
                 <div><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
+
                 <ul style="color:#575757;">
-                    <li class="weui-pt30">
-                        <img src="/images/3_14.png" class="n_huiyuan">
-                        粉絲
-                        <span class="weui-v_m weui-dnb weui-pl5">
-                            <span class="weui-f24 weui-f_b">{{$be_fav_count}}</span>
-                        </span>
+                    <li class="weui-pt30 adwidth">
+                           <img src="/images/3_14.png" class="ad_left"> 
+                           <div class="weui-v_m weui-dnb weui-pl5">
+                               <span class="vip_a">{{$be_fav_count}}</span>
+                               <span class="">粉絲</span>
+                           </div>
                     </li>
-
-                    <li class="weui-pt30">
-                        <img src="/images/3_17.png" class="n_huiyuan">
-                        被瀏覽次數
-                        <span class="weui-v_m weui-dnb weui-pl5">
-                            <span class="weui-f24 weui-f_b">{{$be_visit_other_count}}</span>
-                        </span>
+                    <li class="weui-pt30 adwidth">
+                           <img src="/images/3_17.png" class="ad_left"> 
+                           <div class="weui-v_m weui-dnb weui-pl5">
+                               <span class="vip_a" >{{$be_visit_other_count}}</span>
+                               <span class="">被瀏覽次數</span>
+                           </div>
                     </li>
-
-                    <li class="weui-pt30">
-                        <img src="/images/3_20.png" class="n_huiyuan">
-                        車馬費邀請次數
-                        <span class="weui-v_m weui-dnb weui-pl5">
-                            <span class="weui-f24 weui-f_b">{{$tip_count}}</span>
-                        </span>
+                    <li class="weui-pt30 adwidth">
+                           <img src="/images/3_20.png" class="ad_left"> 
+                           <div class="weui-v_m weui-dnb weui-pl5">
+                               <span class="vip_a">{{$tip_count}}</span>
+                               <span class="">車馬費邀請次數</span>
+                           </div>
                     </li>
                 </ul>
-                @if($user->isVip())
+                {{-- @if($user->isVip())
                     <h3 class="weui-bb weui-pb15 weui-pt30 weui-f20 weui-pl15" style="color:#9f8e63;">進階資料</h3>
                     <div class="weui-pl15 jjzl weui-f16">
                         <dl class="weui-pt20">
@@ -105,7 +93,7 @@
                             <dd class="weui-c_9">{{$is_block_mid}}</dd>
                         </dl>
                     </div>
-                @endif
+                @endif --}}
             </div>
             <div class="col-md-9">
                 <div class="r_content">
@@ -230,30 +218,6 @@
                             @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
                         @endif
                     </ul>
-
-                    <!--手機板VIP-->
-                    @if($user->isVip())
-                    <div class="m_block">
-                        <div class="clearfix weui-mt30 otn_tit">
-                            <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
-                        </div>
-                        <ul class="advanced_data">
-                            <li><span>粉絲</span>{{ $be_fav_count }}</li>
-                            <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
-                            <li><span>車馬費邀請次數</span>{{ $tip_count }}</li>
-                            <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
-                            <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
-                            <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
-                            <li><span>收藏會員次數</span>{{ $fav_count }}</li>
-                            <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
-                            <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
-                            <li><span>發信次數</span>{{ $message_count }}</li>
-                            <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
-                            <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
-                        </ul>
-                    </div>
-                    @endif
-
                     <div class="row">
                         <div class="col-md-12 col-xs-12" style="padding:30px 0px 0 0">
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20 weui-mr10">
@@ -285,6 +249,30 @@
                     <div class="weui-p20 weui-mt10 weui-bgcolor weui-c_9">
                         {!! nl2br($tometa->style) !!}
                     </div>
+                    @if($user->isVip())
+                        <div class="m_block">
+                            <a href="javascript:void(0);" onclick="dh_change();" class="adziliao">進階資料</a>
+                            <div style="display:none" id="div1">
+                                <div class="clearfix weui-mt30 otn_tit">
+                                    <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
+                                </div>
+                                <ul class="advanced_data">
+                                    {{-- <li><span>粉絲</span>{{ $be_fav_count }}</li>
+                                    <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
+                                    <li><span>車馬費邀請次數</span>{{ $tip_count }}</li> --}}
+                                    <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
+                                    <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
+                                    <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
+                                    <li><span>收藏會員次數</span>{{ $fav_count }}</li>
+                                    <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
+                                    <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
+                                    <li><span>發信次數</span>{{ $message_count }}</li>
+                                    <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
+                                    <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -292,5 +280,18 @@
 @stop
 
 @section('javascript')
-    
+<script type="text/javascript">
+function dh_change()
+{
+    var o =document.getElementById("div1").style.display; 
+    if(o=="none") //已经是隐藏状态
+    {
+    document.getElementById("div1").style.display = ""; //使之可见
+    }
+    else
+    {
+    document.getElementById("div1").style.display = "none"; //使之不可见
+    }
+}
+</script>
 @stop

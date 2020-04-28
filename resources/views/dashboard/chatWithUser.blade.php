@@ -1,120 +1,6 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
-<style>
-    .container{
-        box-sizing: border-box;
-    }
-    .textBox{
-        font-size: 16px;
-        border-bottom: 0;
-    }
-
-    .textBox li {
-        font-size: 14px;
-        overflow: hidden;
-        margin-bottom: 15px;
-    }
-
-    .textBox li .imgInfo{
-        height: 40px;
-        width: 40px;
-        display: inline-block;
-        overflow: hidden;
-        border-radius: 50%;
-        vertical-align: top;
-    }
-
-    .textBox li .textInfo{
-        width: 76%;
-        display: inline-block;
-        position: relative;
-        margin-left: 10px;
-        margin-right: 5px;
-    }
-
-    .textBox li .textInfo label{
-        font-size: 12px;
-        font-weight: 100;
-        display: inline-block;
-        color: #999;
-        position: absolute;
-        right: -35px;
-        bottom: -4px;
-        margin-bottom: 0;
-    }
-
-    .textBox li .textInfo p{
-        margin: 0;
-        background: #f7f6fb;
-        word-wrap:break-word;
-        word-break:normal;
-        border-radius: 5px;
-        padding: 5px 10px;
-        max-width: 80%;
-        display: inline-block;
-        position: relative;
-    }
-
-    .text_2n {
-        text-align: right;
-    }
-    
-    .text_2n .imgInfo {
-        float: right;
-        margin-left: 5px;
-    }
-    
-    .text_2n .textInfo {
-        text-align: right;
-        color: #fff;
-    }
-    
-    .text_2n .textInfo p {
-        background: #d5c2a4 !important;
-        margin-top: 4px;
-        text-align: left;
-    }
-    
-    .text_2n .textInfo label {
-        position: absolute;
-        left: -32px;
-        right: 0;
-    }
-    
-    .text_2n .arrow_icon {
-        position: absolute;
-        top: 8px !important;
-        right: -19px !important;
-        left: inherit !important;
-        border-color: transparent transparent transparent #d5c2a4 !important;
-    }
-    
-    .textBox li .textInfo .arrow_icon {
-        position: absolute;
-        top: 10px;
-        left: -20px;
-        border-color: transparent #f7f6fb transparent transparent;
-    }
-    
-    .arrow_icon {
-        border-width: 4px 10px 10px 10px;
-        border-style: solid;
-    }
-    
-    @media (max-width: 330px) {
-        .textBox li .textInfo {
-            width: 75%;
-            display: inline-block;
-            position: relative;
-            margin-left: 10px;
-            margin-right: 5px;
-        }
-        .textBox li .textInfo p {
-            font-size: 12px;
-        }
-    }
-</style>
 <div class="col-sm-12 col-xs-12 col-md-9 messagebg">
     <div class="m-content">
         <div class="container_02">
@@ -125,46 +11,57 @@
                         <div class="col-md-10">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="/dashboard/viewuser/{{$to->id}}"><img class="media-object weui-bod_r" style="  width: 100px;" src="{{$to->meta_()->pic}}" onerror="this.src='/img/female-avatar.png'" alt="..."></a>
+                                    <a href="/dashboard/viewuser/{{$to->id}}">
+                                        <img class="media-object weui-bod_r" style="width:100px;" src="{{$to->meta_()->pic}}" 
+                                        onerror="this.src=@if($to->engroup==1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                    </a>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading weui-f24"><span class="weui-v_t">{{$to->name}}</span> </h4>
                                     <div class="ponewicon">
-                                        <li><form action="/dashboard/fav" method="POST">
+                                        <li>
+                                            <form action="/dashboard/fav" method="POST">
                                                 {!! csrf_field() !!}
                                                 <input type="hidden" name="userId" value="{{$user->id}}">
                                                 <input type="hidden" name="to" value="{{$to->id}}}">
                                                 <button type="submit" style="background: none; border: none; padding: 0">
                                                 <img src="/images/icon_14.png" class="popicon"><span>收藏</span>
                                                 </button>
-                                        </form></li>
-                                        <li><form action="/dashboard/report" class="m-nav__link" method="POST">
-                                            {!! csrf_field() !!}
-                                            <input type="hidden" name="userId" value="{{$user->id}}">
-                                            <input type="hidden" name="to" value="{{$to->id}}}">
-                                            <button type="submit" style="background: none; border: none; padding: 0">
-                                            <img src="/images/new_03.png" class="popicon"><span>檢舉</span>
-                                            </button>
-                                        </form></li>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form action="/dashboard/report" class="m-nav__link" method="POST">
+                                                {!! csrf_field() !!}
+                                                <input type="hidden" name="userId" value="{{$user->id}}">
+                                                <input type="hidden" name="to" value="{{$to->id}}}">
+                                                <button type="submit" style="background: none; border: none; padding: 0">
+                                                <img src="/images/new_03.png" class="popicon"><span>檢舉</span>
+                                                </button>
+                                            </form>
+                                        </li>
                                         @php $isBlocked = \App\Models\Blocked::isBlocked($user->id, $to->id); @endphp
                                         @if($isBlocked)
-                                            <li><form action="/dashboard/unblock" class="m-nav__link" method="POST">
-                                                {!! csrf_field() !!}
-                                                <input type="hidden" name="userId" value="{{$user->id}}">
-                                                <input type="hidden" name="to" value="{{$to->id}}}">
-                                                <button type="submit" style="background: none; border: none; padding: 0">
-                                                <img src="/images/new_05_1.png" class="popicon"><span>解封</span>
-                                                </button>
-                                            </form></li>
+                                            <li>
+                                                <form action="/dashboard/unblock" class="m-nav__link" method="POST">
+                                                    {!! csrf_field() !!}
+                                                    <input type="hidden" name="userId" value="{{$user->id}}">
+                                                    <input type="hidden" name="to" value="{{$to->id}}}">
+                                                    <button type="submit" style="background: none; border: none; padding: 0">
+                                                    <img src="/images/new_05_1.png" class="popicon"><span>解除封鎖</span>
+                                                    </button>
+                                                </form>
+                                            </li>
                                         @else
-                                            <li><form action="/dashboard/block" class="m-nav__link" method="POST">
-                                                {!! csrf_field() !!}
-                                                <input type="hidden" name="userId" value="{{$user->id}}">
-                                                <input type="hidden" name="to" value="{{$to->id}}}">
-                                                <button type="submit" style="background: none; border: none; padding: 0">
-                                                <img src="/images/new_05.png" class="popicon"><span>封鎖</span>
-                                                </button>
-                                            </form></li>
+                                            <li>
+                                                <form action="/dashboard/block" class="m-nav__link" method="POST">
+                                                    {!! csrf_field() !!}
+                                                    <input type="hidden" name="userId" value="{{$user->id}}">
+                                                    <input type="hidden" name="to" value="{{$to->id}}}">
+                                                    <button type="submit" style="background: none; border: none; padding: 0">
+                                                    <img src="/images/new_05.png" class="popicon"><span>封鎖</span>
+                                                    </button>
+                                                </form>
+                                            </li>
                                          @endif
                                         <li>
                                             <a href="{{ url()->previous() }}">
@@ -203,9 +100,11 @@
                                                 
                                                 <div class="imgInfo">
                                                     @if($message['from_id'] == $user->id)
-                                                        <img src="{{$user->meta_()->pic}}" height="40" width="40" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                                        <img src="{{$user->meta_()->pic}}" height="40" width="40"
+                                                        onerror="this.src=@if($user->engroup==1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                                     @else
-                                                        <img src="{{$msgUser->meta_()->pic}}" height="40" width="40" onerror="this.src=@if ($msgUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                                        <img src="{{$msgUser->meta_()->pic}}" height="40" width="40" 
+                                                        onerror="this.src=@if ($msgUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                                     @endif
                                                 </div>
                                                 <div class="textInfo">

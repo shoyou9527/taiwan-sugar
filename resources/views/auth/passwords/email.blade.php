@@ -1,13 +1,8 @@
-@extends('layouts.main_footer')
+@extends('layouts.main')
 
 @section('app-content')
-
-@include('partials.errors')
-@include('partials.status')
 <style>
-.alert {
-    margin-bottom: 0px;
-}
+    .zlleftbg{background:white}
 </style>
 <div class="m-content zlleftbg nerbg">
     <div class="col-sm-12 col-xs-12 col-md-12">

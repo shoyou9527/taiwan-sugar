@@ -1,4 +1,4 @@
-@extends('layouts.main2d')
+@extends('layouts.main')
 
 @section('app-content')
 <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
@@ -8,7 +8,7 @@
             檢舉會員：{{ \App\Models\User::findById($uid)->name }} - 請填寫理由
         </h3>
         <span style="text-align:right;padding:15px;" class="m-portlet__head-text">
-            <a class="btn btn-danger m-btn m-btn--air m-btn--custom" href="/user/view/{{ $uid }}"> 回去{{ \App\Models\User::findById($uid)->name }}的會員資料</a>
+            <a class="btn btn-danger m-btn m-btn--air m-btn--custom" href="/dashboard/viewuser/{{ $uid }}"> 回去{{ \App\Models\User::findById($uid)->name }}的會員資料</a>
         </span>
         <form class="m-form m-form--fit m-form--label-align-right" style="margin-top: 20px;" method="POST" action="{{ route('reportNext') }}">
             {!! csrf_field() !!}
