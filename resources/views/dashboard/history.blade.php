@@ -1,14 +1,7 @@
 @extends('layouts.main')
 
 @section('app-content')
-<style type="text/css">
-.pagination{
-    margin: 0 auto;
-    display: table;
-    padding-bottom: 20px;
-}
-</style>
-<div class="col-md-9 zlrightbg newheight03" style="padding-bottom: 20px;">
+<div class="col-md-9 zlrightbg newheight03">
     <div class="p100 weui-f18" style="min-height: 800px;">
         <div class="l_zlxc" style="margin-top:-14px; margin-bottom:8px;">
             <div class="lytitle"><i></i>足跡</div>
@@ -33,7 +26,7 @@
             沒有資料!!
         @endforelse
     </div>
-    <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
+    <nav aria-label="Page navigation" class="se_page0 newpage bomtop10" style="text-align: center;">
         {!! $visitors->render() !!}
     </nav>
 </div>

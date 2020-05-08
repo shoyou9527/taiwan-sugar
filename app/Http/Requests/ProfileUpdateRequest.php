@@ -41,8 +41,8 @@ class ProfileUpdateRequest extends FormRequest
             'drinking'=> 'required',
             'education'=> 'required',
             // 'occupation'=> 'required',
-            'about'=> 'required',
-            'style' => 'required'
+            'about'=> 'required|max:300',
+            'style' => 'required|max:300'
 
             // 'title' => array('required', 'regex:/^[\x{4e00}-\x{9fa5}_a-zA-Z0-9\s\.\,\。\;\'\"\(\)\，\/\-\=\+\?\!\~\>\<]+$/u'),
             // 'about'=> array('regex:/^[\x{4e00}-\x{9fa5}_a-zA-Z0-9\s\.\,\。\;\'\"\(\)\，\/\-\=\+\?\!\~\>\<]+$/u'),
@@ -71,7 +71,9 @@ class ProfileUpdateRequest extends FormRequest
             'education.required' => '請輸入教育程度',
             // 'occupation.required' => '請輸入現況',
             'about.required' => '請輸入關於我',
+            'about.max' => '至多輸入300字',
             'style.required' => '請輸入期待約會模式',
+            'style.max' => '至多輸入300字',
 
             // 'title.required' => '請輸入標題',
             // 'title.regex' => '標題格式輸入錯誤',

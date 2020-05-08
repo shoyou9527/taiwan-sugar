@@ -1189,6 +1189,11 @@ class PagesController extends Controller
         $payload = $request->all();
         $bid = $payload['to'];
         $aid = auth()->id();
+        //加入普通會員不可使用封鎖功能
+        $user = Auth::user();
+        if(!$user->isVip()){
+            return back()->withErrors(['請先升級VIP才可以封鎖對方哦']);
+        }
         if ($aid !== $bid){
             $isBlocked = Blocked::isBlocked($aid, $bid);
             if(!$isBlocked) {
@@ -1260,6 +1265,11 @@ class PagesController extends Controller
         $payload = $request->all();
         $uid = $payload['to'];
         $aid = auth()->id();
+        //加入普通會員不可使用收藏功能
+        $user = Auth::user();
+        if(!$user->isVip()){
+            return back()->withErrors(['請先升級VIP才可以收藏對方哦']);
+        }
         if ($aid !== $uid)
         {
             $isFav = MemberFav::where('member_id', $aid)->where('member_fav_id',$uid)->count();
@@ -1408,6 +1418,7 @@ class PagesController extends Controller
 
         $m_time = '';
         $messages = Message::allToFromSender($user->id, $cid);
+
         if (isset($user)) {
             $isVip = $user->isVip();
             if (isset($cid)) {

@@ -68,6 +68,7 @@ class MessageController extends Controller {
 
     public function postChat(Request $request)
     {
+        $user = Auth::user();
         $banned = banned_users::where('member_id', Auth::user()->id)
             ->whereNotNull('expire_date')
             ->orderBy('expire_date', 'asc')->get()->first();
@@ -81,7 +82,8 @@ class MessageController extends Controller {
         if(!isset($payload['msg'])){
             return back()->withErrors(['請勿僅輸入空白！']);
         }
-        if(!Auth::user()->isVIP()){
+        //不是VIP的或是女生 都限制發話一分鐘 只有VIP男生可通過
+        if(!$user->isVIP() OR $user->engroup==2){
             $m_time = Message::select('created_at')->
                 where('from_id', Auth::user()->id)->
                 orderBy('created_at', 'desc')->first();

@@ -51,6 +51,17 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    //vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers
+    //取代原路徑內容 加上新驗證判斷 便於後續修改
+    protected function validateLogin(Request $request)
+    {
+        //登入時的判斷 加入email格式判斷
+        $this->validate($request, [
+            $this->username() => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+    }
+
     /**
      * Check user's role and redirect user based on their role
      * @return redirect

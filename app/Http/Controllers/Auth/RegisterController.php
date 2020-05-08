@@ -87,7 +87,7 @@ class RegisterController extends Controller
         });
         $rules = [
             'name'     => ['required', 'max:255', 'not_contains'],
-            'title'    => ['required', 'max:255', 'not_contains'],
+            'title'    => ['required', 'max:300', 'not_contains'],
             'engroup'  => ['required'],
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
@@ -104,7 +104,7 @@ class RegisterController extends Controller
         ];
         $attributes = [
             'name'      => '暱稱',
-            'title'     => '標題',
+            'title'     => '關於我',
             'engroup'   => '帳號類型',
             'email'     => 'E-mail信箱',
             'password'  => '密碼',

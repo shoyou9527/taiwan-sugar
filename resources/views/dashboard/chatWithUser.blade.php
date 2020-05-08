@@ -64,7 +64,8 @@
                                             </li>
                                          @endif
                                         <li>
-                                            <a href="{{ url()->previous() }}">
+                                            {{-- <a href="{{ url()->previous() }}"> --}}
+                                            <a href="{!! url('dashboard/chat') !!}">
                                                 <button type="submit" style="background: none; border: none; padding: 0">
                                                     <img src="/images/new_07.png" class="popicon">
                                                     <span>返回</span>

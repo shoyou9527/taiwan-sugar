@@ -1,14 +1,7 @@
 @extends('layouts.main')
 
 @section('app-content')
-<style type="text/css">
-.pagination{
-    margin: 0 auto;
-    display: table;
-    padding-bottom: 20px;
-}
-</style>
-<div class="col-md-9 zlrightbg newheight03" style="padding-bottom: 20px;">
+<div class="col-md-9 zlrightbg newheight03">
     <div class="p100 weui-f18" style="background-color:white;">
         <div class="lytitle ffs"><i></i>封鎖名單
         @if(!empty($_GET["r"])&&$_GET["r"]=="1") 
@@ -44,7 +37,7 @@
             @endforelse
         </div>
     </div>
-    <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
+    <nav aria-label="Page navigation" class="se_page0 newpage bomtop10" style="text-align: center;">
         {!! $blocks->appends(request()->all())->render() !!}
     </nav>
 </div>

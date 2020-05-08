@@ -152,8 +152,10 @@ class UserService
     {
         try {
             DB::transaction(function () use ($user, $password, $sendEmail) {
+                //註冊時的關於我title也寫進user_meta表內的about
                 $this->userMeta->firstOrCreate([
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'about' => $user->title
                 ]);
 
                 //$this->assignRole($role, $user->id);

@@ -3,7 +3,9 @@
 @section('app-content')
     <style>
         .m-content{
-            background:#f8f5f0;width:100%; display:table;
+            background:#f8f5f0;
+            width:100%;
+            /*display:table;*/
         }
         .zlrightbg{
             padding:50px 0; background:url(/images/09.png) center top no-repeat #ffffff;
@@ -49,51 +51,6 @@
                            </div>
                     </li>
                 </ul>
-                {{-- @if($user->isVip())
-                    <h3 class="weui-bb weui-pb15 weui-pt30 weui-f20 weui-pl15" style="color:#9f8e63;">進階資料</h3>
-                    <div class="weui-pl15 jjzl weui-f16">
-                        <dl class="weui-pt20">
-                            <dt>帳號建立時間</dt>
-                            <dd class="weui-c_9">{{substr($to->created_at,0,10)}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>上次登入時間</dt>
-                            <dd class="weui-c_9">{{substr($to->last_login,0,10)}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>被收藏次數</dt>
-                            <dd class="weui-c_9">{{$be_fav_count}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>收藏會員次數</dt>
-                            <dd class="weui-c_9">{{$fav_count}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>瀏覽其他會員次數</dt>
-                            <dd class="weui-c_9">{{$visit_other_count}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>被瀏覽次數</dt>
-                            <dd class="weui-c_9">{{$be_visit_other_count}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>過去7天被瀏覽次數</dt>
-                            <dd class="weui-c_9">{{$be_visit_other_count_7}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>發信次數</dt>
-                            <dd class="weui-c_9">{{$message_count}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>是否看過我</dt>
-                            <dd class="weui-c_9">{{$is_visit_mid}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>是否封鎖我</dt>
-                            <dd class="weui-c_9">{{$is_block_mid}}</dd>
-                        </dl>
-                    </div>
-                @endif --}}
             </div>
             <div class="col-md-9">
                 <div class="r_content">
@@ -222,14 +179,22 @@
                         <div class="col-md-12 col-xs-12" style="padding:30px 0px 0 0">
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20 weui-mr10">
                                 @if($tometa->smoking=='不抽')
-                                    <img src="/images/04.png">
+                                    <img src="/images/smoking_01.jpg" style="width:90px;height:90px">
+                                @elseif($tometa->smoking=='偶爾抽')
+                                    <img src="/images/smoking_02.jpg" style="width:90px;height:90px">
+                                @elseif($tometa->smoking=='常抽')
+                                    <img src="/images/smoking_03.jpg" style="width:90px;height:90px">
                                 @endif
                                 <p class="weui-pt10">{{$tometa->smoking}}</p>
                             </span>
                             
                             <span class="weui-dnb weui-bgcolor weui-t_c weui-p20">
                                 @if($tometa->drinking=='不喝')
-                                    <img src="/images/03.png">
+                                    <img src="/images/drinking_01.jpg" style="width:90px;height:90px">
+                                @elseif($tometa->drinking=='偶爾喝')
+                                    <img src="/images/drinking_02.jpg" style="width:90px;height:90px">
+                                @elseif($tometa->drinking=='常喝')
+                                    <img src="/images/drinking_03.jpg" style="width:90px;height:90px">
                                 @endif
                                 <p class="weui-pt10">{{$tometa->drinking}}</p>
                             </span>
@@ -239,40 +204,43 @@
                         <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">關於我</span>
                         <span class="weui-fr"><img src="/images/z_06.png"></span>
                     </div>
-                    <div class="weui-p20 weui-bgcolor weui-c_9">
+                    <div class="weui-p20 weui-bgcolor weui-c_9" style="word-wrap: break-word;">
                         {!! nl2br($tometa->about) !!}
                     </div>
                     <div class="clearfix weui-mt30 otn_tit">
                         <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">期待約會模式</span>
                         <span class="weui-fr"><img src="/images/data_03.png"></span>
                     </div>
-                    <div class="weui-p20 weui-mt10 weui-bgcolor weui-c_9">
+                    <div class="weui-p20 weui-mt10 weui-bgcolor weui-c_9" style="word-wrap: break-word;">
                         {!! nl2br($tometa->style) !!}
                     </div>
-                    @if($user->isVip())
+                    {{-- @if($user->isVip()) --}}
                         <div class="m_block">
                             <a href="javascript:void(0);" onclick="dh_change();" class="adziliao">進階資料</a>
+                            @if($user->isVip())
                             <div style="display:none" id="div1">
-                                <div class="clearfix weui-mt30 otn_tit">
+                                <div class="clearfix weui-mt10 otn_tit">
                                     <span class="weui-fl weui-f24 weui-pt10" style="color:#3c2726;">進階資料</span>
+                                    <span class="weui-fr jfefont"><img src="/images/jf.png"></span>
                                 </div>
                                 <ul class="advanced_data">
-                                    {{-- <li><span>粉絲</span>{{ $be_fav_count }}</li>
-                                    <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
-                                    <li><span>車馬費邀請次數</span>{{ $tip_count }}</li> --}}
+                                    {{-- <li><span>粉絲</span>{{ $be_fav_count }}</li> --}}
                                     <li><span>帳號建立時間</span>{{ substr($to->created_at,0,10) }}</li>
                                     <li><span>上次登入時間</span>{{ substr($to->last_login,0,10) }}</li>
                                     <li><span>被收藏次數</span>{{ $be_fav_count }}</li>
+                                    <li><span>車馬費邀請次數</span>{{ $tip_count }}</li>
                                     <li><span>收藏會員次數</span>{{ $fav_count }}</li>
                                     <li><span>瀏覽其他會員次數</span>{{ $visit_other_count }}</li>
+                                    <li><span>被瀏覽次數</span>{{ $be_visit_other_count }}</li>
                                     <li><span>過去7天被瀏覽次數</span>{{ $be_visit_other_count_7 }}</li>
                                     <li><span>發信次數</span>{{ $message_count }}</li>
                                     <li><span>是否看過我</span>{{ $is_visit_mid }}</li>
                                     <li><span>是否封鎖我</span>{{ $is_block_mid }}</li>
                                 </ul>
                             </div>
+                            @endif
                         </div>
-                    @endif
+                    {{-- @endif --}}
                 </div>
             </div>
         </div>
@@ -281,16 +249,15 @@
 
 @section('javascript')
 <script type="text/javascript">
-function dh_change()
-{
-    var o =document.getElementById("div1").style.display; 
-    if(o=="none") //已经是隐藏状态
-    {
-    document.getElementById("div1").style.display = ""; //使之可见
-    }
-    else
-    {
-    document.getElementById("div1").style.display = "none"; //使之不可见
+function dh_change(){
+    if("{{ $user->isVip() }}"==1){
+        var o = document.getElementById("div1").style.display; 
+        if(o=="none"){document.getElementById("div1").style.display = "";
+        }else{document.getElementById("div1").style.display = "none";}
+    }else{
+        $('.prompt').html('');
+        $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>需要先升級成為VIP會員才可以查看進階資料</li></ul></div>');
+        $('html,body').animate({scrollTop:0}, 333);
     }
 }
 </script>

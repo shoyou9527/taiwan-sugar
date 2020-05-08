@@ -609,7 +609,30 @@ class Message extends Model
         // }
 
         // return Message::where([['to_id', $uid],['from_id', $sid],['is_single_delete_1','<>',$uid]])->orWhere([['from_id', $uid],['to_id', $sid],['is_single_delete_1','<>',$uid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
-        return Message::where([['to_id', $uid],['from_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])->orWhere([['from_id', $uid],['to_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])->distinct()->orderBy('created_at', 'desc')->paginate(10);
+
+        //如果有封鎖對方 加入過濾封鎖之後對方傳來的訊息看不到
+        if(Blocked::isBlocked($uid, $sid)) {
+            $blockTime = Blocked::getBlockTime($uid, $sid);
+            return Message::where([
+                        ['to_id', $uid],
+                        ['from_id', $sid],
+                        ['created_at', '<=', $blockTime->created_at],
+                        ['is_row_delete_1','<>',$uid],
+                        ['is_row_delete_2','<>',$uid]
+                    ])
+                    ->orWhere([
+                        ['from_id', $uid],
+                        ['to_id', $sid],
+                        ['is_row_delete_1','<>',$uid],
+                        ['is_row_delete_2','<>',$uid]
+                    ])
+                    ->distinct()->orderBy('created_at', 'desc')
+                    ->paginate(10);
+        }
+        return Message::where([['to_id', $uid],['from_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])
+                ->orWhere([['from_id', $uid],['to_id', $sid],['is_row_delete_1','<>',$uid],['is_row_delete_2','<>',$uid]])
+                ->distinct()->orderBy('created_at', 'desc')
+                ->paginate(10);
     }
 
     public static function unread($uid)
@@ -636,6 +659,9 @@ class Message extends Model
             //$all_msg = $all_msg->whereIn('from_id', $allVip);
             $all_msg = $all_msg->join('member_vip', 'member_vip.member_id', '=', 'message.from_id');
         }
+        //出現問題是若有會員被直接刪除的 但有發訊息也會統計進去 收件夾卻無顯示 特此排除
+        $all_msg = $all_msg->join('users', 'users.id', '=', 'message.from_id');
+
         $unreadCount = $all_msg->count();
 
         return $unreadCount;

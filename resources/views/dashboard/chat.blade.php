@@ -23,6 +23,7 @@
                         }
                         $t = explode(" ",$message['created_at']);
                     @endphp
+                    @if(isset($msgUser))
                     <div class="m-widget3__item" style="margin:10px;box-shadow: 0 1px 15px 1px rgba(244, 164, 164, 0.7); padding: 14px 28px;
                         {{--未讀且是不是我發出的訊息 顯示粉紅底--}}
                         @if($message['read']=='N' AND $message['from_id'] != $user->id)background-color: rgba(244, 164, 164, 0.7);@endif">
@@ -50,6 +51,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @empty
                     沒有資料!!
                 @endforelse

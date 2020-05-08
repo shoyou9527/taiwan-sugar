@@ -25,8 +25,9 @@
 	<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
 		{{-- @include('partials.menu') --}}
 		@include('layouts.navigation')
-		<div class="m-content">
+		<div class="m-content h_shoujian">
         	{{-- 共用訊息提示 --}}
+        	<div class="prompt"></div>
             @include('partials.errors')
             @include('partials.message')
 		    <div class="m-content zlleftbg">

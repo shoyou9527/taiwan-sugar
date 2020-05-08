@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-5 col-md-push-7">
                 <div class="weui-bgf weui-bod_r weui-mt20 loginbox denglv">
-                    <form class="m-login__form m-form" method="POST" action="/login">
+                    <form class="m-login__form m-form" method="POST" action="/login" novalidate>
                         {!! csrf_field() !!}
                         <div class="weui-f18 weui-pl10 denl .title">登入</div>
                         <div class="weui-pt10 sign_relative">

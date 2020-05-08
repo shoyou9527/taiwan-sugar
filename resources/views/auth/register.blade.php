@@ -66,7 +66,7 @@
                 <div class="weui-mt10">
                     <div class="weui-flex form01">
                         <div><img src="images/sjzc2_16.png" width="14"></div>
-                        <div class="weui-flex__item weui-pl10"><input type="text" class="form02" placeholder="一句話形容自己" name="title" value="" required></div>
+                        <div class="weui-flex__item weui-pl10"><input type="text" class="form02" placeholder="關於我" name="title" value="" required></div>
                     </div>
                 </div>
                 <div>

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Notifications\MessageEmail;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Visited extends Model
 {
@@ -27,7 +28,7 @@ class Visited extends Model
         'created_at'
     ];
 
-    public $timestamps = false;
+    // public $timestamps = false;
 
 
     public static function unique($array,$key_id = null, $key_create = null) {
@@ -68,7 +69,15 @@ class Visited extends Model
     //TS足跡分頁
     public static function findBySelf2($uid)
     {
-        return Visited::where('visited_id', $uid)->groupBy('member_id')->orderBy('created_at', 'desc')->paginate(12);
+        //加入排除封鎖名單 並修改因orderBy導致分組只取第一筆的非最新那筆問題
+        $blocks = Blocked::select('blocked_id')->where('member_id', $uid)->get();
+        $sql = Visited::where('visited_id', $uid)->whereNotIn('member_id',$blocks)->orderBy('created_at', 'desc')->limit(1000);
+        return Visited::select('*')
+                ->from(DB::raw('('.$sql->toSql().') as a'))
+                ->mergeBindings($sql->getQuery())
+                ->groupBy('member_id')
+                ->orderBy('created_at','DESC')
+                ->paginate(12);
     }
 
     public static function visit($member_id, $visited_id)
