@@ -642,23 +642,27 @@ class Message extends Model
         $user = User::findById($uid);
         $block = Blocked::getAllBlockedId($uid);
         $banned_users = \App\Services\UserService::getBannedId();
-
+        //所有給我的訊息
         $query = Message::where(function($query)use($uid)
         {
             $query->where('to_id','=' ,$uid)
-                ->where('from_id','!=',$uid);
+                ->where('from_id','<>',$uid);
         });
+        //過濾掉所有封鎖與禁用的會員訊息 且未讀 且無被我刪除
         $all_msg = $query->whereNotIn('from_id', $banned_users)
             ->whereNotIn('to_id', $banned_users)
             ->whereNotIn('from_id', $block)
             ->whereNotIn('to_id', $block)
-            ->where([['is_row_delete_1', '=' ,0], ['temp_id', '=', 0]])
+            // ->where([['is_row_delete_1', '=' ,0], ['temp_id', '=', 0]])
+            ->where('is_row_delete_1','<>',$uid)
+            ->where('is_row_delete_2','<>',$uid)
+            ->where('temp_id', 0)
             ->where('read', 'N');
-        if($user->meta_()->notifhistory == '顯示VIP會員信件') {
-            //$allVip = \App\Models\Vip::allVip();
-            //$all_msg = $all_msg->whereIn('from_id', $allVip);
-            $all_msg = $all_msg->join('member_vip', 'member_vip.member_id', '=', 'message.from_id');
-        }
+        // if($user->meta_()->notifhistory == '顯示VIP會員信件') {
+        //     //$allVip = \App\Models\Vip::allVip();
+        //     //$all_msg = $all_msg->whereIn('from_id', $allVip);
+        //     $all_msg = $all_msg->join('member_vip', 'member_vip.member_id', '=', 'message.from_id');
+        // }
         //出現問題是若有會員被直接刪除的 但有發訊息也會統計進去 收件夾卻無顯示 特此排除
         $all_msg = $all_msg->join('users', 'users.id', '=', 'message.from_id');
 
@@ -666,6 +670,35 @@ class Message extends Model
 
         return $unreadCount;
     }
+
+    public static function unread_test($uid)
+    {
+        $user = User::findById($uid);
+        $block = Blocked::getAllBlock($uid);
+        $banned_users = \App\Services\UserService::getBannedId();
+        $query = Message::where(function($query)use($uid)
+        {
+            $query->where('to_id','=' ,$uid)
+                ->where('from_id','<>',$uid);
+        });
+        $query->where('read', 'N');
+        if(isset($banned_users)) {
+            $query->whereNotIn('from_id', $banned_users);
+            $query->whereNotIn('to_id', $banned_users);
+        }
+        if(isset($block)) {
+            $query->whereNotIn('from_id', $block);
+            $query->whereNotIn('to_id', $block);
+        }
+        $query->where([['is_row_delete_1','<>',$uid],['is_single_delete_1', '<>' ,$uid],['is_row_delete_2', '<>' ,$uid],['is_single_delete_2', '<>' ,$uid]]);
+        //出現問題是若有會員被直接刪除的 但有發訊息也會統計進去 收件夾卻無顯示 特此排除
+        $query->join('users', 'users.id', '=', 'message.from_id');
+
+        $unreadCount = 0;
+        $unreadCount = $query->get()->count();
+        return $unreadCount;
+    }
+
 
     public static function read($message, $uid)
     {

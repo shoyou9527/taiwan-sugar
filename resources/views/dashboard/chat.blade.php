@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg" style="min-height: 804px;">
-    <div class=" p100">
+<div class="col-md-9 zlrightbg">
+    <div class="p100 nwpawod">
         <div class="lytitle"><i></i>收件夾
             <span style="float:right;margin-top:-3px; margin-right:10px" class="m-portlet__head-text">
                 <form style="display:inline;" method="post" action="{!! route('deleteAll', ['uid' => $user->id]) !!}">
@@ -56,11 +56,11 @@
                     沒有資料!!
                 @endforelse
             </div>
-            <nav aria-label="Page navigation" class="se_page0 newpage" style="text-align: center;">
-                {!! $messages->appends(request()->all())->render() !!}
-            </nav>
         </div>
     </div>
+    <nav aria-label="Page navigation" class="se_page0 newpage bomtop10" style="text-align: center;">
+        {!! $messages->appends(request()->all())->render() !!}
+    </nav>
 </div>
 @stop
 

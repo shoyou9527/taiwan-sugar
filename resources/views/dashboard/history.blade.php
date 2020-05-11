@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg newheight03">
-    <div class="p100 weui-f18" style="min-height: 800px;">
+<div class="col-md-9 zlrightbg">
+    <div class="p100 weui-f18 nwpawod">
         <div class="l_zlxc" style="margin-top:-14px; margin-bottom:8px;">
             <div class="lytitle"><i></i>足跡</div>
         </div>
