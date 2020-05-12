@@ -26,3 +26,6 @@ config/app.php
 .mysql_history
 .viminfo
 .cache/
+.gitconfig
+.bash_profile
+.ssh/

@@ -559,7 +559,7 @@
 .nic{ display:none}
 
 @media (max-width:320px){
-.pe_data li span{width:40%;}
+.pe_data li span{width:30%;}
 .advanced_data li span{width:50%;}
 }
 
@@ -671,7 +671,7 @@
 }
 @media (max-width:720px){
 .zcwheight{ min-height:550px;}
-.nwpawod{ min-height:450px}
+.nwpawod{ min-height:613px}
 .h_shoujian{ min-height:550px}
 .zu_new_1{ min-height:550px}
 }

@@ -16,9 +16,9 @@
                         <img class="hypic yichub" src="@if($histUser->meta_()->isAvatarHidden) {{ 'makesomeerror' }} @else {{$histUser->meta_()->pic}} @endif" 
                             onerror="this.src=@if ($histUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                         <p class="weui-pt15">
-                            <span>{{ $histUser->name }} @if($histUser->isVip()) <img src="/images/05.png" class="weui-v_t">@endif</span>
+                            <span>{{str_limit($histUser->name,12,'...')}} @if($histUser->isVip()) <img src="/images/05.png" class="weui-v_t">@endif</span>
                         </p>
-                        <p class="weui-c_9">{{ $visitor->created_at }}</p>
+                        <p class="weui-c_9">{{ $visitor->created_at or '2018-01-01 00:00:00' }}</p>
                     </a>
                 </div>
             @endif
