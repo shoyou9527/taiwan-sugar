@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@ming.test-tw.icu'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@cd.test-tw.icu'),
         'name' => env('MAIL_FROM_NAME', '台灣甜心網'),
     ],
 
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', 'admin@ming.test-tw.icu'),
+    'username' => env('MAIL_USERNAME', 'admin@cd.test-tw.icu'),
 
     'password' => env('MAIL_PASSWORD', 'admin'),
 

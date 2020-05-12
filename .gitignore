@@ -22,3 +22,7 @@ config/session.php
 config/app.php
 /.vscode
 *.DS_Store
+.bash_history
+.mysql_history
+.viminfo
+.cache/
