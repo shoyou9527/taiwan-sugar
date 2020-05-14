@@ -26,8 +26,7 @@
                     }
                 }
                 @endphp
-                <div><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
-
+                <div class="gezl"><img class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
                 <ul style="color:#575757;">
                     <li class="weui-pt30 adwidth">
                            <img src="/images/3_14.png" class="ad_left"> 
@@ -54,9 +53,8 @@
             </div>
             <div class="col-md-9">
                 <div class="r_content">
-                    <div class="oth_tx clearfix">
-                        <div class="pic picleft"><img src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
-                        </div>
+                    <div class="oth_tx clearfix picleft">
+                        <div class="qpic"><img  class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
                     </div>
                     <div class="weui-f24 picleft_font" style="color:#3c2726;"><b class="weui-f36 weui-v_t">{{$to->name}}</b>
                         @if($tometa->isHideArea == '0')
@@ -128,15 +126,17 @@
                     </div>
                     <div class="row weui-mt15">
                         @foreach($member_pic as $row)
-                            @if($row->isHidden == 1)
+                            {{-- @if($row->isHidden == 1)
                                 <img src="{{ 'makesomeerror' }}" width="96px" style="margin:5px" height="96px" 
                                 onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
-                            @else
-                                <a href="{{$row->pic}}" target="_blank">
+                            @else --}}
+                            <li class="hy_w">
+                                <a href="{{$row->pic}}" target="_blank" class="hypic_1">
                                     <img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" 
                                     onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                 </a>
-                            @endif
+                            </li>
+                            {{-- @endif --}}
                         @endforeach
                     </div>
                     <div class="clearfix weui-mt30 otn_tit ">

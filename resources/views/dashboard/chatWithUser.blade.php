@@ -11,9 +11,8 @@
                         <div class="col-md-10">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="/dashboard/viewuser/{{$to->id}}">
-                                        <img class="media-object weui-bod_r" style="width:100px;" src="{{$to->meta_()->pic}}" 
-                                        onerror="this.src=@if($to->engroup==1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                    <a href="/dashboard/viewuser/{{$to->id}}" class="media-object weui-bod_r n_phont">
+                                        <img class="hypic" src="{{$to->meta_()->pic}}" onerror="this.src=@if($to->engroup==1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -98,15 +97,16 @@
                                                     {{substr($message['created_at'],0,10)}}
                                                 </p>
                                                 @endif
-                                                
                                                 <div class="imgInfo">
+                                                    <span class="img_fo">
                                                     @if($message['from_id'] == $user->id)
-                                                        <img src="{{$user->meta_()->pic}}" height="40" width="40"
+                                                        <img class="hypic" src="{{$user->meta_()->pic}}"
                                                         onerror="this.src=@if($user->engroup==1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                                     @else
-                                                        <img src="{{$msgUser->meta_()->pic}}" height="40" width="40" 
+                                                        <img  class="hypic" src="{{$msgUser->meta_()->pic}}"
                                                         onerror="this.src=@if ($msgUser->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                                                     @endif
+                                                    </span>
                                                 </div>
                                                 <div class="textInfo">
                                                 <p>

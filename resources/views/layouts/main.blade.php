@@ -12,7 +12,7 @@
 		<link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
 		<link href="{{ asset('css/iconfont.css') }}" type="text/css" rel="stylesheet">
 		<link href="{{ asset('css/new_css.css') }}" type="text/css" rel="stylesheet">
-		{{-- <link href="{{ asset('css/ts_css.css') }}" type="text/css" rel="stylesheet"> --}}
+		<link href="{{ asset('css/ts_css.css') }}" type="text/css" rel="stylesheet">
 		<link href="{{ asset('css/style-new.css') }}" type="text/css" rel="stylesheet">
 		<script src="{{ asset('js/jquery.min.js') }}"></script>
 		@if (!str_contains(url()->current(), '/dashboard/search'))

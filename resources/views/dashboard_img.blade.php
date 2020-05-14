@@ -7,6 +7,7 @@
             <div class="zlxc">
                 <div class="zlxctitle">上傳相片</div>
                 <div class="group grline">
+                    <div class="gx_t" >
                     <form method="POST" action="/dashboard/header" enctype="multipart/form-data">
                         <div class="grouttitle">大頭照</div>
                         <div class="col-sm-5 col-xs-6 col-md-5 gr_top">
@@ -19,22 +20,24 @@
                             <input type="submit" value="上傳" class="group_but">
                         </div>
                     </form>
+                    </div>
                     @if(!empty($user->meta_()->pic))
-                    <div class="grxiphoto">
-                        <li class="col-sm-4 col-xs-6" style="padding-top: 10px;">
-                            <img src="{{$user->meta_()->pic}}" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"
-                            class="dashboard_square">
+                    <div class=" ge_gm">
+                        <li class="hy_w01">
+                            <a href="{{$user->meta_()->pic}}" target="_blank" class="hypic_2">
+                                <img src="{{$user->meta_()->pic}}" width="96px" style="margin:5px" height="96px">
+                            </a>
                             <form method="POST" action="{{ url("/dashboard/picdel") }}">
                                 {!! csrf_field() !!}
-                                <input type="hidden" name="userId" value="{{ $user->id }}">
                                 <button type="submit" class="delbutton">刪除</button>
                             </form>
                         </li>
-                    </div>
+                     </div>
                     @endif
                 </div>
                 <div class="group">
                     <div class="grouttitle">生活照</div>
+                    <div class="gx_t">
                     <form method="POST" action="/dashboard/image" enctype="multipart/form-data">
                         <div class="col-sm-5 col-xs-6 col-md-5 gr_top">
                             {!! csrf_field() !!}
@@ -47,25 +50,25 @@
                         <div class="col-sm-3 col-xs-12 col-md-3 grtwo">
                             <input type="submit" value="上傳" class="group_but">
                             &nbsp;&nbsp;
-                            <!--<button type="reset" class="btn btn-cs" disabled>取消</button>-->
                         </div>
                     </form>
-                    {{-- 迴圈生活照 --}}
+                    </div>
                     @if(!empty($member_pics))
-                        <div class="grxiphoto">
-                            @foreach($member_pics as $key=>$member_pic)
-                                <li class="col-xs-6 col-sm-4  col-md-3 col-lg-2">
-                                    <img src="@if($user->meta_()->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$member_pic->pic}} @endif" 
-                                        onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="dashboard_square">
-                                    <form method="POST" action="{{ url("/dashboard/imagedel") }}">
-                                        {!! csrf_field() !!}
-                                        <input type="hidden" name="userId" value="{{ $user->id }}">
-                                        <input type="hidden" name="imgId" value="{{ $member_pic->id }}">
-                                        <button type="submit" class="delbutton">刪除</button>
-                                    </form>
-                                </li>
-                            @endforeach
-                        </div>
+                    <div class=" ge_gm01">
+                        @foreach($member_pics as $key => $member_pic)
+                        <li class="hy_w01">
+                            <a href="{{$member_pic->pic}}" target="_blank" class="hypic_2">
+                                <img src="{{$member_pic->pic}}" width="96px" style="margin:5px" height="96px" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                            </a>
+                            <form method="POST" action="{{ url("/dashboard/imagedel") }}">
+                                {!! csrf_field() !!}
+                                <input type="hidden" name="userId" value="{{ $user->id }}">
+                                <input type="hidden" name="imgId" value="{{$member_pic->id}}">
+                                <button type="submit" class="delbutton">刪除</button>
+                            </form>
+                        </li>
+                        @endforeach
+                    </div>
                     @endif
                 </div>
             </div>

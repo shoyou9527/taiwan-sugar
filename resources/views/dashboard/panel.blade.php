@@ -1,12 +1,15 @@
 <div class="col-sm-12 col-xs-12 col-md-3 zleft">
-    <div class="zlfont">
-        <img src="{{ $user->meta_()->pic }}" onerror="this.src=@if($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif" class="zlfont_img">
+
+    <div class="zlfont"> 
+        <div class="nzl_img">
+            <img class="hypic" src="{{ $user->meta_()->pic }}" onerror="this.src=@if($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+        </div>
         <span>
             {{ $user->name }}
             @if($user->isVip())
                 <img src="/images/05.png" class="weui-v_t">
             @endif
-        </span>
+        </span> 
     </div>
     <div class="zllist">
         <a href="{!! url('dashboard') !!}" class="info">
