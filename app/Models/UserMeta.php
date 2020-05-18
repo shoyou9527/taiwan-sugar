@@ -270,14 +270,16 @@ class UserMeta extends Model
         if (isset($smoking) && strlen($smoking) != 0) $query = $query->where('smoking', $smoking);
         if (isset($drinking) && strlen($drinking) != 0) $query = $query->where('drinking', $drinking);
 
-        //TS的 body多選轉單選 age調整單一傳入 cup過濾保密 pic過濾隱藏 地區過濾保密 vip過濾
+        //TS的 body多選轉單選 age調整單一傳入 cup過濾保密 pic過濾隱藏 鄉鎮過濾保密 vip過濾
         if (isset($havepic) && strlen($havepic) != 0) $query = $query->where('isAvatarHidden', '0');
-        if (isset($city) && strlen($city) != 0) $query = $query->where('city','like', '%'.$city.'%')->where('isHideArea', '0');
-        if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%')->where('isHideArea', '0');
+        if (isset($city) && strlen($city) != 0) $query = $query->where('city','like', '%'.$city.'%');
+        if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%');
+        // if (isset($area) && strlen($area) != 0) $query = $query->where('area','like', '%'.$area.'%')->where('isHideArea', '0');
         if (isset($isvip) && $isvip==1){
             $query = $query->join('member_vip', 'member_vip.member_id', '=', 'user_meta.user_id')->where('member_vip.active','1');
         }
-        if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup)->where('isHideCup', '0');
+        if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup);
+        // if (isset($cup) && strlen($cup) != 0) $query = $query->where('cup', $cup)->where('isHideCup', '0');
         if (isset($body) && strlen($body) != 0) $query = $query->where('body', $body);
         if (!empty($agefrom) && empty($ageto)){
             $age = explode(",",$agefrom);

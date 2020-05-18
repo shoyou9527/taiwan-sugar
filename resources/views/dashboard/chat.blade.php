@@ -38,7 +38,7 @@
                                 <div class="widget3_text">
                                     <div class="m-widget3__info">
                                         <a href="{{ route('chatWithUser', $msgUser->id) }}">
-                                            <span class="m-widget3__username">{{$msgUser->name}}</span>
+                                            <span class="m-widget3__username">{{ mb_substr($msgUser->name, 0, 7) }}</span>
                                         </a>
                                     </div>
                                     <p class="word_text" style="padding-left: 10px;">{{ $message['content'] }}</p>

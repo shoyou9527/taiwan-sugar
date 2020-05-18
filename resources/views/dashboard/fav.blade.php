@@ -26,7 +26,7 @@
                                         <input type="submit" style="background: none;" value="移除"></div>
                                 </form>
                             </div>
-                            <p class="weui-pt15 font_14">{{$favUser->name}}@if($favUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif</p>
+                            <p class="weui-pt15 font_14">{{ mb_substr($favUser->name, 0, 7) }}@if($favUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif</p>
                         </a>
                     </div>
                 @empty

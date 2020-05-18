@@ -16,7 +16,7 @@
                                     </a>
                                 </div>
                                 <div class="media-body">
-                                    <h4 class="media-heading weui-f24"><span class="weui-v_t">{{$to->name}}</span> </h4>
+                                    <h4 class="media-heading weui-f24"><span class="weui-v_t">{{ mb_substr($to->name, 0, 7) }}</span> </h4>
                                     <div class="ponewicon">
                                         <li>
                                             <form action="/dashboard/fav" method="POST">
@@ -46,7 +46,7 @@
                                                     <input type="hidden" name="userId" value="{{$user->id}}">
                                                     <input type="hidden" name="to" value="{{$to->id}}}">
                                                     <button type="submit" style="background: none; border: none; padding: 0">
-                                                    <img src="/images/new_05_1.png" class="popicon"><span>解除封鎖</span>
+                                                    <img src="/images/new_05_1.png" class="popicon"><span>解除</span>
                                                     </button>
                                                 </form>
                                             </li>

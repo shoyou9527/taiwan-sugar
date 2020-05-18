@@ -114,15 +114,16 @@
                         <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$umeta->pic}} @endif" @if ($visitor->engroup == 1) onerror="this.src='/img/male-avatar.png'" @else onerror="this.src='/img/female-avatar.png'" @endif>
                     </div>
                     <div class="serightpe_font">
-                        <h2>{{ $visitor->name }} @if($visitor->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </h2>
+                        <h2>{{ mb_substr($visitor->name, 0, 7) }}@if($visitor->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </h2>
                         <h3>
-                        @if($umeta->isHideArea == '0')
                             @if(!empty($umeta->city))
-                                @foreach($umeta->city as $key => $cityval)
-                                    @if ($loop->first) {{$umeta->city[$key]}} {{$umeta->area[$key]}} @endif
-                                @endforeach
-                            @else 保密 @endif
-                        @else 保密 @endif
+                                {{ head($umeta->city) }}
+                                @if($umeta->isHideArea == '0')
+                                    {{ head($umeta->area) }}
+                                @endif
+                            @else 
+                                保密 
+                            @endif
                         </h3>
                         <div class="setext">
                             <h4><span>年齡：</span>{{ $umeta->age() }}歲</h4>

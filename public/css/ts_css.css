@@ -119,6 +119,7 @@ body {
     bottom: -4px;
     bottom: 0px;
     margin-bottom: 0;
+    white-space:nowrap;
 }
 
 .textBox li .textInfo p{
@@ -325,4 +326,13 @@ body {
 .jfefont{width:60%; float:right}
 .jfefont img{width:100%; margin-top:10px;}
 
+}
+
+/*至頂鈕樣式*/
+#scrollUp {
+    background-image: url("/img/top.png");
+    bottom: 20px;
+    right: 20px;
+    width: 38px;    /* Width of image */
+    height: 38px;   /* Height of image */
 }

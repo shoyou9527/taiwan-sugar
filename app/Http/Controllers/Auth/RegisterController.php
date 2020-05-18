@@ -86,7 +86,7 @@ class RegisterController extends Controller
             return true;
         });
         $rules = [
-            'name'     => ['required', 'max:255', 'not_contains'],
+            'name'     => ['required', 'max:7', 'not_contains'],
             'title'    => ['required', 'max:300', 'not_contains'],
             'engroup'  => ['required'],
             'email'    => 'required|email|max:255|unique:users',
@@ -100,6 +100,7 @@ class RegisterController extends Controller
             'email.email'   => 'E-mail格式錯誤',
             'email.unique'  => '此 E-mail 已被註冊',
             'min:6' =>'密碼欄位需6個字元以上',
+            'name.max' =>'暱稱至多輸入七位數',
             'password.confirmed' => '密碼確認錯誤'
         ];
         $attributes = [

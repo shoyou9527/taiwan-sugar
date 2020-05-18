@@ -30,7 +30,7 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => array('required', 'regex:/^[\x{4e00}-\x{9fa5}_a-zA-Z0-9\s\.\,\。\;\'\"\(\)\，\/\-\=\+\?\!\~\>\<]+$/u'),
+            'name' => array('required','max:7' , 'regex:/^[\x{4e00}-\x{9fa5}_a-zA-Z0-9\s\.\,\。\;\'\"\(\)\，\/\-\=\+\?\!\~\>\<]+$/u'),
             'budget'=> 'required',
             'height' => 'required|between:140,200|numeric',
             'city'=> 'required',
@@ -55,6 +55,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name.required' => '請輸入暱稱',
+            'name.max'  => '暱稱至多輸入七位數',
             'name.regex' => '暱稱格式輸入錯誤',
             'budget.required' => '請輸入預算',
             'height.required' => '請輸入身高',

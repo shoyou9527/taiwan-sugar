@@ -21,7 +21,7 @@
                                         @else '/img/female-avatar.png' 
                                         @endif">
                                 </div>
-                                <p class="weui-pt15 font_14">{{str_limit($histUser->name,12,'...')}} 
+                                <p class="weui-pt15 font_14">{{ mb_substr($histUser->name, 0, 7) }} 
                                     @if($histUser->isVip())<img src="/images/05.png" class="weui-v_t">@endif
                                 </p>
                                 <p class="weui-c_9 lytitle_aa">{{ $visitor->created_at or '2018-01-01 00:00:00' }}</p>

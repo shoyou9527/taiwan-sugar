@@ -97,23 +97,21 @@ class PagesController extends Controller
         //女生表單驗證判斷多cup與現況
         if($user->engroup == 2){
             $rules = [
-                'name' => ['required', 'max:7', 'not_contains'],
+                'name' => ['required', 'not_contains'],
                 'cup' => ['required'],
                 'occupation' => ['required']
             ];
             $messages = [
                 'name.not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
-                'name.max'  => '暱稱至多輸入七位數',
                 'cup.required'  => '請輸入罩杯',
                 'occupation.required'  => '請輸入現況'
             ];
         }else{
             $rules = [
-                'name'     => ['required', 'max:7', 'not_contains'],
+                'name'     => ['required', 'not_contains'],
             ];
             $messages = [
-                'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
-                'max'  => '暱稱至多輸入七位數'
+                'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！'
             ];
         }
         $validator = \Validator::make($request->all(), $rules, $messages);

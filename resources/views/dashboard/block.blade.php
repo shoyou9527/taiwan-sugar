@@ -26,7 +26,7 @@
                                         <input type="submit" style="background: none;" value="解除"></div>
                                 </form>
                             </div>
-                            <p class="weui-pt15 font_14">{{$blockedUser->name}}@if($blockedUser->isVip())<img src="/images/05.png" class="weui-v_t">@endif</p>
+                            <p class="weui-pt15 font_14">{{ mb_substr($blockedUser->name, 0, 7) }}@if($blockedUser->isVip())<img src="/images/05.png" class="weui-v_t">@endif</p>
                         </a>
                     </div>
                 @empty
