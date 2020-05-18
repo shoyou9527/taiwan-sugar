@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\AnnouncementRead;
 use App\Http\Requests;
 use App\Models\SimpleTables\banned_users;
+use App\Models\Blocked;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -125,8 +126,18 @@ class MessageController extends Controller {
         $user = $request->user();
         $m_time = '';
         $uid = $user->id;
-        $msg = Message::where([['to_id', $uid], ['from_id', '!=', $uid]])->orWhere([['from_id', $uid], ['to_id', '!=',$uid]])->orderBy('created_at', 'desc')->get();
-        $messages = Message::chatArray($uid, $msg, 1);
+        //先過濾掉封鎖與禁用會員 減少後面TSchatArray的foreach時間
+        $banned_users = \App\Services\UserService::getBannedId();
+        $block = Blocked::getAllBlockedId($uid);
+        $msg = Message::where([['to_id', $uid], ['from_id', '!=', $uid]])
+            ->orWhere([['from_id', $uid], ['to_id', '!=',$uid]])
+            ->whereNotIn('from_id', $banned_users)
+            ->whereNotIn('to_id', $banned_users)
+            ->whereNotIn('from_id', $block)
+            ->whereNotIn('to_id', $block)
+            ->orderBy('created_at', 'desc')->get();
+        
+        $messages = Message::TSchatArray($uid, $msg, 1);
         $page = $request->page ?: 1;//當前頁數 預設1
         $perPage = 10;//每頁的條數
         $offset = ($page * $perPage) - $perPage;//計算每頁分頁的初始位置

@@ -252,6 +252,104 @@ class Message extends Model
         return $saveMessages;
     }
 
+    public static function TSchatArray($uid, $messages, $isVip) {
+        $saveMessages = [];
+        $tempMessages = [];
+        $noVipCount = 0;
+        $isAllDelete = true;
+        //$msgShow = User::findById($uid)->meta_()->notifhistory;
+        $user = \Auth::user();
+        // $banned_users = \App\Models\SimpleTables\banned_users::select('member_id')->get();
+        //TS版信件夾加入被使用者封鎖的過濾
+        // $blocked_users = Blocked::getAllBlock($uid);
+        foreach($messages as $key => &$message) {
+            //取消從這邊過濾封鎖與禁用的會員
+            // if($banned_users->contains('member_id', $message->to_id)){
+            //     unset($messages[$key]);
+            //     continue;
+            // }
+            // if($banned_users->contains('member_id', $message->from_id) && $message->from_id != $user->id){
+            //     unset($messages[$key]);
+            //     continue;
+            // }
+
+            // if($blocked_users->contains('blocked_id', $message->to_id)){
+            //     unset($messages[$key]);
+            //     continue;
+            // }
+            // if($blocked_users->contains('blocked_id', $message->from_id) && $message->from_id != $user->id){
+            //     unset($messages[$key]);
+            //     continue;
+            // }
+            if($message->to_id == $user->id) {
+                $msgUser = \App\Models\User::findById($message->from_id);
+            }
+            else if($message->from_id == $user->id) {
+                $msgUser =  \App\Models\User::findById($message->to_id);
+            }
+            if(\App\Models\Message::onlyShowVip($user, $msgUser, $isVip)) {
+                unset($messages[$key]);
+                continue;
+            }
+
+            // end 1 and 2
+            // if($message->all_delete_count == 2) {
+            //     // Message::deleteAllMessagesFromDB($message->to_id, $message->from_id);
+            // }
+
+            //TS版不真正刪除資料庫訊息
+            if($message->all_delete_count >= 2) {
+                unset($messages[$key]);
+                continue;
+            }
+
+            if($message->all_delete_count == 1 && ($message->is_row_delete_1 == $message->to_id || $message->is_row_delete_2 == $message->to_id || $message->is_row_delete_1 == $message->from_id || $message->is_row_delete_2 == $message->from_id)) {
+                // Message::deleteAllMessagesFromDB($message->to_id, $message->from_id); TS不真正刪除資料庫訊息
+                unset($messages[$key]);
+                continue;
+            }
+
+            // delete row messages
+            if($message->is_row_delete_1 == $uid || $message->is_row_delete_2 == $uid) {
+                unset($messages[$key]);
+                continue;
+            }
+
+            // delete all messages
+            if($uid == $message->temp_id && $message->all_delete_count == 1 && $isAllDelete == true) {
+                unset($messages[$key]);
+                continue;
+            }
+
+            // add messages to array
+            if(!in_array(['to_id' => $message->to_id, 'from_id' => $message->from_id], $tempMessages) && !in_array(['to_id' => $message->from_id, 'from_id' => $message->to_id], $tempMessages)) {
+                array_push($tempMessages, ['to_id' => $message->to_id, 'from_id' => $message->from_id]);
+                array_push($saveMessages, [
+                    'created_at' => $message->created_at,
+                    'to_id' => $message->to_id,
+                    'from_id' => $message->from_id,
+                    'temp_id' => $message->temp_id,
+                    'all_delete_count' => $message->all_delete_count,
+                    'is_row_delete_1' => $message->is_row_delete_1,
+                    'is_row_delete_2' => $message->is_row_delete_2,
+                    'is_single_delete_1' => $message->is_single_delete_1,
+                    'is_single_delete_2' => $message->is_single_delete_2,
+                    'read' => $message->read,
+                    'content' => $message->content
+                 ]);
+                $noVipCount++;
+            }
+
+            if($isVip == 0 && $noVipCount == Config::get('social.limit.show-chat')) {
+                break;
+            }
+        }
+
+        //if($isAllDelete) return NULL;
+
+        return $saveMessages;
+    }
+
     public static function chatArrayAJAX($uid, $messages, $isVip, $noVipCount = 0) {
         $saveMessages = [];
         $tempMessages = [];
