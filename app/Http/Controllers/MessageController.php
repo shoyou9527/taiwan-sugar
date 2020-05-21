@@ -10,6 +10,7 @@ use App\Models\SimpleTables\banned_users;
 use App\Models\Blocked;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -126,17 +127,22 @@ class MessageController extends Controller {
         $user = $request->user();
         $m_time = '';
         $uid = $user->id;
-        //先過濾掉封鎖與禁用會員 減少後面TSchatArray的foreach時間
+
+        //先過濾掉封鎖與禁用會員 減少後面TSchatArray的foreach時間 whereNotIn直接續接兩次 會變成A notin AND B notin
         $banned_users = \App\Services\UserService::getBannedId();
         $block = Blocked::getAllBlockedId($uid);
-        $msg = Message::where([['to_id', $uid], ['from_id', '!=', $uid]])
-            ->orWhere([['from_id', $uid], ['to_id', '!=',$uid]])
-            ->whereNotIn('from_id', $banned_users)
-            ->whereNotIn('to_id', $banned_users)
-            ->whereNotIn('from_id', $block)
-            ->whereNotIn('to_id', $block)
-            ->orderBy('created_at', 'desc')->get();
-        
+
+        $query = Message::where(function($query)use($uid)
+            {
+                $query->where('to_id','=' ,$uid)
+                      ->orWhere('from_id','=',$uid);
+            });
+        $query->whereNotIn('to_id', $block);
+        $query->whereNotIn('from_id', $block);
+        $query->whereNotIn('to_id', $banned_users);
+        $query->whereNotIn('from_id', $banned_users);
+        $msg = $query->orderBy('created_at', 'desc')->get();     
+
         $messages = Message::TSchatArray($uid, $msg, 1);
         $page = $request->page ?: 1;//當前頁數 預設1
         $perPage = 10;//每頁的條數

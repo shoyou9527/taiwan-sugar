@@ -40,7 +40,6 @@ class ProfileUpdateRequest extends FormRequest
             'smoking'=> 'required',
             'drinking'=> 'required',
             'education'=> 'required',
-            // 'occupation'=> 'required',
             'about'=> 'required|max:300',
             'style' => 'required|max:300'
 
@@ -70,7 +69,6 @@ class ProfileUpdateRequest extends FormRequest
             'smoking.required' => '請輸入抽菸習慣',
             'drinking.required' => '請輸入喝酒習慣',
             'education.required' => '請輸入教育程度',
-            // 'occupation.required' => '請輸入現況',
             'about.required' => '請輸入關於我',
             'about.max' => '至多輸入300字',
             'style.required' => '請輸入期待約會模式',

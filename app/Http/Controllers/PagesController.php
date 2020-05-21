@@ -84,6 +84,7 @@ class PagesController extends Controller
     // public function profileUpdate(Request $request)
     {
         $user = Auth::user();
+        
         //Custom validation.
         Validator::extend('not_contains', function($attribute, $value, $parameters)
         {
@@ -99,12 +100,12 @@ class PagesController extends Controller
             $rules = [
                 'name' => ['required', 'not_contains'],
                 'cup' => ['required'],
-                'occupation' => ['required']
+                'situation' => ['required']
             ];
             $messages = [
                 'name.not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！',
-                'cup.required'  => '請輸入罩杯',
-                'occupation.required'  => '請輸入現況'
+                'cup.required'  => '請輸入CUP',
+                'situation.required'  => '請輸入現況'
             ];
         }else{
             $rules = [
@@ -114,9 +115,10 @@ class PagesController extends Controller
                 'not_contains'  => '請勿使用包含「站長」或「管理員」的字眼做為暱稱！'
             ];
         }
+
         $validator = \Validator::make($request->all(), $rules, $messages);
         if($validator->fails()){
-            return redirect('/dashboard')->withErrors($validator);
+            return redirect('/dashboard')->withErrors($validator)->withInput();
         }
         else{
             if ($this->service->update(auth()->id(), $request->all())) {

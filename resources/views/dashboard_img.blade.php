@@ -80,7 +80,8 @@
     <script src="/js/cropper.min.js"></script>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-        var max_fields = 0; //maximum input boxes allowed
+        var mempic = {{ count($member_pics) }};
+        var max_fields = 0 + mempic; //maximum input boxes allowed
         var wrapper = $(".input_field_weap"); //Fields wrapper
         var add_button = $("#add_image"); //Add button ID
         var x = 1; //initlal text box count
@@ -90,14 +91,18 @@
                 x++; //text box increment
                 $(wrapper).append('<div><input type="file" id="images" class="custom-file-input" name="images[]" ><a href="#" class="remove_field">&nbsp;移除</a></div>'); //add input box
             } else {
-                alert('最多上傳6張');
+                $('.prompt').html('');
+                $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
+                $('html,body').animate({scrollTop:0}, 333);
             }
         });
 
         $('#images').click(function(e) {
             //e.preventDefault();
             if (max_fields >= 6) {
-                alert('最多上傳6張');
+                $('.prompt').html('');
+                $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
+                $('html,body').animate({scrollTop:0}, 333);
                 e.preventDefault();
             }
         })
