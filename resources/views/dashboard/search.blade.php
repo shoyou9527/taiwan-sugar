@@ -99,7 +99,7 @@
 
 <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
     <div class="serightpe">
-        <ul class="new_search">
+        <ul class="new_search fd_nheight01">
             @forelse ($vis as $vi)
                 @php 
                     $visitor = $vi->user();

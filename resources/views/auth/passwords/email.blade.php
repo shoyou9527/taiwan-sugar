@@ -1,12 +1,9 @@
 @extends('layouts.main')
 
 @section('app-content')
-<style>
-    .zlleftbg{background:white}
-</style>
-<div class="m-content zlleftbg nerbg">
+<div class="m-content wnheightdl nerbg">
     <div class="col-sm-12 col-xs-12 col-md-12">
-        <div class="newsize newheight wjpaword">
+        <div class="newsize newheight">
             <div class="lytitle"><i></i>忘記密碼</div>
             <div class="m-portlet__body liuyana1 password_con">
                 <form class="m-login__form m-form" method="POST" action="/password/email">

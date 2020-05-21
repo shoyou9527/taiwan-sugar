@@ -1,9 +1,6 @@
 @extends('layouts.main')
 
 @section('app-content')
-<style>
-  .zlleftbg{background:white}
-</style>
 <div class="m-content nerbg wnheight">
     <div class="col-sm-12 col-xs-12 col-md-12">
         <div class="newsize newheight">

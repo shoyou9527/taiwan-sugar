@@ -5,13 +5,13 @@
     .m-content{
         background:#f8f5f0;
         width:100%;
-        /*display:table;*/
+        display:table;
     }
     @media (max-width:320px){
     .pe_data li span{width: 32%;}
     }
 </style>
-<div class="col-md-9" style="padding:50px 0; background:url(/images/09.png) center top no-repeat #ffffff;">
+<div class="col-sm-12 col-xs-12 col-md-9 zlrightbg" style="padding:50px 0; background:url(/images/09.png) center top no-repeat #ffffff;">
     <div class="container_03">
         <div class="col-md-3 m_none" style="padding:0;">
             @php
@@ -56,7 +56,9 @@
         <div class="col-md-9">
             <div class="r_content">
                 <div class="oth_tx clearfix picleft">
-                    <div class="qpic"><img  class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
+                    <div class="qpic" style="margin-bottom: 35px;">
+                        <img  class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                    </div>
                 </div>
                 <div class="weui-f24 picleft_font" style="color:#3c2726;"><b class="weui-f36 weui-v_t">{{ mb_substr($to->name, 0, 7) }}</b>
                 	@if(!empty($tometa->city))

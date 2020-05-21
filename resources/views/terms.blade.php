@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('app-content')
-<div class="m-content">
-    <div class="wrap" style="">
-        <div class="container lh24">
+<div class="m-content zlleftbg">
+    <div class="wrap" style="background:url(/images/11.png) right bottom no-repeat; background-size:100% auto;">
+        <div class="container lh24 newheight">
             <div class="row">
                 <div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-1 col-md-push-1 col-sm-push-1">
                     <div class="kajbt">

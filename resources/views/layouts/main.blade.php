@@ -23,22 +23,25 @@
 		@stack('header_script')
 	</head>
 	<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
-		{{-- @include('partials.menu') --}}
 		@include('layouts.navigation')
-		<div class="m-content h_shoujian">
-        	{{-- 共用訊息提示 --}}
-        	<div class="prompt"></div>
-            @include('partials.errors')
-            @include('partials.message')
-		    <div class="m-content zlleftbg">
-		        <div class="row">
-		            {{-- 側邊欄規則 dashboard才有 但dashboard搜尋頁無--}}
-		            @if(str_contains(url()->current(), '/dashboard') AND !str_contains(url()->current(), '/dashboard/search'))
-		                @include('dashboard.panel')
-		            @endif
-		            @yield("app-content")
-		        </div>
-		    </div>
+		<div class="prompt">{{-- 共用訊息提示 --}}</div>
+        @include('partials.errors')
+        @include('partials.message')
+		<div class="m-content">
+			{{-- 有側邊欄的 就有zlleftbg row--}}
+			@if(str_contains(url()->current(), '/dashboard'))
+			    <div class="m-content @if(str_contains(url()->current(), '/dashboard/chat')) h_shoujian @else zlleftbg @endif">
+			        <div class="row">
+			            {{-- 側邊欄規則 dashboard才有 但dashboard搜尋頁無--}}
+			            @if(!str_contains(url()->current(), '/dashboard/search'))
+			                @include('dashboard.panel')
+			            @endif
+			            @yield("app-content")
+			        </div>
+			    </div>
+		    @else
+		    	@yield("app-content")
+		    @endif
 		</div>
 		@include('partials.footer')
 		@include('partials.scripts')

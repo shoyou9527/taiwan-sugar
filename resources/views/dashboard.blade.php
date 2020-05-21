@@ -33,7 +33,7 @@
                             <div class="col-sm-5 col-xs-6 col-md-5 gr_top">
                                 {!! csrf_field() !!}
                                 <input type="hidden" name="userId" value="{{ $user->id }}">
-                                <input required type="file" id="image" class="custom-file-input" value="瀏覽" name="image">
+                                <input required type="file" id="image" class="custom-file-input" value="瀏覽" name="image" onchange="checkfile(this);">
                             </div>
                             <div class="col-sm-2 col-xs-6 col-md-2"></div>
                             <div class="col-sm-3 col-xs-12 col-md-3 grtwo">
@@ -63,7 +63,7 @@
                                 {!! csrf_field() !!}
                                 <input type="hidden" name="userId" value="{{ $user->id }}">
                                 <div class="input_field_weap input-group">
-                                    <input required type="file" id="images" class="custom-file-input" name="images[]">
+                                    <input required type="file" id="images" class="custom-file-input" name="images[]" onchange="checkfile(this);">
                                     <a href="javascript::voide(0)" onclick="resetfile()">&nbsp;取消</a>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                             <font>
                                 <select name="budget" class="form_co">
                                     <option value="">請選擇</option>
-                                    <option value="基礎" {{ ($umeta->budget == '基礎')?"selected":""  }}>基礎</option>
+                                    <option value="基礎" @if($umeta->budget == '基礎') selected @endif>基礎</option>
                                     <option value="進階" @if($umeta->budget == '進階') selected @endif>進階</option>
                                     <option value="高級" @if($umeta->budget == '高級') selected @endif>高級</option>
                                     <option value="最高" @if($umeta->budget == '最高') selected @endif>最高</option>
@@ -180,7 +180,7 @@
                         </div>
                         <div class="grrow"> <span><i class="icon iconfont icon-tanhao grrow_icon"></i>現況</span>
                             <font>
-                                <select name="occupation" class="form_co">
+                                <select name="situation" class="form_co">
                                     <option value="">請選擇</option>
                                     <option value="學生" @if($umeta->situation == '學生') selected @endif>學生</option>
                                     <option value="待業" @if($umeta->situation == '待業') selected @endif>待業</option>
@@ -260,6 +260,24 @@
 @section ('javascript')
     <script src="/js/cropper.min.js"></script>
     <script>
+
+    function checkfile(sender) {
+
+        // 可接受的附檔名
+        var validExts = new Array(".jpeg", ".png", ".jpg", ".gif", ".svg");
+
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            $('.prompt').html('');
+            $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>此檔案格式不支援，必須為以下類型：jpeg, png, jpg, gif, svg.</li></ul></div>');
+            sender.value = null;
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 
     function resetfile(){
         $("#images").val('');
@@ -351,8 +369,8 @@
         //  } else {
         //     uploadFiles();
         //  }
-
-        var max_fields = 0; //maximum input boxes allowed
+        var mempic = {{ count($member_pics) }};
+        var max_fields = 0 + mempic; //maximum input boxes allowed
         var wrapper = $(".input_field_weap"); //Fields wrapper
         var add_button = $("#add_image"); //Add button ID
 
@@ -361,16 +379,20 @@
             e.preventDefault();
             if (5 - max_fields >= x) { //max input box allowed
                 x++; //text box increment
-                $(wrapper).append('<div><input type="file" id="images" class="custom-file-input" name="images[]" ><a href="#" class="remove_field">&nbsp;移除</a></div>'); //add input box
+                $(wrapper).append('<div><input type="file" id="images" class="custom-file-input" name="images[]" onchange="checkfile(this);"><a href="#" class="remove_field">&nbsp;移除</a></div>'); //add input box
             } else {
-                alert('最多上傳6張');
+                $('.prompt').html('');
+                $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
+                $('html,body').animate({scrollTop:0}, 333);
             }
         });
 
         $('#images').click(function(e) {
             //e.preventDefault();
             if (max_fields >= 6) {
-                alert('最多上傳6張');
+                $('.prompt').html('');
+                $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
+                $('html,body').animate({scrollTop:0}, 333);
                 e.preventDefault();
             }
         })

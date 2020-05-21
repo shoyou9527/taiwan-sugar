@@ -5,9 +5,8 @@
     h3.weui-t_c{
         margin-top: 0;
     }
-    .zlleftbg{background:white}
 </style>
-<div class="newheight">
+<div class="zcwheight">
     <div class="rester_wrap weui-box_s shpa30">
         <div class="lytitle"><i></i>註冊新用戶</div>
         <div class="weui-p20">

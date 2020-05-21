@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('app-content')
-    <div class="col-sm-12 col-xs-12 col-md-9 bgwf newheight03">
+    <div class="col-sm-12 col-xs-12 col-md-9 bgwf nwpawod">
         <div class="l_zlxc">
             <div class="lytitle"><i></i>取消VIP</div>
             <div class="password_con01">
