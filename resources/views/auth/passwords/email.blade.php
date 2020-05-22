@@ -6,7 +6,7 @@
         <div class="newsize newheight">
             <div class="lytitle"><i></i>忘記密碼</div>
             <div class="m-portlet__body liuyana1 password_con">
-                <form class="m-login__form m-form" method="POST" action="/password/email">
+                <form class="m-login__form m-form" method="POST" action="/password/email" novalidate>
                     {!! csrf_field() !!}
                     <div class="form-group m-form__group">
                         <input class="form-control m-input weui-mb15" type="email" placeholder="帳號 (您的E-mail)" name="email" values="{{ old('email') }}" autocomplete="off">

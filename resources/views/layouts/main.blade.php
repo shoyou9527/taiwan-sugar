@@ -24,9 +24,13 @@
 	</head>
 	<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-footer--push">
 		@include('layouts.navigation')
-		<div class="prompt">{{-- 共用訊息提示 --}}</div>
+		
+		{{-- 共用訊息提示 --}}
+		<div class="prompt"></div>
         @include('partials.errors')
         @include('partials.message')
+        @include('partials.status')
+
 		<div class="m-content">
 			{{-- 有側邊欄的 就有zlleftbg row--}}
 			@if(str_contains(url()->current(), '/dashboard'))

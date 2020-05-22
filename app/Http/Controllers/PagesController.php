@@ -971,6 +971,8 @@ class PagesController extends Controller
             }
         }
     }
+
+    //TS會員頁
     public function viewuser2(Request $request, $uid = -1)
     {
         $user = $request->user();
@@ -1030,7 +1032,7 @@ class PagesController extends Controller
                     'message_count' => $message_count,
                     'message_count_7' => $message_count_7,
                 );
-                $member_pic = DB::table('member_pic')->where('member_id',$uid)->where('pic','<>',$targetUser->meta_()->pic)->get();
+                $member_pic = DB::table('member_pic')->where('member_id',$uid)->where('pic','<>',$targetUser->meta_()->pic)->get()->take(6);
                 $isVip = DB::select('select * from member_vip where member_id=?', array($user->id));
                 if(count($isVip)>0){
                     $vipLevel = 1;

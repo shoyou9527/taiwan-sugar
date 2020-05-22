@@ -6,7 +6,7 @@
         <div class="newsize newheight">
             <div class="lytitle"><i></i>修改密碼</div>
             <div class="m-portlet__body liuyana1 password_con">
-                <form class="m-login__form m-form" method="POST" action="/password/reset">
+                <form class="m-login__form m-form" method="POST" action="/password/reset" novalidate>
                     {!! csrf_field() !!}
                     <input type="hidden" name="token" value="{{ $token }}">
                     <div class="form-group m-form__group">
