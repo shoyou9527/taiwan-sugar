@@ -382,6 +382,7 @@
                 $(wrapper).append('<div><input type="file" id="images" class="custom-file-input" name="images[]" onchange="checkfile(this);"><a href="#" class="remove_field">&nbsp;移除</a></div>'); //add input box
             } else {
                 $('.prompt').html('');
+                $('.alert-success').remove();
                 $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
                 $('html,body').animate({scrollTop:0}, 333);
             }
@@ -391,6 +392,7 @@
             //e.preventDefault();
             if (max_fields >= 6) {
                 $('.prompt').html('');
+                $('.alert-success').remove();
                 $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
                 $('html,body').animate({scrollTop:0}, 333);
                 e.preventDefault();
