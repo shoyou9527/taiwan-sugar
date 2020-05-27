@@ -44,7 +44,7 @@
                     @if(!empty($umeta->pic))
                     <div class=" ge_gm">
                         <li class="hy_w01">
-                            <a href="{{$umeta->pic}}" target="_blank" class="hypic_2">
+                            <a href="{{$umeta->pic}}" class="hypic_2">
                                 <img src="{{$umeta->pic}}" width="96px" style="margin:5px" height="96px">
                             </a>
                             <form method="POST" action="{{ url("/dashboard/picdel") }}">
@@ -77,7 +77,7 @@
                     <div class=" ge_gm01">
                         @foreach($member_pics as $key => $member_pic)
                         <li class="hy_w01">
-                            <a href="{{$member_pic->pic}}" target="_blank" class="hypic_2">
+                            <a href="{{$member_pic->pic}}" class="hypic_2">
                                 <img src="{{$member_pic->pic}}" width="96px" style="margin:5px" height="96px" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                             </a>
                             <form method="POST" action="{{ url("/dashboard/imagedel") }}">
@@ -383,6 +383,7 @@
             } else {
                 $('.prompt').html('');
                 $('.alert-success').remove();
+                $('.alert-danger').remove();
                 $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
                 $('html,body').animate({scrollTop:0}, 333);
             }
@@ -393,6 +394,7 @@
             if (max_fields >= 6) {
                 $('.prompt').html('');
                 $('.alert-success').remove();
+                $('.alert-danger').remove();
                 $('.prompt').append('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><ul class="quarx-errors"><li>最多上傳6張</li></ul></div>');
                 $('html,body').animate({scrollTop:0}, 333);
                 e.preventDefault();

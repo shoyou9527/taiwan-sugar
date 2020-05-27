@@ -129,7 +129,7 @@
                             onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                         @else --}}
                         <li class="hy_w">
-                            <a href="{{$row->pic}}" target="_blank" class="hypic_1">
+                            <a href="{{$row->pic}}" class="hypic_1">
                                 <img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" 
                                 onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                             </a>
@@ -163,7 +163,7 @@
                     <li><span>教育</span>@if(isset($tometa->education) AND $tometa->education != '0' AND $tometa->education != 'null') {{ $tometa->education }} @else 不公開 @endif</li>
                     <li><span>婚姻</span>{{$tometa->marriage}}</li>
                     @if($to->engroup == 2)
-                        <li><span>現狀</span>{{ $tometa->occupation }}</li>
+                        <li><span>現狀</span>{{ $tometa->situation }}</li>
                         @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
                     @endif
                 </ul>

@@ -36,12 +36,14 @@
                                     </a>
                                 </div>
                                 <div class="widget3_text">
-                                    <div class="m-widget3__info">
+                                    <div class="m-widget3__info chat_username">
                                         <a href="{{ route('chatWithUser', $msgUser->id) }}">
                                             <span class="m-widget3__username">{{ mb_substr($msgUser->name, 0, 7) }}</span>
                                         </a>
                                     </div>
-                                    <p class="word_text" style="padding-left: 10px;">{{ $message['content'] }}</p>
+                                    <a href="{{ route('chatWithUser', $msgUser->id) }}">
+                                        <p class="word_text" style="padding-left: 10px;">{{ $message['content'] }}</p>
+                                    </a>
                                     <div class="m-widget3__sj">
                                         <p>{{ $t['0'] }}</p>
                                         <span class="jmstime">{{ $t['1'] }}</span>

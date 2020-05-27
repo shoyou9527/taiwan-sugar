@@ -127,7 +127,8 @@ class UserMeta extends Model
         if(!isset($this->city)){
             $string .= '縣市、';
         }
-        return substr($string, 0, -3).'未填寫！';
+        // return substr($string, 0, -3).'未填寫！';
+        return '請填寫基本資料。';
     }
 
      public static function uploadUserHeader($uid, $fieldContent) {

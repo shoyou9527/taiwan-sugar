@@ -336,3 +336,11 @@ body {
     width: 38px;    /* Width of image */
     height: 38px;   /* Height of image */
 }
+
+/*收件夾username樣式*/
+.chat_username{
+    border-bottom: #eeeeee 1px solid !important;
+}
+@media (max-width:720px){
+.chat_username{text-align: center;}
+}

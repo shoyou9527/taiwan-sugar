@@ -85,6 +85,10 @@ $(document).ready(
             $('.upgrade').prepend("<i></i>");
             $('.upgrade').addClass("zllist_on");
         }
+        if( href == url + '/dashboard_img' ){
+            $('.upgrade').prepend("<i></i>");
+            $('.upgrade').addClass("zllist_on");
+        }
         // if( href == url + '/dashboard/fav' ){
         //     $('.favorite').prepend("<i></i>");
         //     $('.favorite').addClass("zllist_on");

@@ -72,7 +72,9 @@
                     <div class="weui-flex" style="padding:10px 10px 10px 0px;">
                         <div class="weui-pl10"><input type="checkbox" name="agree" id="zhengce" required>
                     <label for="zhengce" style="margin-bottom:0px;font-weight:100">
-                        <span>同意使用條款和隱私政策</span>
+                        <span>同意
+                            <a href="{!! url('terms') !!}" style="color:red;text-decoration: underline;">使用條款和隱私政策</a>
+                        </span>
                     </label></div>
                     </div>
                 </div>

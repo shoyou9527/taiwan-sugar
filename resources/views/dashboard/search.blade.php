@@ -110,9 +110,11 @@
                     }
                 @endphp
                 <li class="col-sm-6 col-xs-12 col-md-6">
-                    <div class="serightpe_img">
-                        <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$umeta->pic}} @endif" @if ($visitor->engroup == 1) onerror="this.src='/img/male-avatar.png'" @else onerror="this.src='/img/female-avatar.png'" @endif>
-                    </div>
+                    <a href="/dashboard/viewuser/{{$visitor->id}}">
+                        <div class="serightpe_img">
+                            <img src="@if($umeta->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$umeta->pic}} @endif" @if ($visitor->engroup == 1) onerror="this.src='/img/male-avatar.png'" @else onerror="this.src='/img/female-avatar.png'" @endif>
+                        </div>
+                    </a>
                     <div class="serightpe_font">
                         <h2>{{ mb_substr($visitor->name, 0, 7) }}@if($visitor->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </h2>
                         <h3>
@@ -140,8 +142,8 @@
                                 {!! csrf_field() !!}
                                 <input type="hidden" name="to" value="{{$visitor->id}}">
                                 <button type="submit" class="linklized">收藏</button>
-                                <a href="/dashboard/chatShow/{{$visitor->id}}" target="blank">發訊</a>
-                                <a href="/dashboard/viewuser/{{$visitor->id}}" class="se_bg" target="blank">更多</a>
+                                <a href="/dashboard/chatShow/{{$visitor->id}}">發訊</a>
+                                <a href="/dashboard/viewuser/{{$visitor->id}}" class="se_bg">更多</a>
                             </form>
                         </div>
                     </div>
