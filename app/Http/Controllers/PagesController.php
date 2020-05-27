@@ -1194,7 +1194,7 @@ class PagesController extends Controller
         //加入普通會員不可使用封鎖功能
         $user = Auth::user();
         if(!$user->isVip()){
-            return back()->withErrors(['請先升級VIP才可以封鎖對方哦']);
+            return redirect('dashboard/upgrade')->withErrors(['請先升級VIP才可以封鎖對方哦']);
         }
         if ($aid !== $bid){
             $isBlocked = Blocked::isBlocked($aid, $bid);
@@ -1270,7 +1270,7 @@ class PagesController extends Controller
         //加入普通會員不可使用收藏功能
         $user = Auth::user();
         if(!$user->isVip()){
-            return back()->withErrors(['請先升級VIP才可以收藏對方哦']);
+            return redirect('dashboard/upgrade')->withErrors(['請先升級VIP才可以收藏對方哦']);
         }
         if ($aid !== $uid)
         {
@@ -1564,7 +1564,7 @@ class PagesController extends Controller
         if ($user)
         {
             // blocked by user->id
-            $blocks = \App\Models\Blocked::where('member_id', $user->id)->paginate(12);
+            $blocks = \App\Models\Blocked::where('member_id', $user->id)->orderBy('created_at', 'desc')->paginate(12);
 
             $usersInfo = array();
             foreach($blocks as $blockUser){

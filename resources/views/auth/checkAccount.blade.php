@@ -1,6 +1,17 @@
 @extends('layouts.main')
 
 @section('app-content')
+<style>
+@media (min-width:370px){
+    .zlleftbg {min-height: 384px !important;}
+}
+@media (max-width: 720px){
+    .nwpawod {min-height: 700px;}
+}
+@media (max-width: 420px){
+    .nwpawod {min-height: 450px;}
+}
+</style>
     <div class="col-sm-12 col-xs-12 col-md-9 bgwf nwpawod">
         <div class="l_zlxc">
             <div class="lytitle"><i></i>取消VIP</div>

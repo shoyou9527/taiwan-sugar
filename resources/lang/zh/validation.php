@@ -124,7 +124,7 @@ return [
         'last_name' => '姓',
         'password' => '密碼',
         'password_confirmation' => '確認密碼',
-        'city' => '城市',
+        'city' => '地區',
         'country' => '國家',
         'address' => '地址',
         'phone' => '電話',

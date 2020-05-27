@@ -60,7 +60,7 @@ class ProfileUpdateRequest extends FormRequest
             'height.required' => '請輸入身高',
             'height.numeric' => '請輸入數字',
             'height.between' => '身高請輸入數字140~200之間',
-            'city.required' => '請輸入城市',
+            'city.required' => '請輸入地區',
             'area.required' => '請輸入鄉鎮',
             'birthdate.required' => '請輸入生日',
             'birthdate.date' => '請輸入正確日期',

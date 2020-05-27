@@ -7,9 +7,9 @@
         <h3 style="text-align:left;padding:15px;" class="m-portlet__head-text">
             檢舉會員：{{ \App\Models\User::findById($uid)->name }} - 請填寫理由
         </h3>
-        <span style="text-align:right;padding:15px;" class="m-portlet__head-text">
+        {{-- <span style="text-align:right;padding:15px;" class="m-portlet__head-text">
             <a class="btn btn-danger m-btn m-btn--air m-btn--custom" href="/dashboard/viewuser/{{ $uid }}"> 回去{{ \App\Models\User::findById($uid)->name }}的會員資料</a>
-        </span>
+        </span> --}}
         <form class="m-form m-form--fit m-form--label-align-right" style="margin-top: 20px;" method="POST" action="{{ route('reportNext') }}">
             {!! csrf_field() !!}
             <input type="hidden" name="aid" value="{{ $aid }}">
@@ -25,7 +25,12 @@
                     <div class="row">
                         <div class="col-lg-9">
                             <button id="msgsnd" type="submit" class="btn btn-danger m-btn m-btn--air m-btn--custom">送出檢舉</button>&nbsp;&nbsp;
-                            <button type="reset" class="btn btn-outline-danger m-btn m-btn--air m-btn--custom">取消</button>
+                            <a href="{{ url()->previous() }}">
+                                <button type="button" class="btn btn-outline-danger m-btn m-btn--air m-btn--custom">
+                                    <span>取消</span>
+                                </button>
+                            </a>
+                            {{-- <button type="reset" class="btn btn-outline-danger m-btn m-btn--air m-btn--custom">取消</button> --}}
                         </div>
                     </div>
                 </div>
