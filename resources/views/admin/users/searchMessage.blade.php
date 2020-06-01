@@ -159,7 +159,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{{ route('AdminMessengerWithMessageId', [$result->from_id, $result->id]) }}" target="_blank" class='btn btn-dark'>撰寫</a>
+                    <a href="{{ route('AdminMessengerWithMessageId', [$result['from_id'], $result['id']]) }}" target="_blank" class='btn btn-dark'>撰寫</a>
                 </td>
                 @if(isset($reported) && $reported == 1)
                 <td>
@@ -201,7 +201,7 @@
                     </a>
                 </td>
                 <td>
-                    <a href="{{ route('AdminMessengerWithMessageId', [$result->to_id, $result->id]) }}" target="_blank" class='btn btn-dark'>撰寫</a>
+                    <a href="{{ route('AdminMessengerWithMessageId', [$result['to_id'], $result['id']]) }}" target="_blank" class='btn btn-dark'>撰寫</a>
                 </td>
                 @if(isset($reported) && $reported == 1)
                 <td>

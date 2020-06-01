@@ -345,7 +345,7 @@
     <button type='submit' class='text-white btn btn-primary'>儲存</button>
 </form>
 <br>
-<form method="POST" action="/dashboard/header/true" enctype="multipart/form-data">
+<form method="POST" action="/dashboard/header" enctype="multipart/form-data">
     {!! csrf_field() !!}
     <input type="hidden" name="userId" value="{{$user->id}}">
     <table class="table table-hover table-bordered">
@@ -366,7 +366,7 @@
     </table>
 </form>
 
-<form method="POST" action="/dashboard/image/true" enctype="multipart/form-data">
+<form method="POST" action="/dashboard/image" enctype="multipart/form-data">
     {!! csrf_field() !!}
 	<input type="hidden" name="userId" value="{{$user->id}}">
     <table class="table table-hover table-bordered">
