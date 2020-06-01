@@ -45,7 +45,7 @@
                     <div class=" ge_gm">
                         <li class="hy_w01">
                             <a href="{{$umeta->pic}}" class="hypic_2">
-                                <img src="{{$umeta->pic}}" width="96px" style="margin:5px" height="96px">
+                                <img src="{{$umeta->pic}}" width="96px" style="margin:5px" height="96px" onerror="this.src=@if ($user->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
                             </a>
                             <form method="POST" action="{{ url("/dashboard/picdel") }}">
                                 {!! csrf_field() !!}

@@ -5,6 +5,7 @@
     h3.weui-t_c{
         margin-top: 0;
     }
+    body{background: #fff;}
 </style>
 <div class="zcwheight">
     <div class="rester_wrap weui-box_s shpa30">

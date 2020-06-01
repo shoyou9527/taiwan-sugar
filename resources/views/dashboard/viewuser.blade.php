@@ -23,8 +23,8 @@
                     $tometa->area = explode(",",$tometa->area);
                 }
             }
-            if(!in_array($tometa->occupation, array('學生','待業','休學','打工','上班族'))){
-            	$tometa->occupation = '上班族';
+            if(!in_array($tometa->situation, array('學生','待業','休學','打工','上班族'))){
+            	$tometa->situation = '上班族';
             }
             @endphp
             <div class="gezl"><img class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
@@ -160,9 +160,9 @@
                     <li><span>身高</span>{{$tometa->height}}(CM)</li>
                     <li><span>體型</span>@if(isset($tometa->body) AND $tometa->body != '0' AND $tometa->body != 'null') {{ $tometa->body }} @else 不公開 @endif</li>
                     {{-- @if(!empty($tometa->weight))<li><span>體重</span>{{$tometa->weight}}(KG)</li>@endif --}}
-                    <li><span>預算</span>@if(isset($tometa->budget) AND $tometa->budget != '0' AND $tometa->budget != 'null') {{ $tometa->budget }} @else 不公開 @endif</li>
-                    <li><span>教育</span>@if(isset($tometa->education) AND $tometa->education != '0' AND $tometa->education != 'null') {{ $tometa->education }} @else 不公開 @endif</li>
-                    <li><span>婚姻</span>{{$tometa->marriage}}</li>
+                    <li><span>預算</span>{{ $tometa->budget or '基礎'}}</li>
+                    <li><span>教育</span>{{ $tometa->education or '大學'}}</li>
+                    <li><span>婚姻</span>{{$tometa->marriage or '單身'}}</li>
                     @if($to->engroup == 2)
                         <li><span>現狀</span>{{ $tometa->situation }}</li>
                         @if(!empty($tometa->cup) && $tometa->isHideCup == '0')<li><span>CUP</span>{{$tometa->cup}}</li>@endif
@@ -177,8 +177,10 @@
                                 <img src="/images/smoking_02.jpg" style="width:90px;height:90px">
                             @elseif($tometa->smoking=='常抽')
                                 <img src="/images/smoking_03.jpg" style="width:90px;height:90px">
+                            @else
+                                <img src="/images/smoking_01.jpg" style="width:90px;height:90px">
                             @endif
-                            <p class="weui-pt10">{{$tometa->smoking}}</p>
+                            <p class="weui-pt10">{{$tometa->smoking or '不抽'}}</p>
                         </span>
                         
                         <span class="weui-dnb weui-bgcolor weui-t_c weui-p20">
@@ -188,8 +190,10 @@
                                 <img src="/images/drinking_02.jpg" style="width:90px;height:90px">
                             @elseif($tometa->drinking=='常喝')
                                 <img src="/images/drinking_03.jpg" style="width:90px;height:90px">
+                            @else
+                                <img src="/images/drinking_01.jpg" style="width:90px;height:90px">
                             @endif
-                            <p class="weui-pt10">{{$tometa->drinking}}</p>
+                            <p class="weui-pt10">{{$tometa->drinking or '不喝'}}</p>
                         </span>
                     </div>
                 </div>

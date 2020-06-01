@@ -34,9 +34,9 @@
             <span>足跡</span>
         </a>
 
-        <a href="{!! url('/dashboard/board') !!}" class="board">
+        {{-- <a href="{!! url('/dashboard/board') !!}" class="board">
             <span>留言板</span>
-        </a>
+        </a> --}}
 
         @if($user->isVip())
             <a href="{!! url('/dashboard/cancel') !!}" class="cancel cancelvip">

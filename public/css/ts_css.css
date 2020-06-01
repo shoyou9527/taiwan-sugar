@@ -343,3 +343,8 @@ body {
 }
 .chat_name_a{border-bottom: #eeeeee 1px solid !important;}
 a.chat_name_a:hover {text-decoration: none; color: #e65757;}
+
+/*提示框不要底部距離*/
+.alert {
+    margin-bottom: 0px;
+}

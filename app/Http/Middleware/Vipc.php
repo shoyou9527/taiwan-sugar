@@ -36,7 +36,7 @@ class Vipc
     public function handle($request, Closure $next)
     {
         if (!$this->auth->user()->isVip()) {
-            return redirect('/dashboard/upgrade');
+            return redirect('/dashboard/upgrade')->withErrors(['請先升級VIP才可使用']);
         }
 
         return $next($request);
