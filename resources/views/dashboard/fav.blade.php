@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg wfheight">
+<div class="col-md-9 zlrightbg">
     <div class="" style="background:url(/images/11.png) right bottom no-repeat #fff;">
         <div class="p100 weui-f18">
             <div class="lytitle ffs"><i></i>收藏會員
@@ -11,7 +11,7 @@
                     <a href="/dashboard/fav?r=1&page={{ $memberfavs->currentPage() }}" class="yichu_t" >移除收藏</a>
                 @endif
             </div>
-            <div class="row weui-t_c weui_mt19 fs_height">
+            <div class="row weui-t_c weui_mt19">
                 @forelse ($memberfavs as $memberfav)
                     @php $favUser = \App\Models\User::findById($memberfav->member_fav_id) @endphp
                     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20 bottomline">

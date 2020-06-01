@@ -99,7 +99,7 @@
 
 <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
     <div class="serightpe">
-        <ul class="new_search fd_nheight01">
+        <ul class="new_search">
             @forelse ($vis as $vi)
                 @php 
                     $visitor = $vi->user();
@@ -116,7 +116,12 @@
                         </div>
                     </a>
                     <div class="serightpe_font">
-                        <h2>{{ mb_substr($visitor->name, 0, 7) }}@if($visitor->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif </h2>
+                        <h2>
+                        	<a href="/dashboard/viewuser/{{$visitor->id}}">
+                        		{{ mb_substr($visitor->name, 0, 7) }}
+                        	</a>
+                        	@if($visitor->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif
+                        </h2>
                         <h3>
                             @if(!empty($umeta->city))
                                 {{ head($umeta->city) }}

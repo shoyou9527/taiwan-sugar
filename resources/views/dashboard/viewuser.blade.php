@@ -3,7 +3,6 @@
 @section('app-content')
 <style>
     .m-content{
-        background:#f8f5f0;
         width:100%;
         display:table;
     }
@@ -130,8 +129,10 @@
                         @else --}}
                         <li class="hy_w">
                             <a href="{{$row->pic}}" class="hypic_1">
-                                <img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" 
-                                onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                <div class="hypic_1">
+                                    <img src="{{$row->pic}}" width="96px" style="margin:5px" height="96px" 
+                                    onerror="this.src=@if($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                                </div>
                             </a>
                         </li>
                         {{-- @endif --}}

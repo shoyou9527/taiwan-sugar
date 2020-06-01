@@ -893,7 +893,7 @@ input {
 }
 
 .navbar-toggle {
-	background:none;
+	/*background:none;*/
 }
 
 /*1 20px*/
@@ -1607,14 +1607,22 @@ display:block;
 
 .sz_vip .cxbutton02{ width:200px;}
 .m-form--fit img { width:180px}
-.liuyan{ min-height:750px}
 
 
+.liuyan{min-height:750px}
 @media (max-width: 1024px){
 .liuyan {min-height:1070px;}
 }
+@media (max-width:797px){
+.liuyan {min-height:auto;}
+}
+@media (max-width:823px){
+.liuyan {min-height:100px;}
+}
+
+
 @media (max-width:720px){
-.liuyan {min-height:500px;}
+.liuyan {min-height:auto;}
 }
 
 

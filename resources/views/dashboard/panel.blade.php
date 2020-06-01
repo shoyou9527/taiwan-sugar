@@ -39,7 +39,7 @@
         </a>
 
         @if($user->isVip())
-            <a href="{!! url('/dashboard/cancel') !!}" class="cancel">
+            <a href="{!! url('/dashboard/cancel') !!}" class="cancel cancelvip">
                 <span>取消VIP</span>
             </a>
         @else

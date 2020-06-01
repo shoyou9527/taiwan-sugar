@@ -23,7 +23,7 @@ class MessageController extends Controller {
     public function deleteBetween(Request $request) {
         Message::deleteBetween($request->input('uid'), $request->input('sid'));
 
-        return redirect('dashboard/chat');
+        return redirect('dashboard/chat')->with('message', '訊息已成功刪除');
     }
 
     public function deleteBetweenGET($uid, $sid) {
@@ -35,7 +35,7 @@ class MessageController extends Controller {
     public function deleteAll(Request $request) {
         Message::deleteAll($request->input('uid'));
 
-        return redirect('dashboard/chat');
+        return redirect('dashboard/chat')->with('message', '訊息已成功刪除');
     }
 
     public function deleteSingle(Request $request) {

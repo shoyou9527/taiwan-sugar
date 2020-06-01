@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
 @section('app-content')
-<div class="col-md-9 zlrightbg wfheight">
+<div class="col-md-9 zlrightbg">
     <div class="" style="background:url(/images/11.png) right bottom no-repeat #fff;">
         <div class="p100 weui-f18">
             <div class="lytitle ffs"><i></i>足跡</div>
-            <div class="row weui-t_c weui_mt19 fd_nheight02">
+            <div class="row weui-t_c weui_mt19">
                 @forelse ($visitors as $visitor)
                     @php 
                         $histUser = \App\Models\User::findById($visitor->member_id);

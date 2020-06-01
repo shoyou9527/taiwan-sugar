@@ -337,10 +337,9 @@ body {
     height: 38px;   /* Height of image */
 }
 
-/*收件夾username樣式*/
-.chat_username{
-    border-bottom: #eeeeee 1px solid !important;
-}
+/*收件夾username 手機板置中&底線&移上變色*/
 @media (max-width:720px){
-.chat_username{text-align: center;}
+.chat_name_center{text-align: center;}
 }
+.chat_name_a{border-bottom: #eeeeee 1px solid !important;}
+a.chat_name_a:hover {text-decoration: none; color: #e65757;}

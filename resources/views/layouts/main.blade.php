@@ -34,7 +34,7 @@
 		<div class="m-content">
 			{{-- 有側邊欄的 就有zlleftbg row--}}
 			@if(str_contains(url()->current(), '/dashboard'))
-			    <div class="m-content @if(str_contains(url()->current(), '/dashboard/chat')) h_shoujian @else zlleftbg @endif">
+			    <div class="m-content zlleftbg">
 			        <div class="row">
 			            {{-- 側邊欄規則 dashboard才有 但dashboard搜尋頁無--}}
 			            @if(!str_contains(url()->current(), '/dashboard/search'))

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-body{ overflow-x:hidden}
+body{ overflow-x:hidden; background:#f8f5f0}
 button{outline:none;}
 /*3-1*/
 .conterleft{float:left; padding:0px 15px; display:table; text-align:center}
@@ -24,13 +24,18 @@ button{outline:none;}
 .conterleft .icon-liuyan{height:30px; line-height:30px;}
 }
 
-.zlleftbg{ background:#f8f5f0;min-height: 384px !important;}
-.zleft{ padding:40px 0px 20px 0}
-.zleft01{ padding:20px 0px 20px 0}
+/*.zlleftbg{ background:#f8f5f0;min-height: 384px !important;}
+*/
 
-@media (min-width:370px){
-    .zlleftbg{min-height:500px !important;}
-}
+.zleft{ padding:40px 0px 20px 0; background:#f8f5f0;}
+.zleft01{ padding:20px 0px 20px 0; background:#f8f5f0;}
+.zlleftbg{min-height:auto}
+
+
+
+
+
+
 
 .zlfont{width:200px; margin:0 auto; padding:0px; display:table; margin-bottom:50px;}
 .zlfont span{ font-size:20px;font-weight:bold; margin:0 auto; padding:0px; display:table}
@@ -44,7 +49,27 @@ button{outline:none;}
 .zllist a:hover{background:#e9e2d4}
 .zllist_on{color:#9f8e63 !important;background:#e9e2d4; display: block;}
 
-.zlrightbg{background:url(../images/11.png) bottom right no-repeat #fff;}
+
+.zlrightbg{background:url(../images/11.png) bottom right no-repeat #fff;min-height:1000px}
+@media (max-width:1024px){
+.zlrightbg{ min-height:1100px}
+}
+@media (max-width:823px){
+.zlrightbg{ min-height:300px}
+}
+@media (max-width:768px){
+.zlrightbg{ min-height:700px}
+}
+@media (max-width:450px){
+.zlrightbg{ min-height:400px}
+}
+
+@media (max-width:320px){
+.zlrightbg{ min-height:300px}
+}
+
+
+
 
 .zlkuang{width:96%; margin-left:2%; background:#ffffff;box-shadow: 0 0 10px #eee9e5; margin-top:30px; border:1px solid #ddd; margin-bottom:60px}
 .zlxc{width:96%; margin:0 auto; padding:20px 0px 60px 0; display:table}
@@ -530,7 +555,7 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 
 .shengj{ min-height:800px}
 .shpa30{ margin-top:50px !important ;margin-bottom:50px !important }
-.newpage{margin: auto; width:100%;  border-bottom:#eeeeee 1px solid; display:table}
+.newpage{margin: auto; width:100%;display:table}
 @media (max-width:992px){
 .newsize{width:98%}
 .toplink{ display: block}
@@ -690,7 +715,7 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 }
 
 @media (max-width:320px){
-.wnheight{ min-height:300px}
+.wnheight{ min-height:400px}
 }
 
 
@@ -746,7 +771,7 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 @media (max-width:720px){
 .zcwheight{ min-height:550px;}
 .nwpawod{ min-height:450px}
-.h_shoujian{ min-height:550px}
+.h_shoujian{ min-height:500px}
 .zu_new_1{ min-height:550px}
 }
 
@@ -825,12 +850,12 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 
 
 .fd_nheight{height:780px; display:block; overflow:hidden}
-.fd_nheight01{height:740px; display:block; overflow:hidden}
+.fd_nheight01{height:auto; display:block; overflow:hidden}
 .fd_nheight02{height:740px; display:block; overflow:hidden}
 
 @media (max-width:720px){
 .fd_nheight{height:1500px;}
-.fd_nheight01{height:3400px;}
+.fd_nheight01{height:auto;}
 .fd_nheight02{height:1430px;}
 }
 
@@ -838,12 +863,22 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 .nse_img {width: 110px;height: 136px;float: left;margin: 0 auto;overflow: hidden;display: flex;justify-content: center;align-items: center;background: #eee;}
 .nse_img img{width: auto;height: auto;max-width: 100%;max-height: 100%;}
 
+
+.wfheight{ min-height:760px}
 @media (max-width:1024px){
-.wfheight{ min-height:1080px}
-}
-@media (max-width:992px){
 .wfheight{ min-height:auto}
 }
+@media (max-width:992px){
+.wfheight{ min-height:700px}
+}
+
+@media (max-width:720px){
+.wfheight{ min-height:300px}
+}
+@media (max-width:320px){
+.wfheight{ min-height:300px}
+}
+
 
 
 .font_14{ font-size:14px;}
@@ -863,7 +898,7 @@ overflow: hidden;box-shadow: 0 0 8px #DDD;-moz-box-shadow: 0 0 8px #DDD;-webkit-
 .fs_height {height:720px;display: block;overflow: hidden;}
 
 @media (max-width: 720px){
-.fs_height {height:1350px;}
+.fs_height {height:autopx;}
 
 }
 
