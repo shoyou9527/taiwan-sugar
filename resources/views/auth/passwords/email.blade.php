@@ -1,6 +1,9 @@
 @extends('layouts.main')
 
 @section('app-content')
+<style type="text/css">
+    body {background: #ffffff;}
+</style>
 <div class="m-content wnheightdl nerbg">
     <div class="col-sm-12 col-xs-12 col-md-12">
         <div class="newsize newheight">

@@ -11,13 +11,13 @@
                             <h3 class="weui-f18 title weui-pl10">聯絡我們 </h3>
                             <ul class="weui-lh30 weui-mt20 zhand lix">
                                 <li>
-                                    <p>站長line：</p><span>@gxd6999c(包含@哦)</span>
+                                    <p>站長line：</p><span>@klv6539y(包含@哦)</span>
                                 </li>
                                 <li>
                                     <p>站長email：</p><span>admin@taiwan-sugar.net</span>
                                 </li>
                                 <li>
-                                    <p>網站問題回報：</p><span>@gxd6999c</span>
+                                    <p>網站問題回報：</p><span>@klv6539y</span>
                                 </li>
                                 <li>
                                     <p>網站問題回報：</p><span>admin@taiwan-sugar.net</span>
