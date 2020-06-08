@@ -14,6 +14,7 @@
             <div class="row weui-t_c weui_mt19">
                 @forelse ($memberfavs as $memberfav)
                     @php $favUser = \App\Models\User::findById($memberfav->member_fav_id) @endphp
+                    @if(isset($favUser))
                     <div class="col-md-3 col-lg-3 col-sm-3 col-xs-6 weui-pb20 bottomline">
                         <a href="/dashboard/viewuser/{{$favUser->id}}" class="weui-db">
                             <div class="n_border">
@@ -29,6 +30,7 @@
                             <p class="weui-pt15 font_14">{{ mb_substr($favUser->name, 0, 7) }}@if($favUser->isVip()) <img src="/images/05.png" class="weui-v_t"> @endif</p>
                         </a>
                     </div>
+                    @endif
                 @empty
                     沒有資料!!
                 @endforelse

@@ -27,7 +27,11 @@
             	$tometa->situation = '上班族';
             }
             @endphp
-            <div class="gezl"><img class="hypic" src="@if($tometa->isAvatarHidden == 1) {{ 'makesomeerror' }} @else {{$tometa->pic}} @endif" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif"></div>
+            <a href="{{ $tometa->pic }}">
+                <div class="gezl">
+                    <img class="hypic" src="{{ $tometa->pic }}" class="weui-bod_r weui-box_s gezl" onerror="this.src=@if ($to->engroup == 1) '/img/male-avatar.png' @else '/img/female-avatar.png' @endif">
+                </div>
+            </a>
             <ul style="color:#575757;">
                 <li class="weui-pt30 adwidth">
                        <img src="/images/3_14.png" class="ad_left"> 
