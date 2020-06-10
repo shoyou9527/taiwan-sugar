@@ -1,6 +1,23 @@
 @extends('layouts.main')
 
 @section('app-content')
+<style type="text/css">
+@media (max-width: 767px){
+    .liuyan {
+	     min-height: 500px;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px){
+    .liuyan {
+	     min-height: 637px;
+	}
+}
+@media (min-width: 1200px) {
+    .liuyan {
+	     min-height: 1070px;
+	}
+}
+</style>
 <div class="col-sm-12 col-xs-12 col-md-9 liuyan">
     <div class="l_zlxc">
         <div class="lytitle"><i></i>檢舉</div>

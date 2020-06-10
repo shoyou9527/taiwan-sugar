@@ -341,8 +341,9 @@ body {
 @media (max-width:720px){
 .chat_name_center{text-align: center;}
 }
-.chat_name_a{border-bottom: #eeeeee 1px solid !important;}
+/*.chat_name_a{border-bottom: #FADCDC 1px solid !important;}*/
 a.chat_name_a:hover {text-decoration: none; color: #e65757;}
+a.chat_content_a:hover {text-decoration: none; color: #e65757;}
 
 /*提示框不要底部距離*/
 .alert {

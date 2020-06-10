@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('app-content')
+<style type="text/css">
+    .nse_img {
+        background: #ffffff;
+    }
+</style>
 <div class="col-md-9 zlrightbg" style="background:#ffffff">
     <div class="p100">
         <div class="lytitle"><i></i>收件夾
@@ -39,8 +44,9 @@
                                     <a class="chat_name_a" href="{{ route('chatWithUser', $msgUser->id) }}">
                                         <span class="m-widget3__username">{{ mb_substr($msgUser->name, 0, 7) }}</span>
                                     </a>
+                                    <div style="margin-left: 110px;width: auto;border-bottom: #eeeeee 1px solid !important;"></div>
                                 </div>
-                                <a href="{{ route('chatWithUser', $msgUser->id) }}">
+                                <a class="chat_content_a" href="{{ route('chatWithUser', $msgUser->id) }}">
                                     <p class="word_text" style="padding-left: 10px;">{{ $message['content'] }}</p>
                                 </a>
                                 <div class="m-widget3__sj">

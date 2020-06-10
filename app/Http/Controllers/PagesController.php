@@ -20,6 +20,7 @@ use App\Models\ReportedPic;
 use App\Models\User;
 use App\Models\Vip;
 use App\Models\Tip;
+use App\Models\Role;
 use App\Models\MemberFav;
 use App\Models\Blocked;
 use App\Models\BasicSetting;
@@ -85,6 +86,15 @@ class PagesController extends Controller
     {
         $user = Auth::user();
         
+        if(isset($user) && Role::join('role_user', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->where('role_user.user_id', $user->id)->exists()){
+            //如果是站長權限 直接給更新
+            if ($this->service->update(auth()->id(), $request->all())) {
+                return redirect('/dashboard')->with('message', '資料更新成功');
+            }
+            return redirect('/dashboard')->withErrors(['沒辦法更新']);
+        }
+
+
         //Custom validation.
         Validator::extend('not_contains', function($attribute, $value, $parameters)
         {

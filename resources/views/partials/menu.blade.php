@@ -46,7 +46,7 @@
         <li>
             @if(isset($user))
                 @if($user->isVip())
-                    <a href="{!! url('/dashboard/cancel') !!}"><img src="/images/icon_12.png">
+                    <a href="{!! url('/dashboard/cancel') !!}" class="cancelvipmenu"><img src="/images/icon_12.png">
                         <font>取消VIP</font>
                     </a>
                 @else
@@ -82,4 +82,21 @@
         $(".blbg").hide()
         $(".bl").hide()
     }
+
+    // 取消VIP內容
+    $('.cancelvipmenu').on('click', function(event) {
+        @if(!$user->isFreeVip())
+            {{--@if(isset($vipLessThan7days) && $vipLessThan7days)
+                var r = confirm("取消 VIP 須知。\n●最短使用期為「30天」，若您申請取消時間未滿「30天」，則將被收取「30天」的費用。\n★取消 VIP 時間需要七個工作天，如下個月不續約請提前取消，以免權益受損！★\n★★若取消時間低於七個工作天，則下個月將會繼續扣款，並且 VIP 時間延長至下下個月為止。★★\n★★由於您於本日" + "{{ \Carbon\Carbon::now()->toDateString() }}" + "申請取消 VIP 。您每月的 VIP 扣款日期為 " + "{{ $vipRenewDay }}" + " 日。取消扣款作業需七個工作天(申請VIP時有提示)，本月取消作業不及，下個月將會進行最後一次扣款，您的 VIP 時間將會到 " + "{{ $vipNextMonth->toDateString() }}" + "。不便之處敬請見諒。★★");
+            @else--}}
+                var r = confirm("取消 VIP 須知。\n●最短使用期為「30天」，若您申請取消時間未滿「30天」，則將被收取「30天」的費用。\n★取消 VIP 時間需要七個工作天，如下個月不續約請提前取消，以免權益受損！★\n★★若取消時間低於七個工作天，則下個月將會繼續扣款，並且 VIP 時間延長至下下個月為止。★★");
+            {{--@endif--}}
+
+            if(!r) {
+                event.preventDefault();
+            }
+        @endif
+    });
+
+
 </script>
