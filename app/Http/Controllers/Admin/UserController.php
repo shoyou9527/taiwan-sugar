@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Reported;
 use App\Models\ReportedAvatar;
 use App\Models\ReportedPic;
+use App\Models\ExpectedBanningUsers;
 use App\Models\SimpleTables\users;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ use App\Models\Msglib;
 use App\Models\BasicSetting;
 use App\Models\SimpleTables\member_vip;
 use App\Models\SimpleTables\banned_users;
+use App\Models\BannedUsersImplicitly;
 use App\Notifications\BannedNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -392,6 +394,9 @@ class UserController extends Controller
         return view('admin.users.advIndex')
                ->with('users', $users)
                ->with('name', isset($request->name) ? $request->name : null)
+               ->with('title', isset($request->title) ? $request->title : null)
+               ->with('style', isset($request->style) ? $request->style : null)
+               ->with('about', isset($request->about) ? $request->about : null)
                ->with('email', isset($request->email) ? $request->email : null)
                ->with('keyword', isset($request->keyword) ? $request->keyword : null)
                ->with('member_type', isset($request->member_type) ? $request->member_type : null)
@@ -483,6 +488,44 @@ class UserController extends Controller
         }
     }
 
+    //advInfo頁面的照片修改與站長訊息發送
+    public function editPic_sendMsg(Request $request, $id)
+    {
+        $admin = $this->admin->checkAdmin();
+        if ($admin){
+            $user = $this->service->find($id);
+            // $msglib = Msglib::get();
+            $userMeta = UserMeta::where('user_id', 'like', $id)->get()->first();
+            $msglib = Msglib::selectraw('id, title, msg')->where('kind','=','smsg')->get();
+            $msglib_report = Msglib::selectraw('id, title, msg')->where('kind','=','smsg')->get();
+            $msglib_msg = collect();
+            foreach ($msglib as $m){
+                // $m->msg = str_replace('|$report|', $user->name, $m->msg);
+                $m->msg = str_replace('NAME', $user->name, $m->msg);
+                $m->msg = str_replace('NOW_TIME', date("Y-m-d H:i:s"), $m->msg);
+                // $m->msg = str_replace('|$reported|', "|被檢舉者|", $m->msg);
+                $msglib_msg->push($m->msg);
+            }
+            return view('admin.users.editPic_sendMsg')
+                   ->with('admin', $admin)
+                   ->with('user', $user)
+                   ->with('userMeta', $userMeta)
+                   ->with('from_user', $user)
+                   ->with('to_user', $admin)
+                   ->with('msglib', $msglib)
+                   ->with('msglib2', collect())
+                   ->with('msglib_report', $msglib_report)
+                   ->with('msglib_reported', null)
+                   ->with('msglib_msg', $msglib_msg)
+                   ->with('message_msg', collect())
+                   ->with('msglib_msg2', collect());
+        }
+        else{
+            return back()->withErrors(['找不到暱稱含有「站長」的使用者！請先新增再執行此步驟']);
+        }
+
+    }
+
     public function showUserPictures()
     {
         return view('admin.users.userPictures');
@@ -560,7 +603,7 @@ class UserController extends Controller
         if($request->delete){
             $datas = $this->admin->deletePicture($request);
             if($datas == null){
-                return redirect()->back()->withErrors(['沒有選擇訊息。'])->withInput();
+                return redirect()->back()->withErrors(['沒有此照片。'])->withInput();
             }
             if(!$datas){
                 return redirect()->back()->withErrors(['出現錯誤，訊息刪除失敗'])->withInput();
@@ -900,13 +943,31 @@ class UserController extends Controller
         $admin = $this->admin->checkAdmin();
         if ($admin){
             $user = $this->service->find($id);
+            $msglib = Msglib::get();
+            $msglib_msg = collect();
+            foreach ($msglib as $m){
+                $m->msg = str_replace('|$report|', $user->name, $m->msg);
+                $m->msg = str_replace('NAME', $user->name, $m->msg);
+                $m->msg = str_replace('|$reported|', "|被檢舉者|", $m->msg);
+                $msglib_msg->push($m->msg);
+            }
             return view('admin.users.messenger')
                    ->with('admin', $admin)
-                   ->with('user', $user);
+                   ->with('user', $user)
+                   ->with('from_user', $user)
+                   ->with('to_user', $admin)
+                   ->with('msglib', $msglib)
+                   ->with('msglib2', collect())
+                   ->with('msglib_report', null)
+                   ->with('msglib_reported', null)
+                   ->with('msglib_msg', $msglib_msg)
+                   ->with('message_msg', collect())
+                   ->with('msglib_msg2', collect());
         }
         else{
             return back()->withErrors(['找不到暱稱含有「站長」的使用者！請先新增再執行此步驟']);
         }
+
     }
 
     public function showAdminMessengerWithMessageId($id, $mid) {
@@ -1728,5 +1789,23 @@ class UserController extends Controller
         ->where('vipLevel', $vipLevel)->where('gender', $gender)
         ->update(array('timeSet' => $timeSet,'countSet' => $countSet));
         return redirect()->route('users/basic_setting');
+    }
+
+    public function banningUserImplicitly(Request $request){
+        BannedUsersImplicitly::insert(
+            ['fp' => $request->fp,
+            'user_id' => 0,
+            'target' => $request->user_id]
+        );
+        ExpectedBanningUsers::where('target', $request->user_id)->delete();
+
+        if(isset($request->page)) {
+            switch ($request->page) {
+                default:
+                    return redirect($request->page);
+                    break;
+            }
+        }
+        return '<script>window.close();</script>';
     }
 }

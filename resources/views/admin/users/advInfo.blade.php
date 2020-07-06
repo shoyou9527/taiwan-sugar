@@ -86,7 +86,7 @@
 		<td>{{ $userMeta->phone }}</td>
 		<th>是否已啟動</th>
 		<td>@if($userMeta->is_active == 1) 是 @else 否 @endif</td>
-		<th rowspan='3'>照片</th>
+		<th rowspan='3'>照片 <br><a href="editPic_sendMsg/{{ $user->id }}" class='text-white btn btn-primary'>照片&發訊息</a></th>
 		<td rowspan='3'>@if($userMeta->pic) <img src="{{$userMeta->pic}}" width='150px'> @else 無 @endif</td>
 	</tr>
 	<tr>
@@ -186,6 +186,8 @@
         <td style="text-align: center; vertical-align: middle"><button type="submit" class="btn btn-danger delete-btn">刪除選取</button></td>
 	</tr>
 	@forelse ($userMessage as $key => $message)
+		{{-- 修正過濾無此會員id資料的BUG --}}
+		@if(isset($to_ids[$message->to_id]['engroup']))
 		<tr>
 			<td>
 				<a href="{{ route('admin/showMessagesBetween', [$user->id, $message->to_id]) }}" target="_blank">
@@ -225,6 +227,7 @@
                 <input type="checkbox" name="msg_id[]" value="{{ $message->id }}" class="form-control">
             </td>
 		</tr>
+		@endif
     @empty
         沒有訊息
     @endforelse

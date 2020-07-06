@@ -437,6 +437,7 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         Route::get('users/advSearch', 'UserController@advIndex');
         Route::get('users/advInfo/{id}', 'UserController@advInfo')->name('users/advInfo');
         Route::get('users/advInfo/edit/{id}', 'UserController@advInfo');
+        Route::get('users/advInfo/editPic_sendMsg/{id}', 'UserController@editPic_sendMsg');
         Route::post('users/advInfo/edit/{id}', 'UserController@saveAdvInfo')->name('users/save');
         Route::post('users/toggleUserBlock', 'UserController@toggleUserBlock');
         Route::get('users/toggleUserBlock/{id}', 'UserController@toggleUserBlock_simple')->name('toggleUserBlock');
@@ -485,6 +486,11 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         Route::post('users/genderToggler', 'UserController@toggleGender');
         Route::post('users/VIPToggler', 'UserController@toggleVIP');
         Route::post('users/RecommendedToggler', 'UserController@toggleRecommendedUser');
+
+        //隱性封鎖
+        Route::get('users/banned_implicitly', 'UserController@showImplicitlyBannedUsers')->name('implicitlyBanned');
+        Route::post('users/bans_implicitly', 'UserController@banningUserImplicitly')->name('banningUserImplicitly');
+
         Route::get('users/customizeMigrationFiles', 'UserController@customizeMigrationFiles')->name('users/customize_migration_files');
         Route::post('users/customizeMigrationFiles', 'UserController@customizeMigrationFiles')->name('users/customize_migration_files');
         Route::match(['get', 'post'], 'users/VIP/ECCancellations', 'PagesController@showECCancellations')->name('users/VIP/ECCancellations');
@@ -508,6 +514,7 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         Route::get('stats/vip_log/{id}', 'StatController@vipLog')->name('stats/vip_log');
         Route::get('stats/cron_log', 'StatController@cronLog')->name('stats/cron_log');
         Route::get('stats/date_file_log', 'StatController@datFileLog')->name('stats/date_file_log');
+        Route::get('stats/set_autoban', 'StatController@set_autoban')->name('stats/set_autoban');
 
         /*新增、編輯訊息*/
         Route::post('users/getmsglib', 'UserController@getMessageLib');
@@ -516,10 +523,12 @@ Route::group(['middleware' => ['auth', 'active', 'femaleActive', 'vipCheck']], f
         Route::post('users/delmsglib', 'UserController@delMessageLib');
         Route::get('users/message/msglib/create', 'UserController@addMessageLibPage');
         Route::get('users/message/msglib/create/reporter', 'UserController@addMessageLibPageReporter');
+        Route::get('users/message/msglib/create/editPic_sendMsg', 'UserController@addMessageLibPageReporter');
         Route::get('users/message/msglib/create/reported', 'UserController@addMessageLibPageReported');
         Route::get('users/message/msglib/create/delpic', 'UserController@addMessageLibPageReported');
         Route::get('users/message/msglib/create/{id}', 'UserController@addMessageLibPage');
         Route::get('users/message/msglib/create/reporter/{id}', 'UserController@addMessageLibPageReporter');
+        Route::get('users/message/msglib/create/editPic_sendMsg/{id}', 'UserController@addMessageLibPageReporter');
         Route::get('users/message/msglib/create/reported/{id}', 'UserController@addMessageLibPageReported');
         Route::get('users/message/msglib/create/delpic/{id}', 'UserController@addMessageLibPageReported');
         Route::post('users/addmsglib', 'UserController@addMessageLib');

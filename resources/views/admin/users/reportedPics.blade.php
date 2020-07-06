@@ -340,7 +340,7 @@
                                     {!! csrf_field() !!}
                                     <input class="btn btn-danger" type="submit" value="刪除"><br>
                                     <input type="hidden" name="delete" value="true">
-                                    <input type="hidden" name="pic_id" value="{{$result['reported_user_id']}}">
+                                    <input type="hidden" name="pic_id" value="{{$result['reported_pic_id']}}">
                                     @foreach($picReason as $a)
                                         <input type="radio" name="reason[{{$rowIndex}}]" value="{{ $a->content }}">{{ $a->content }}<br>
                                     @endforeach
