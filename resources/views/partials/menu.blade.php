@@ -16,6 +16,13 @@
                 <a class=" weui-fl weui-pl10 weui-pt5" href="{!! url('') !!}"><img src="/images/homeicon.png"></a>
             </div>
             <div class="navbar-collapse weui-fr collapse" id="example-navbar-collapse" style="">
+                @if(Session::has('original_user'))
+                    <div class="ndlrfont">
+                        <a href="{{ route('escape') }}" class="m-nav__link m-dropdown__toggle">
+                            回到原使用者
+                        </a>
+                    </div>
+                @endif
                 <div class="weui-fr  weui-white coleft toplink">
                     @if(isset($user) AND $user->meta_()->is_active==1)
                     <div class="conterleft">
